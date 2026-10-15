@@ -1,5 +1,5 @@
 {
-  "name": "react-starter",
+  "name": "nook",
   "version": "1.0.0",
   "keywords": [
     "react",
@@ -12,7 +12,7 @@
     "yarn",
     "pwa"
   ],
-  "homepage": "https://najwer23.github.io/react-starter/",
+  "homepage": "https://najwer23.github.io/nook/",
   "type": "module",
   "scripts": {
     "bench": "vitest bench",
