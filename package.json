@@ -1,0 +1,51 @@
+{
+  "name": "react-starter",
+  "version": "1.0.0",
+  "keywords": [
+    "react",
+    "gh-pages",
+    "typescript",
+    "vite",
+    "vitest",
+    "css modules",
+    "front-end",
+    "yarn",
+    "pwa"
+  ],
+  "homepage": "https://najwer23.github.io/react-starter/",
+  "type": "module",
+  "scripts": {
+    "bench": "vitest bench",
+    "build": "tsc --build --clean && vite build",
+    "deploy": "yarn run build && gh-pages -d build && rimraf build",
+    "format": "yarn exec biome check --write",
+    "god": "ncu -u && yarn install && yarn run start",
+    "preview": "yarn build && vite preview --open --host",
+    "start": "vite --open --host",
+    "test": "vitest",
+    "sort": "npx sort-package-json"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@tanstack/react-query": "^5.104.2",
+    "@tanstack/react-query-persist-client": "^5.104.2",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "gh-pages": "^6.3.0",
+    "jsdom": "^30.1.2",
+    "najwer23morsels": "^1.8.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.4",
+    "rimraf": "^6.1.3",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.4",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.0.4"
+  }
+}
