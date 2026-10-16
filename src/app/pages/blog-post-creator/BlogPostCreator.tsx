@@ -60,7 +60,7 @@ export const BlogPostCreator = () => {
       <PostDialogImport />
       <PostDialogEdit />
 
-      <Grid layout="container" widthMin="100%" margin="0 0 40px">
+      <Grid layout="container" widthMin="100%" widthMax={'100%'} margin="0 0 40px">
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
           Blog post creator
         </Typography>
@@ -117,66 +117,63 @@ export const BlogPostCreator = () => {
       </Grid>
 
       <Grid layout="flex" justifyContent="flex-start" alignItems="flex-start" margin={'0 0 40px'} flexWrap="wrap">
-        <Grid layout="container" widthMax="1100px" widthMin={'min(1100px, calc(100vw - 40px))'} margin={0}>
-          <Grid layout="container" widthMax={'1190px'} margin={0}>
-            {postJson?.sections?.map((section, index) => (
-              <Grid
-                key={index}
-                layout="flex"
-                flexWrap="nowrap"
-                justifyContent="flexstart"
-                alignItems="flexstart"
-                widthMax={'1190px'}
-                gap={{ col: '10px', row: '20px' }}
-                margin={0}
-              >
-                <Grid layout="container" widthMin="200px" widthMax={'200px'} margin={0}>
-                  <TextBox mobileSize={8} desktopSize={8} margin={'3px 0 0px'}>
-                    {index} {section.name}
-                  </TextBox>
-                  <Grid layout="flex" justifyContent="flex-start" margin={0} gap={{ col: '10px', row: '20px' }}>
-                    <Button
-                      width="40px"
-                      height="20px"
-                      backgroundColor="#4BB543"
-                      onClick={() => openSectionIdDialog(index)}
-                    >
-                      <TextBox mobileSize={10} desktopSize={10} color="white">
-                        Edit
-                      </TextBox>
-                    </Button>
-                    <Button width="40px" height="20px" backgroundColor="#ff3333" onClick={() => removeSection(index)}>
-                      <TextBox mobileSize={10} desktopSize={10} color="white">
-                        Del
-                      </TextBox>
-                    </Button>
-                    <Button
-                      width="40px"
-                      height="20px"
-                      backgroundColor="purple"
-                      draggable
-                      onDragStart={() => handleDragStart(index)}
-                      onDragEnter={() => handleDragEnter(index)}
-                      onDragEnd={handleDragEnd}
-                      onDragOver={(e) => e.preventDefault()}
-                      style={{
-                        opacity: isDragging && dragItemIndex.current === index ? 0.4 : 1,
-                        cursor: 'move',
-                      }}
-                    >
-                      <TextBox mobileSize={10} desktopSize={10} color="white">
-                        Drag
-                      </TextBox>
-                    </Button>
-                  </Grid>
-                </Grid>
-
-                <Grid layout="container" widthMax="1600px" widthMin={'min(900px, calc(100vw - 240px))'} margin="0">
-                  <PostRenderSection section={section} id={1} />
+        <Grid layout="container" margin={0} widthMin={'100%'}>
+          {postJson?.sections?.map((section, index) => (
+            <Grid
+              key={index}
+              layout="flex"
+              flexWrap="nowrap"
+              justifyContent="flexstart"
+              alignItems="flexstart"
+              gap={{ col: '10px', row: '20px' }}
+              margin={0}
+            >
+              <Grid layout="container" widthMin="200px" widthMax={'200px'} margin={0}>
+                <TextBox mobileSize={8} desktopSize={8} margin={'3px 0 0px'}>
+                  {index} {section.name}
+                </TextBox>
+                <Grid layout="flex" justifyContent="flex-start" margin={0} gap={{ col: '10px', row: '20px' }}>
+                  <Button
+                    width="40px"
+                    height="20px"
+                    backgroundColor="#4BB543"
+                    onClick={() => openSectionIdDialog(index)}
+                  >
+                    <TextBox mobileSize={10} desktopSize={10} color="white">
+                      Edit
+                    </TextBox>
+                  </Button>
+                  <Button width="40px" height="20px" backgroundColor="#ff3333" onClick={() => removeSection(index)}>
+                    <TextBox mobileSize={10} desktopSize={10} color="white">
+                      Del
+                    </TextBox>
+                  </Button>
+                  <Button
+                    width="40px"
+                    height="20px"
+                    backgroundColor="purple"
+                    draggable
+                    onDragStart={() => handleDragStart(index)}
+                    onDragEnter={() => handleDragEnter(index)}
+                    onDragEnd={handleDragEnd}
+                    onDragOver={(e) => e.preventDefault()}
+                    style={{
+                      opacity: isDragging && dragItemIndex.current === index ? 0.4 : 1,
+                      cursor: 'move',
+                    }}
+                  >
+                    <TextBox mobileSize={10} desktopSize={10} color="white">
+                      Drag
+                    </TextBox>
+                  </Button>
                 </Grid>
               </Grid>
-            ))}
-          </Grid>
+
+              <Grid layout="container" widthMin={'min(900px, calc(100% - 210px))'} margin="0">
+                <PostRenderSection section={section} id={1} />
+              </Grid>
+            </Grid>
+          ))}
         </Grid>
       </Grid>
     </Grid>
