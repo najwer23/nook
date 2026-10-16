@@ -2,6 +2,8 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { NavigationDashboard } from 'najwer23morsels/lib/NavigationDashboard';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Aside } from './aside/Aside';
+import { linksAside } from './links/Links.const';
 
 interface Props {
   outlet?: React.ReactNode;
@@ -11,9 +13,7 @@ export const Navigation: React.FC<Props> = ({ outlet }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isActive = (href: string) => {
-    return href.includes(location.pathname);
-  };
+  const isActive = (to: string) => location.pathname === to;
 
   return (
     <NavigationDashboard
@@ -54,42 +54,42 @@ export const Navigation: React.FC<Props> = ({ outlet }) => {
       }
       menuMobile={
         <>
-          {[
-            { href: '/#/portfolio', label: 'Portfolio' },
-            { href: '/#/contact', label: 'Contact' },
-            { href: '/#/weather', label: 'Weather' },
-            { href: '/#/stock-quotes', label: 'Stock Quotes' },
-            { href: '/#/blog', label: 'Blog' },
-            { href: '/#/visitors', label: 'Visitors' },
-            {
-              href: 'https://najwer23.github.io/resume/',
-              label: 'Résumé',
-              desktopSize: 34,
-              mobileSize: 34,
-              fontWeight: 600,
-              target: '_blank',
-              rel: 'noreferrer',
-            },
-          ].map(({ href, label, desktopSize = 30, mobileSize = 30, fontWeight = 400, target, rel }) => (
+          {linksAside.map(({ to, label }) => (
             <TextBox
-              key={label}
+              key={to}
               tag="a"
-              href={href}
-              desktopSize={desktopSize}
-              mobileSize={mobileSize}
-              fontWeight={fontWeight}
-              color={isActive(href) ? 'grey' : 'var(--n23mTextBoxColor)'}
-              colorHover={isActive(href) ? 'grey' : 'var(--n23mTextBoxColor)'}
-              target={target}
-              rel={rel}
+              href={to}
+              desktopSize={30}
+              mobileSize={30}
+              fontWeight={400}
+              color={isActive(to) ? 'grey' : 'var(--n23mTextBoxColor)'}
+              colorHover={isActive(to) ? 'grey' : 'var(--n23mTextBoxColor)'}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(to);
+              }}
             >
               {label}
             </TextBox>
           ))}
+
+          <TextBox
+            tag="a"
+            href="https://najwer23.github.io/resume/"
+            desktopSize={34}
+            mobileSize={34}
+            fontWeight={600}
+            target="_blank"
+            rel="noreferrer"
+            color="var(--n23mTextBoxColor)"
+            colorHover="var(--n23mTextBoxColor)"
+          >
+            Résumé
+          </TextBox>
         </>
       }
       outlet={outlet}
-      aside={undefined}
-    ></NavigationDashboard>
+      aside={<Aside />}
+    />
   );
 };
