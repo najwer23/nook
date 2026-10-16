@@ -3,6 +3,7 @@ import { ForgotPasswordOtp } from '@app/auth/forgotPasswordOtp/ForgotPasswordOtp
 import { Login } from '@app/auth/login/Login';
 import { SignUp } from '@app/auth/signup/SignUp';
 import { Layout } from '@app/layout/Layout';
+import { BlogPostCreator } from '@app/pages/blog-post-creator/BlogPostCreator';
 import { ErrorNotFound } from '@app/pages/error/ErrorNotFound';
 import { StockQuotes } from '@app/pages/stock-quotes/StockQuotes';
 import { Visitors } from '@app/pages/visitors/Visitors';
@@ -36,6 +37,10 @@ export const router = createHashRouter([
       {
         path: '/visitors',
         element: <Visitors />,
+      },
+      {
+        path: '/blog-post-creator',
+        element: <BlogPostCreator />,
       },
       {
         path: '*',
