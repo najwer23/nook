@@ -169,7 +169,12 @@ export const BlogPostCreator = () => {
                 </Grid>
               </Grid>
 
-              <Grid layout="container" widthMin={'min(900px, calc(100% - 210px))'} margin="0">
+              <Grid
+                layout="container"
+                widthMin={'min(900px, calc(100% - 210px))'}
+                widthMax={'min(900px, calc(100% - 210px))'}
+                margin="0"
+              >
                 <PostRenderSection section={section} id={1} />
               </Grid>
             </Grid>
