@@ -3,7 +3,9 @@ import { ForgotPasswordOtp } from '@app/auth/forgotPasswordOtp/ForgotPasswordOtp
 import { Login } from '@app/auth/login/Login';
 import { SignUp } from '@app/auth/signup/SignUp';
 import { Layout } from '@app/layout/Layout';
+import { ErrorNotFound } from '@app/pages/error/ErrorNotFound';
 import { StockQuotes } from '@app/pages/stock-quotes/StockQuotes';
+import { Weather } from '@app/pages/weather/Weather';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
 import { Home } from '../pages/home/Home';
 import { ScrollToTop } from './ScrollToTop';
@@ -25,6 +27,14 @@ export const router = createHashRouter([
       {
         path: '/stock-quotes',
         element: <StockQuotes />,
+      },
+      {
+        path: '/weather',
+        element: <Weather />,
+      },
+      {
+        path: '*',
+        element: <ErrorNotFound />,
       },
     ],
   },

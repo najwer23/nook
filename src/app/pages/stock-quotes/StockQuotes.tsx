@@ -7,7 +7,7 @@ import { chartDataCurrency } from './chartDataCurrency';
 import { queryStockQuotes } from './StockQuotes.query';
 
 export const StockQuotes: React.FC = () => {
-  useDocumentTitle('Stock Quotes | Mariusz Najwer');
+  useDocumentTitle(`Stock Quotes | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
   const queriesStockQuotes = ['usd', 'eur', 'chf', 'gbp'].map((currency) => ({
     queryKey: ['queryStockQuotes', currency],
@@ -22,7 +22,7 @@ export const StockQuotes: React.FC = () => {
 
   return (
     <>
-      <Grid layout="container" widthMax={'1400px'} padding={'0 20px 0px 20px'}>
+      <Grid layout="container" widthMax={'1400px'} padding={'0 0px 0px 0px'}>
         <Grid layout="container" widthMax="900px" margin={'0 0 40px 0'}>
           <Typography appearance="light" variant="display">
             Stock Quotes
@@ -49,7 +49,7 @@ export const StockQuotes: React.FC = () => {
             key={i}
             layout="container"
             widthMax={'1400px'}
-            padding={'0 20px'}
+            padding={'0 0px'}
             margin={'30px auto 80px auto'}
             minHeight="700px"
             loading={isLoading}
