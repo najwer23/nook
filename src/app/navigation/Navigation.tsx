@@ -33,7 +33,7 @@ export const Navigation: React.FC<Props> = ({ outlet }) => {
         </Grid>
       }
       menuTopRightColumn={
-        <Grid layout="flex" justifyContent="flex-end">
+        <Grid layout="flex" justifyContent="flex-end" alignItems="center" minHeight={'100%'}>
           <TextBox
             tag="a"
             href="/auth/login"
