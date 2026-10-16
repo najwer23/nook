@@ -66,7 +66,7 @@ export const NavigationMobile: React.FC = () => {
                       })}
                 >
                   {label}
-                  {external && ' ↗'}
+                  {external && <>&nbsp;↗</>}
                 </TextBox>
               </Grid>
             );

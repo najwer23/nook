@@ -43,7 +43,7 @@ export const NavigationAside: React.FC = () => {
                       })}
                 >
                   {label}
-                  {external && ' ↗'}
+                  {external && <>&nbsp;↗</>}
                 </TextBox>
               </Grid>
             );
