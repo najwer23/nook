@@ -10,7 +10,7 @@ const sections: NavigationLinkSection[] = [
     title: 'Tools',
     links: [
       { to: '/weather', label: 'Weather' },
-      { to: '/', label: 'Home' },
+      { to: '/', label: 'About' },
       { to: '/stock-quotes', label: 'Stock Quotes' },
       { to: '/visitors', label: 'Visitors' },
     ],

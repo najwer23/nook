@@ -4,7 +4,7 @@ import { Typography } from 'najwer23morsels/lib/Typography';
 // import styles from './Home.module.css';
 
 export const Home = () => {
-  useDocumentTitle('Home | Mariusz Najwer');
+  useDocumentTitle(`Home | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
   return (
     <Grid layout="container" widthMax="1400px" padding="0">
