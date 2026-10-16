@@ -1,16 +1,36 @@
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { Grid } from 'najwer23morsels/lib/Grid';
-import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { Typography } from 'najwer23morsels/lib/Typography';
 // import styles from './Home.module.css';
 
 export const Home = () => {
   useDocumentTitle('Home | Mariusz Najwer');
 
   return (
-    <Grid layout="container" padding={'0 0 40px 0'} margin={0}>
-      <TextBox tag="h2" desktopSize={30} mobileSize={24} fontWeight={500}>
-        Hello World!
-      </TextBox>
+    <Grid layout="container" widthMax="1400px" padding="0">
+      <Grid layout="container" widthMax="900px" margin="0 0 40px 0">
+        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+          About
+        </Typography>
+        <Typography appearance="light" variant="body">
+          A cozy corner for household bills. Track electricity, gas, rent, internet, and phone costs, chart how they
+          change over time, and keep all your invoices in one place.
+        </Typography>
+
+        <Typography appearance="light" variant="subheading">
+          Why?
+        </Typography>
+
+        <Typography appearance="light" variant="body">
+          I built it because my bills were scattered across emails, PDFs, and bank statements, and I could never tell
+          whether my costs were creeping up. I wanted one simple place to see the trend, spot unexpected increases, and
+          find any invoice in seconds.
+        </Typography>
+
+        <Typography appearance="light" variant="body">
+          It's also a hands-on project: a full-stack app built with React (using a design system) and Fastify.
+        </Typography>
+      </Grid>
     </Grid>
   );
 };
