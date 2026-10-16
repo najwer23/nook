@@ -61,7 +61,7 @@ export const Weather: React.FC = () => {
 
   return (
     <>
-      <Grid layout="container" widthMax={'1400px'}>
+      <Grid layout="container" widthMax={'100%'}>
         <Grid layout="container" widthMax="900px" margin={'0 0 40px 0'}>
           <Typography appearance="light" variant="display" style={{ margin: 0 }}>
             Weather
@@ -91,7 +91,7 @@ export const Weather: React.FC = () => {
 
       <Grid
         layout="container"
-        widthMax={'1400px'}
+        widthMax={'100%'}
         padding={
           (isLoading || !weatherCurrent?.weather || !weather8Days?.length) && width <= 767.98
             ? '0 0px'
@@ -161,7 +161,7 @@ export const Weather: React.FC = () => {
 
       <Grid
         layout="container"
-        widthMax={'1400px'}
+        widthMax={'100%'}
         padding={'0 0px'}
         margin={'30px auto 50px auto'}
         minHeight="700px"
@@ -180,7 +180,7 @@ export const Weather: React.FC = () => {
 
       <Grid
         layout="container"
-        widthMax={'1400px'}
+        widthMax={'100%'}
         padding={'0 0px'}
         margin={'30px auto 50px auto'}
         minHeight="700px"
@@ -199,7 +199,7 @@ export const Weather: React.FC = () => {
 
       <Grid
         layout="container"
-        widthMax={'1400px'}
+        widthMax={'100%'}
         padding={'0 0px'}
         margin={'30px auto 50px auto'}
         minHeight="700px"
@@ -218,7 +218,7 @@ export const Weather: React.FC = () => {
 
       <Grid
         layout="container"
-        widthMax={'1400px'}
+        widthMax={'100%'}
         padding={'0 0px'}
         margin={'30px auto 80px auto'}
         minHeight="700px"

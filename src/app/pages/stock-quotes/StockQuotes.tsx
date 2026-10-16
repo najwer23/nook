@@ -22,7 +22,7 @@ export const StockQuotes: React.FC = () => {
 
   return (
     <>
-      <Grid layout="container" widthMax={'1400px'} padding={'0 0px 0px 0px'}>
+      <Grid layout="container" widthMax={'100%'} padding={'0 0px 0px 0px'}>
         <Grid layout="container" widthMax="900px" margin={'0 0 40px 0'}>
           <Typography appearance="light" variant="display" style={{ margin: 0 }}>
             Stock Quotes
@@ -43,12 +43,12 @@ export const StockQuotes: React.FC = () => {
         </Grid>
       </Grid>
 
-      <Grid layout="container" widthMax={'1400px'} padding={'0 0 0px 0px'}>
+      <Grid layout="container" widthMax={'100%'} padding={'0 0 0px 0px'}>
         {resultsArray.map((v, i) => (
           <Grid
             key={i}
             layout="container"
-            widthMax={'1400px'}
+            widthMax={'100%'}
             padding={'0 0px'}
             margin={'30px auto 80px auto'}
             minHeight="700px"

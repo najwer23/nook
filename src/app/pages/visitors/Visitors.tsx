@@ -72,8 +72,8 @@ export const Visitors: React.FC = () => {
   const [minDate, minViews] = minViewDay;
 
   return (
-    <Grid layout="container" widthMax="1400px" padding="0 0px 0px 0px">
-      <Grid layout="container" widthMax="900px" margin={'0 0 40px 0'}>
+    <Grid layout="container" widthMax={'100%'} padding="0 0px 0px 0px">
+      <Grid layout="container" widthMax={'100%'} margin={'0 0 40px 0'}>
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
           Visitors
         </Typography>
@@ -93,7 +93,7 @@ export const Visitors: React.FC = () => {
           tablet: 2,
         }}
       >
-        <Grid layout="container" widthMax="1400px" margin={'0 0 20px'}>
+        <Grid layout="container" widthMax={'100%'} margin={'0 0 20px'}>
           <Select
             label="Year"
             name={'year'}
@@ -118,19 +118,16 @@ export const Visitors: React.FC = () => {
           <Grid
             margin={'0 0 30px'}
             layout="container"
-            widthMax="1400px"
+            widthMax={'100%'}
             minHeight="clamp(70px, calc(200px - 13.4vw), 150px)"
             loading={isLoading}
           >
             <Grid
-              layout="columns"
-              gap={{ col: '100px', row: '20px' }}
-              col={{
-                smallDesktop: 4,
-                desktop: 4,
-                mobile: 2,
-                tablet: 2,
-              }}
+              layout="flex"
+              gap={{ col: '100px', row: '10px' }}
+              justifyContent="flex-start"
+              margin={0}
+              flexWrap="wrap"
             >
               <div>
                 <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
@@ -176,7 +173,7 @@ export const Visitors: React.FC = () => {
             </Grid>
           </Grid>
 
-          <Grid layout="container" widthMax="1400px" margin="30px auto 50px auto" minHeight="700px" loading={isLoading}>
+          <Grid layout="container" widthMax={'100%'} margin="30px auto 50px auto" minHeight="700px" loading={isLoading}>
             {!isLoading && (
               <div style={{ height: '700px' }}>
                 <ChartBar title="Daily Visitors Over Time" ySymbol="" data={buildChartData(pageViewsByDate)} />
@@ -184,7 +181,7 @@ export const Visitors: React.FC = () => {
             )}
           </Grid>
 
-          <Grid layout="container" widthMax="1400px" margin="30px auto 50px auto" minHeight="700px" loading={isLoading}>
+          <Grid layout="container" widthMax={'100%'} margin="30px auto 50px auto" minHeight="700px" loading={isLoading}>
             {!isLoading && (
               <div style={{ height: '700px' }}>
                 <ChartBar title="Daily Visitors for /resume" ySymbol="" data={buildChartData(resumeViews)} />
@@ -192,7 +189,7 @@ export const Visitors: React.FC = () => {
             )}
           </Grid>
 
-          <Grid layout="container" widthMax="1400px" margin="30px auto 80px auto" minHeight="700px" loading={isLoading}>
+          <Grid layout="container" widthMax={'100%'} margin="30px auto 80px auto" minHeight="700px" loading={isLoading}>
             {!isLoading && (
               <div style={{ height: '700px' }}>
                 <ChartBar title="Daily Visitors for /blog" ySymbol="" data={buildChartData(blogViews)} />
