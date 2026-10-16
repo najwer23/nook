@@ -38,7 +38,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "gh-pages": "^6.3.0",
     "jsdom": "^30.1.3",
-    "najwer23morsels": "^1.9.0",
+    "najwer23morsels": "^1.9.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.4",

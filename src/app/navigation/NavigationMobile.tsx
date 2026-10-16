@@ -10,7 +10,7 @@ export const NavigationMobile: React.FC = () => {
   const isActive = (to: string) => location.pathname === to;
 
   return (
-    <Grid layout="container">
+    <Grid layout="container" margin={0}>
       <Grid layout="container" margin="0 0 24px 0">
         <Grid layout="container" margin="0 0 8px 0">
           <TextBox tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
