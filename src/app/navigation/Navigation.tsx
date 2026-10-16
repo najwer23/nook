@@ -1,9 +1,9 @@
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { NavigationDashboard } from 'najwer23morsels/lib/NavigationDashboard';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Aside } from './aside/Aside';
-import { linksAside } from './links/Links.const';
+import { useNavigate } from 'react-router-dom';
+import { NavigationAside } from './NavigationAside';
+import { NavigationMobile } from './NavigationMobile';
 
 interface Props {
   outlet?: React.ReactNode;
@@ -11,9 +11,6 @@ interface Props {
 
 export const Navigation: React.FC<Props> = ({ outlet }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const isActive = (to: string) => location.pathname === to;
 
   return (
     <NavigationDashboard
@@ -52,44 +49,9 @@ export const Navigation: React.FC<Props> = ({ outlet }) => {
           </TextBox>
         </Grid>
       }
-      menuMobile={
-        <>
-          {linksAside.map(({ to, label }) => (
-            <TextBox
-              key={to}
-              tag="a"
-              href={to}
-              desktopSize={30}
-              mobileSize={30}
-              fontWeight={400}
-              color={isActive(to) ? 'grey' : 'var(--n23mTextBoxColor)'}
-              colorHover={isActive(to) ? 'grey' : 'var(--n23mTextBoxColor)'}
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(to);
-              }}
-            >
-              {label}
-            </TextBox>
-          ))}
-
-          <TextBox
-            tag="a"
-            href="https://najwer23.github.io/resume/"
-            desktopSize={34}
-            mobileSize={34}
-            fontWeight={600}
-            target="_blank"
-            rel="noreferrer"
-            color="var(--n23mTextBoxColor)"
-            colorHover="var(--n23mTextBoxColor)"
-          >
-            Résumé
-          </TextBox>
-        </>
-      }
+      menuMobile={<NavigationMobile />}
       outlet={outlet}
-      aside={<Aside />}
+      aside={<NavigationAside />}
     />
   );
 };
