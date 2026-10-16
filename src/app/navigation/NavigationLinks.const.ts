@@ -16,13 +16,19 @@ const sections: NavigationLinkSection[] = [
     ],
   },
   {
-    title: 'Apps',
+    title: 'Projects',
+    links: [
+      { to: 'https://najwer23gym.vercel.app/', label: 'Gym' },
+      { to: 'https://najwer23.github.io/najwer23morsels', label: 'Design System' },
+    ],
+  },
+  {
+    title: 'More Me',
     links: [
       { to: 'https://najwer23.github.io/', label: 'Portfolio' },
-      { to: 'https://najwer23.github.io/#/contact', label: 'Contact' },
-      { to: 'https://najwer23.github.io/#/blog', label: 'Blog' },
-      { to: 'https://najwer23gym.vercel.app/', label: 'Gym' },
       { to: 'https://najwer23.github.io/resume/', label: 'Résumé' },
+      { to: 'https://najwer23.github.io/#/blog', label: 'Blog' },
+      { to: 'https://najwer23.github.io/#/contact', label: 'Contact' },
     ],
   },
   {
