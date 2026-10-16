@@ -1,9 +1,9 @@
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { storageItemSet } from '@app/storage/storageItemSet';
-import { SyntaxHighlight } from '@app/syntaxhighlight/SyntaxHighlight';
 import { Button } from 'najwer23morsels/lib/Button';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { Typography } from 'najwer23morsels/lib/Typography';
 import { useEffect, useRef, useState } from 'react';
 import { usePostStore } from './post/Post.store';
 import { PostDialogEdit } from './post/PostDialogEdit';
@@ -64,25 +64,27 @@ export const BlogPostCreator = () => {
   };
 
   return (
-    <Grid layout="container" widthMax="1600px" padding="40px 20px 40px 20px" margin="auto">
+    <Grid layout="container" widthMax={'100%'} padding="0">
       <PostDialogImport />
       <PostDialogEdit />
 
-      <TextBox mobileSize={20} desktopSize={20} margin="0 0 20px">
-        Import
-      </TextBox>
+      <Grid layout="container" widthMin="100%" margin="0 0 40px">
+        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+          Blog post creator
+        </Typography>
 
-      <Button height="40px" width="120px" backgroundColor="orangered" onClick={openImportDialog} margin={'20px 0 40px'}>
-        <TextBox mobileSize={18} desktopSize={18} color="white">
-          JSON
-        </TextBox>
-      </Button>
-
-      <Grid layout="flex" justifyContent="flex-start" alignItems="flex-start" margin={'0 0 100px'} flexWrap="wrap">
-        <Grid layout="container" widthMax="450px" widthMin={'min(450px, 100vw)'} margin="0 0 40px">
-          <TextBox mobileSize={20} desktopSize={20} margin="0 0 40px">
-            Sections
-          </TextBox>
+        <Grid
+          layout="flex"
+          justifyContent="flex-start"
+          flexWrap="wrap"
+          gap={{ col: '20px', row: '20px' }}
+          margin={'40px 0 0'}
+        >
+          <Button height="40px" width="120px" backgroundColor="orangered" onClick={openImportDialog}>
+            <TextBox mobileSize={18} desktopSize={18} color="white">
+              Edit JSON
+            </TextBox>
+          </Button>
 
           <Button
             height="40px"
@@ -97,25 +99,13 @@ export const BlogPostCreator = () => {
             </TextBox>
           </Button>
 
-          <Button
-            height="40px"
-            width="120px"
-            backgroundColor="orange"
-            onClick={() => startAddSection('post-p')}
-            margin={'20px 0 0'}
-          >
+          <Button height="40px" width="120px" backgroundColor="orange" onClick={() => startAddSection('post-p')}>
             <TextBox mobileSize={18} desktopSize={18}>
               Paragraph
             </TextBox>
           </Button>
 
-          <Button
-            height="40px"
-            width="60px"
-            backgroundColor="orange"
-            onClick={() => startAddSection('post-code')}
-            margin={'20px 0 0'}
-          >
+          <Button height="40px" width="60px" backgroundColor="orange" onClick={() => startAddSection('post-code')}>
             <TextBox mobileSize={18} desktopSize={18}>
               Code
             </TextBox>
@@ -126,19 +116,16 @@ export const BlogPostCreator = () => {
             width="120px"
             backgroundColor="orange"
             onClick={() => startAddSection('post-subheading')}
-            margin={'20px 0 0'}
           >
             <TextBox mobileSize={18} desktopSize={18}>
               Subheading
             </TextBox>
           </Button>
         </Grid>
+      </Grid>
 
+      <Grid layout="flex" justifyContent="flex-start" alignItems="flex-start" margin={'0 0 40px'} flexWrap="wrap">
         <Grid layout="container" widthMax="1100px" widthMin={'min(1100px, calc(100vw - 40px))'} margin={0}>
-          <TextBox mobileSize={20} desktopSize={20} margin="0 0 40px">
-            Post
-          </TextBox>
-
           <Grid layout="container" widthMax={'1190px'} margin={0}>
             {postJson?.sections?.map((section, index) => (
               <Grid
@@ -199,16 +186,6 @@ export const BlogPostCreator = () => {
             ))}
           </Grid>
         </Grid>
-      </Grid>
-
-      <hr />
-
-      <Grid layout="container" widthMax="1600px" widthMin={'min(500px, calc(100vw - 40px))'} margin="40px 0 50px 0">
-        <TextBox mobileSize={20} desktopSize={20} margin="0 0 40px">
-          JSON
-        </TextBox>
-
-        <SyntaxHighlight>{JSON.stringify(postJson, null, 2)}</SyntaxHighlight>
       </Grid>
     </Grid>
   );

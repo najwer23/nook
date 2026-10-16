@@ -3,6 +3,12 @@ import { createSelectors } from '@app/store/createSelectors';
 import { create } from 'zustand';
 import type { PostJson, PostSection, PostSectionData } from './Post.types';
 
+export const EMPTY_POST: PostJson = {
+  title: '',
+  id: '',
+  sections: [],
+};
+
 type AddableSectionName = Extract<PostSection['name'], 'post-title' | 'post-p' | 'post-subheading' | 'post-code'>;
 
 type PostStore = {
@@ -80,13 +86,7 @@ const updateSectionByIndex = <K extends PostSection['name']>(
 const loadInitialPostJson = () => {
   const STORAGE_KEY = 'blog-post-creator';
 
-  return (
-    storageItemGet(localStorage, STORAGE_KEY) ?? {
-      title: '',
-      id: '',
-      sections: [],
-    }
-  );
+  return storageItemGet(localStorage, STORAGE_KEY) ?? EMPTY_POST;
 };
 
 const usePostStoreBase = create<PostStore>()((set) => ({
