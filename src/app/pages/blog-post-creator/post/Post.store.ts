@@ -1,7 +1,10 @@
 import { storageItemGet } from '@app/storage/storageItemGet';
+import { storageItemSet } from '@app/storage/storageItemSet';
 import { createSelectors } from '@app/store/createSelectors';
 import { create } from 'zustand';
 import type { PostJson, PostSection, PostSectionData } from './Post.types';
+
+export const POST_STORAGE_KEY = 'blog-post-creator';
 
 export const EMPTY_POST: PostJson = {
   title: '',
@@ -83,11 +86,7 @@ const updateSectionByIndex = <K extends PostSection['name']>(
   };
 };
 
-const loadInitialPostJson = () => {
-  const STORAGE_KEY = 'blog-post-creator';
-
-  return storageItemGet(localStorage, STORAGE_KEY) ?? EMPTY_POST;
-};
+const loadInitialPostJson = () => storageItemGet(localStorage, POST_STORAGE_KEY) ?? EMPTY_POST;
 
 const usePostStoreBase = create<PostStore>()((set) => ({
   postJson: loadInitialPostJson(),
@@ -111,6 +110,7 @@ const usePostStoreBase = create<PostStore>()((set) => ({
       importDialogOpen: false,
     }),
 
+  // Editing an existing section
   openSectionIdDialog: (id) =>
     set({
       draftSection: null,
@@ -118,12 +118,14 @@ const usePostStoreBase = create<PostStore>()((set) => ({
       sectionIdDialogOpen: true,
     }),
 
+  // Closing/cancelling discards any draft
   closeSectionIdDialog: () =>
     set({
       sectionIdDialogOpen: false,
       draftSection: null,
     }),
 
+  // Adding a new section: nothing is written to postJson until Save
   startAddSection: (name) =>
     set((state) => ({
       draftSection: createDraft(name),
@@ -179,5 +181,11 @@ const usePostStoreBase = create<PostStore>()((set) => ({
       };
     }),
 }));
+
+usePostStoreBase.subscribe((state, prev) => {
+  if (state.postJson !== prev.postJson) {
+    storageItemSet(localStorage, POST_STORAGE_KEY, state.postJson, 999999);
+  }
+});
 
 export const usePostStore = createSelectors(usePostStoreBase);

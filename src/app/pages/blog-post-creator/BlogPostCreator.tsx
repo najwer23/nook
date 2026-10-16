@@ -1,16 +1,13 @@
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
-import { storageItemSet } from '@app/storage/storageItemSet';
 import { Button } from 'najwer23morsels/lib/Button';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { usePostStore } from './post/Post.store';
 import { PostDialogEdit } from './post/PostDialogEdit';
 import { PostDialogImport } from './post/PostDialogImport';
 import { PostRenderSection } from './post/PostRenderSection';
-
-const STORAGE_KEY = 'blog-post-creator';
 
 export const BlogPostCreator = () => {
   useDocumentTitle(`Blog Post Creator | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
@@ -25,11 +22,6 @@ export const BlogPostCreator = () => {
   const dragItemIndex = useRef<number | null>(null);
   const dragOverIndex = useRef<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-
-  useEffect(() => {
-    if (!postJson) return;
-    storageItemSet(localStorage, STORAGE_KEY, postJson, 999999);
-  }, [postJson]);
 
   const moveSection = (from: number, to: number) => {
     if (from === to) return;
