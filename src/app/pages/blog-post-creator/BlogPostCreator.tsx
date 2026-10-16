@@ -17,12 +17,9 @@ export const BlogPostCreator = () => {
 
   const postJson = usePostStore.use.postJson();
   const setPostJson = usePostStore.use.setPostJson();
-  const addSectionTitle = usePostStore.use.addSectionTitle();
-  const addSectionSubheading = usePostStore.use.addSectionSubheading();
-  const addSectionP = usePostStore.use.addSectionP();
+  const startAddSection = usePostStore.use.startAddSection();
   const removeSection = usePostStore.use.removeSection();
   const openSectionIdDialog = usePostStore.use.openSectionIdDialog();
-  const addSectionCode = usePostStore.use.addSectionCode();
   const openImportDialog = usePostStore.use.openImportDialog();
 
   const dragItemIndex = useRef<number | null>(null);
@@ -91,10 +88,7 @@ export const BlogPostCreator = () => {
             height="40px"
             width="100px"
             backgroundColor="orange"
-            onClick={() => {
-              addSectionTitle();
-              openSectionIdDialog(postJson.sections.length);
-            }}
+            onClick={() => startAddSection('post-title')}
             backgroundColorDisabled="darkgrey"
             disabled={postJson?.sections?.filter((x) => x.name == 'post-title').length > 0}
           >
@@ -102,18 +96,16 @@ export const BlogPostCreator = () => {
               Post Title
             </TextBox>
           </Button>
+
           <Button
             height="40px"
             width="120px"
             backgroundColor="orange"
-            onClick={() => {
-              addSectionP();
-              openSectionIdDialog(postJson.sections.length);
-            }}
+            onClick={() => startAddSection('post-p')}
             margin={'20px 0 0'}
           >
             <TextBox mobileSize={18} desktopSize={18}>
-              Paragpraph
+              Paragraph
             </TextBox>
           </Button>
 
@@ -121,10 +113,7 @@ export const BlogPostCreator = () => {
             height="40px"
             width="60px"
             backgroundColor="orange"
-            onClick={() => {
-              addSectionCode();
-              openSectionIdDialog(postJson.sections.length);
-            }}
+            onClick={() => startAddSection('post-code')}
             margin={'20px 0 0'}
           >
             <TextBox mobileSize={18} desktopSize={18}>
@@ -136,10 +125,7 @@ export const BlogPostCreator = () => {
             height="40px"
             width="120px"
             backgroundColor="orange"
-            onClick={() => {
-              addSectionSubheading();
-              openSectionIdDialog(postJson.sections.length);
-            }}
+            onClick={() => startAddSection('post-subheading')}
             margin={'20px 0 0'}
           >
             <TextBox mobileSize={18} desktopSize={18}>

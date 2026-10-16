@@ -14,12 +14,18 @@ export const PostDialogEdit: React.FC<{}> = () => {
   const closeSectionIdDialog = usePostStore.use.closeSectionIdDialog();
   const updateSectionData = usePostStore.use.updateSectionData();
   const updateSectionDataAndTitle = usePostStore.use.updateSectionDataAndTitle();
+  const commitDraftSection = usePostStore.use.commitDraftSection();
+  const draftSection = usePostStore.use.draftSection();
   const postJson = usePostStore.use.postJson();
 
-  const section = postJson?.sections?.[sectionId];
+  const isDraft = draftSection !== null;
+  const section = draftSection ?? postJson?.sections?.[sectionId];
+  const sectionsLength = postJson?.sections?.length ?? 0;
+  const maxIndex = isDraft ? sectionsLength : sectionsLength - 1;
 
   const handleOnSubmit = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
+    if (!section) return;
 
     switch (section.name) {
       case 'post-title': {
@@ -27,7 +33,11 @@ export const PostDialogEdit: React.FC<{}> = () => {
           title: form.title.value,
           date: form.date.value.split('-').reverse().join('/'),
         };
-        updateSectionDataAndTitle(sectionId, section.name, data, form.newIndex.value);
+        if (isDraft) {
+          commitDraftSection(data, form.newIndex.value);
+        } else {
+          updateSectionDataAndTitle(sectionId, section.name, data, form.newIndex.value);
+        }
         break;
       }
 
@@ -36,7 +46,11 @@ export const PostDialogEdit: React.FC<{}> = () => {
         const data = {
           text: form.text.value,
         };
-        updateSectionData(sectionId, section.name, data, form.newIndex.value);
+        if (isDraft) {
+          commitDraftSection(data, form.newIndex.value);
+        } else {
+          updateSectionData(sectionId, section.name, data, form.newIndex.value);
+        }
         break;
       }
 
@@ -44,7 +58,11 @@ export const PostDialogEdit: React.FC<{}> = () => {
         const data = {
           code: form.code.value,
         };
-        updateSectionData(sectionId, section.name, data, form.newIndex.value);
+        if (isDraft) {
+          commitDraftSection(data, form.newIndex.value);
+        } else {
+          updateSectionData(sectionId, section.name, data, form.newIndex.value);
+        }
         break;
       }
     }
@@ -57,11 +75,11 @@ export const PostDialogEdit: React.FC<{}> = () => {
       <Dialog widthMax={'900px'} open={sectionIdDialogOpen} onCancel={() => closeSectionIdDialog()}>
         <Grid layout="container" padding="0px 30px 30px 30px" margin="auto" widthMin={'min(800px, calc(100vw - 25px))'}>
           <TextBox mobileSize={20} desktopSize={20} margin={'0 0 30px'} tag="h3" fontWeight={700}>
-            Editing section {sectionId}
+            {isDraft ? 'New section' : `Editing section ${sectionId}`}
           </TextBox>
 
           <Form
-            key={`${sectionId}-${section?.name}`}
+            key={`${isDraft ? 'new' : sectionId}-${section?.name}`}
             onSubmit={handleOnSubmit}
             isError={false}
             isPending={false}
@@ -74,10 +92,7 @@ export const PostDialogEdit: React.FC<{}> = () => {
               type="text"
               name="newIndex"
               defaultValue={String(sectionId)}
-              validatorOptions={[
-                { type: 'empty' },
-                { type: 'numberInRange', options: { min: 0, max: postJson?.sections?.length - 1 } },
-              ]}
+              validatorOptions={[{ type: 'empty' }, { type: 'numberInRange', options: { min: 0, max: maxIndex } }]}
               placeholder="New Index"
             />
 
@@ -130,7 +145,7 @@ export const PostDialogEdit: React.FC<{}> = () => {
                   name="code"
                   defaultValue={section?.data.code}
                   validatorOptions={[{ type: 'empty' }]}
-                  placeholder="Place for your paragraph"
+                  placeholder="Place for your code"
                 />
               </>
             )}
