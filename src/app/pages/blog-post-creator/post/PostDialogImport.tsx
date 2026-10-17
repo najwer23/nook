@@ -6,7 +6,8 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { useEffect, useRef, useState } from 'react';
-import { EMPTY_POST, usePostStore } from './Post.store';
+import { EMPTY_POST } from './Post.const';
+import { usePostStore } from './Post.store';
 import type { PostJson } from './Post.types';
 
 export const PostDialogImport: React.FC<{}> = () => {
