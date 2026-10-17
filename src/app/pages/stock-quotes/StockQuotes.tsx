@@ -2,12 +2,18 @@ import { ChartLine } from '@app/charts/ChartLine';
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQueries } from '@app/hooks/useImmediateThrottledQueries';
 import { Grid } from 'najwer23morsels/lib/Grid';
+import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { chartDataCurrency } from './chartDataCurrency';
 import { queryStockQuotes } from './StockQuotes.query';
 
 export const StockQuotes: React.FC = () => {
   useDocumentTitle(`Stock Quotes | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
+
+  const formatDateTime = (ms: number, locale?: string) =>
+    new Intl.DateTimeFormat(locale, {
+      dateStyle: 'medium',
+    }).format(ms);
 
   const queriesStockQuotes = ['usd', 'eur', 'chf', 'gbp'].map((currency) => ({
     queryKey: ['queryStockQuotes', currency],
@@ -20,6 +26,8 @@ export const StockQuotes: React.FC = () => {
 
   const { resultsArray, isLoading } = useImmediateThrottledQueries(queriesStockQuotes, 300);
 
+  const updatedAt = resultsArray[0].dataUpdatedAt;
+
   return (
     <>
       <Grid layout="container" widthMax={'100%'} padding={'0 0px 0px 0px'}>
@@ -27,18 +35,22 @@ export const StockQuotes: React.FC = () => {
           <Typography appearance="light" variant="display" style={{ margin: 0 }}>
             Stock Quotes
           </Typography>
+          <Typography appearance="light" variant="caption">
+            Last updated: {updatedAt ? formatDateTime(updatedAt) : '–'}
+          </Typography>
         </Grid>
         <Grid widthMax={'700'} layout="container" padding="0" margin="0">
           <Typography appearance="light" variant="body">
-            <b>Bid Price (3.9852)</b>: This means that the highest price buyers are willing to pay for the asset is
-            3.9852.
-            <br />
-            If you want to sell the asset, you can sell it at this price.
+            <TextBox tag="span" color="#FF0000" desktopSize={'inherit'} mobileSize={'inherit'} fontWeight={'bold'}>
+              Bid Price (3.9852)
+            </TextBox>
+            : If you want to sell the asset, you can sell it at this price.
           </Typography>
           <Typography appearance="light" variant="body">
-            <b>Ask Price (4.0658)</b>: This indicates that the lowest price sellers are willing to accept is 4.0658.
-            <br />
-            If you want to buy the asset, you will have to pay this price.
+            <TextBox tag="span" color="green" desktopSize={'inherit'} mobileSize={'inherit'} fontWeight={'bold'}>
+              Ask Price (4.0658)
+            </TextBox>
+            : If you want to buy the asset, you will have to pay this price.
           </Typography>
         </Grid>
       </Grid>
