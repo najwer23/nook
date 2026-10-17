@@ -14,7 +14,7 @@ export const NavigationAside: React.FC = () => {
       {navigationLinkSections.map(({ title, links }) => (
         <Grid key={title} layout="container" margin="0 0 24px 0">
           <Grid layout="container" margin="0 0 8px 0">
-            <TextBox tag="p" desktopSize={14} mobileSize={14} fontWeight={600} color="grey">
+            <TextBox tag="p" desktopSize={14} mobileSize={14} fontWeight={600} color="black">
               {title}
             </TextBox>
           </Grid>

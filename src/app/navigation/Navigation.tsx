@@ -17,12 +17,12 @@ export const Navigation: React.FC<Props> = ({ outlet }) => {
       menuTopLeftColumn={
         <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight={'100%'}>
           <TextBox
-            desktopSize={20}
-            mobileSize={20}
+            desktopSize={25}
+            mobileSize={25}
             fontWeight={500}
             tag="a"
             href="/"
-            color="grey"
+            color="black"
             onClick={(e) => {
               e.preventDefault();
               navigate('/');
