@@ -70,7 +70,7 @@ export const BlogPostCreator = () => {
           justifyContent="flex-start"
           flexWrap="wrap"
           gap={{ col: '20px', row: '20px' }}
-          margin={'40px 0 0'}
+          margin={'20px 0 0'}
         >
           <Button height="40px" width="120px" backgroundColor="orangered" onClick={openImportDialog}>
             <TextBox mobileSize={18} desktopSize={18} color="white">
