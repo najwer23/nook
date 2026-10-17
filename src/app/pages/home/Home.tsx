@@ -13,8 +13,9 @@ export const Home = () => {
           About
         </Typography>
         <Typography appearance="light" variant="body">
-          A cozy corner for household bills. Track electricity, gas, rent, internet, and phone costs, chart how they
-          change over time, and keep all your invoices in one place.
+          A full-stack personal hub built with React, TypeScript, and Fastify. Track household bills and invoices,
+          monitor weather and stock quotes, log gym workouts, and draft blog posts, all in one place. Includes
+          interactive charts and spending analytics. Deployed to GitHub Pages via a CI/CD pipeline.
         </Typography>
 
         <Typography appearance="light" variant="subheading">
