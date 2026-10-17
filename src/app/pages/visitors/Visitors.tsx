@@ -159,7 +159,7 @@ export const Visitors: React.FC = () => {
               <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
                 Min daily views:{' '}
                 <TextBox tag="span" desktopSize={18} mobileSize={16} fontWeight={600}>
-                  <b>{minViews}</b>, ({minDate}),
+                  <b>{minViews}</b>, ({minDate})
                 </TextBox>
               </TextBox>
             </div>
