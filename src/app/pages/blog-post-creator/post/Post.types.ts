@@ -36,3 +36,36 @@ export interface PostJson {
   id: string;
   sections: PostSection[];
 }
+
+export type AddableSectionName = Extract<
+  PostSection['name'],
+  'post-title' | 'post-p' | 'post-subheading' | 'post-code'
+>;
+
+export type PostStore = {
+  postJson: PostJson;
+  sectionId: number;
+  sectionIdDialogOpen: boolean;
+  importDialogOpen: boolean;
+  draftSection: PostSection | null;
+  setPostJson: (updater: (prev: PostJson) => PostJson) => void;
+  openSectionIdDialog: (id: number) => void;
+  openImportDialog: () => void;
+  closeSectionIdDialog: () => void;
+  closeImportDialog: () => void;
+  startAddSection: (name: AddableSectionName) => void;
+  commitDraftSection: (data: PostSection['data'], newIndex: string) => void;
+  removeSection: (index: number) => void;
+  updateSectionData: <K extends PostSection['name']>(
+    index: number,
+    name: K,
+    data: PostSectionData<K>,
+    newIndex: string,
+  ) => void;
+  updateSectionDataAndTitle: (
+    index: number,
+    name: 'post-title',
+    data: PostSectionData<'post-title'>,
+    newIndex: string,
+  ) => void;
+};

@@ -1,92 +1,9 @@
-import { storageItemGet } from '@app/storage/storageItemGet';
 import { storageItemSet } from '@app/storage/storageItemSet';
 import { createSelectors } from '@app/store/createSelectors';
 import { create } from 'zustand';
-import type { PostJson, PostSection, PostSectionData } from './Post.types';
-
-export const POST_STORAGE_KEY = 'blog-post-creator';
-
-export const EMPTY_POST: PostJson = {
-  title: '',
-  id: '',
-  sections: [],
-};
-
-type AddableSectionName = Extract<PostSection['name'], 'post-title' | 'post-p' | 'post-subheading' | 'post-code'>;
-
-type PostStore = {
-  postJson: PostJson;
-  sectionId: number;
-  sectionIdDialogOpen: boolean;
-  importDialogOpen: boolean;
-  draftSection: PostSection | null;
-  setPostJson: (updater: (prev: PostJson) => PostJson) => void;
-  openSectionIdDialog: (id: number) => void;
-  openImportDialog: () => void;
-  closeSectionIdDialog: () => void;
-  closeImportDialog: () => void;
-  startAddSection: (name: AddableSectionName) => void;
-  commitDraftSection: (data: PostSection['data'], newIndex: string) => void;
-  removeSection: (index: number) => void;
-  updateSectionData: <K extends PostSection['name']>(
-    index: number,
-    name: K,
-    data: PostSectionData<K>,
-    newIndex: string,
-  ) => void;
-  updateSectionDataAndTitle: (
-    index: number,
-    name: 'post-title',
-    data: PostSectionData<'post-title'>,
-    newIndex: string,
-  ) => void;
-};
-
-const moveItem = <T>(items: T[], from: number, to: number) => {
-  const next = [...items];
-  const [item] = next.splice(from, 1);
-  next.splice(to, 0, item);
-  return next;
-};
-
-const draftFactories: Record<AddableSectionName, () => PostSection> = {
-  'post-title': () => ({ name: 'post-title', data: { title: '#', date: '29/03/2026' } }),
-  'post-p': () => ({ name: 'post-p', data: { text: 'Example' } }),
-  'post-subheading': () => ({ name: 'post-subheading', data: { text: 'Example' } }),
-  'post-code': () => ({
-    name: 'post-code',
-    data: {
-      code: 'const users = [\n  { name: "Anna", age: 32 },\n  { name: "Bob", age: 28 },\n  { name: "Cara", age: 40 },\n];\n\nconst byAge = users.sort((a, b) => a.age - b.age);\n',
-    },
-  }),
-};
-
-const createDraft = (name: AddableSectionName): PostSection => draftFactories[name]();
-
-const updateSectionByIndex = <K extends PostSection['name']>(
-  state: PostStore,
-  index: number,
-  name: K,
-  data: PostSectionData<K>,
-  newIndex: string,
-): PostStore => {
-  const sections = state.postJson.sections.map((section, i) =>
-    i === index && section.name === name ? ({ ...section, data } as PostSection) : section,
-  );
-
-  const nextIndex = Number(newIndex);
-  const movedSections = nextIndex !== index ? moveItem(sections, index, nextIndex) : sections;
-
-  return {
-    ...state,
-    postJson: {
-      ...state.postJson,
-      sections: movedSections,
-    },
-  };
-};
-
-const loadInitialPostJson = () => storageItemGet(localStorage, POST_STORAGE_KEY) ?? EMPTY_POST;
+import { POST_STORAGE_KEY } from './Post.const';
+import type { PostSection, PostSectionData, PostStore } from './Post.types';
+import { createDraft, loadInitialPostJson, updateSectionByIndex } from './Post.utils';
 
 const usePostStoreBase = create<PostStore>()((set) => ({
   postJson: loadInitialPostJson(),
