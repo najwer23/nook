@@ -119,29 +119,21 @@ export const Visitors: React.FC = () => {
             margin={'0 0 30px'}
             layout="container"
             widthMax={'100%'}
-            minHeight="clamp(70px, calc(200px - 13.4vw), 150px)"
+            minHeight="clamp(100px, 5.09vw + 80.9px, 120px)"
             loading={isLoading}
           >
-            <Grid
-              layout="flex"
-              gap={{ col: '100px', row: '10px' }}
-              justifyContent="flex-start"
-              margin={0}
-              flexWrap="wrap"
-            >
-              <div>
-                <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
-                  Yearly Visits
-                </TextBox>
-                <TextBox tag="p" desktopSize={18} mobileSize={16} fontWeight={600}>
+            <div>
+              <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
+                Yearly Visits:{' '}
+                <TextBox tag="span" desktopSize={18} mobileSize={16} fontWeight={600}>
                   {yearlyViews[year] ?? 0}
                 </TextBox>
-              </div>
-              <div>
-                <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
-                  Daily Change
-                </TextBox>
-                <TextBox tag="p" desktopSize={18} mobileSize={16} fontWeight={600}>
+              </TextBox>
+            </div>
+            <div>
+              <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
+                Daily Change:{' '}
+                <TextBox tag="span" desktopSize={18} mobileSize={16} fontWeight={600}>
                   {diff},&nbsp;
                   <TextBox
                     tag="span"
@@ -153,24 +145,24 @@ export const Visitors: React.FC = () => {
                     {percent.toFixed(2)}&nbsp;%
                   </TextBox>
                 </TextBox>
-              </div>
-              <div>
-                <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
-                  Max daily views
-                </TextBox>
-                <TextBox tag="p" desktopSize={18} mobileSize={16} fontWeight={600}>
+              </TextBox>
+            </div>
+            <div>
+              <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
+                Max daily views:{' '}
+                <TextBox tag="span" desktopSize={18} mobileSize={16} fontWeight={600}>
                   {maxDate}, <b>{maxViews}</b>
                 </TextBox>
-              </div>
-              <div>
-                <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
-                  Min daily views
-                </TextBox>
-                <TextBox tag="p" desktopSize={18} mobileSize={16} fontWeight={600}>
+              </TextBox>
+            </div>
+            <div>
+              <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
+                Min daily views:{' '}
+                <TextBox tag="span" desktopSize={18} mobileSize={16} fontWeight={600}>
                   {minDate}, <b>{minViews}</b>
                 </TextBox>
-              </div>
-            </Grid>
+              </TextBox>
+            </div>
           </Grid>
 
           <Grid layout="container" widthMax={'100%'} margin="30px auto 50px auto" minHeight="700px" loading={isLoading}>
