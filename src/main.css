@@ -18,10 +18,6 @@ html {
   }
 }
 
-#root {
-  height: 100dvh;
-}
-
 .n23mTextBoxLink {
   --n23mTextBoxColor: var(--linkColor);
   --n23mTextBoxColorHover: var(--linkColorHover);
