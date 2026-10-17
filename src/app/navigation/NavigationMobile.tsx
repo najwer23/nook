@@ -14,7 +14,7 @@ export const NavigationMobile: React.FC = () => {
       <Grid layout="container" margin="0 0 24px 0">
         <Grid layout="container" margin="0 0 8px 0">
           <TextBox tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
-            Account
+            Account 2
           </TextBox>
         </Grid>
         <TextBox
@@ -27,7 +27,7 @@ export const NavigationMobile: React.FC = () => {
           colorHover={isActive('/auth/login') ? 'grey' : 'var(--n23mTextBoxColor)'}
           onClick={(e: React.MouseEvent) => {
             e.preventDefault();
-            navigate('/auth/login');
+            navigate('/auth/login', { viewTransition: true });
           }}
         >
           Login

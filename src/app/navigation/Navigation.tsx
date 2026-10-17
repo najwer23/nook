@@ -39,7 +39,6 @@ export const Navigation: React.FC<Props> = ({ outlet }) => {
             href="/auth/login"
             onClick={(e) => {
               e.preventDefault();
-              navigate('/auth/login', { viewTransition: true });
             }}
             desktopSize={20}
             mobileSize={20}
