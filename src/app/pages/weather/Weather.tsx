@@ -2,11 +2,11 @@ import { ChartLine } from '@app/charts/ChartLine';
 import { ChartMixed } from '@app/charts/ChartMixed';
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQuery } from '@app/hooks/useImmediateThrottledQuery';
-import { Button } from 'najwer23morsels/lib/Button';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { useWindowSize } from 'najwer23morsels/lib/Hooks';
+import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
+import { Select } from 'najwer23morsels/lib/Select';
 import { SliderScroll } from 'najwer23morsels/lib/SliderScroll';
-import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useMemo, useState } from 'react';
 import { chartDataPressure } from './chartData/chartDataPressure';
@@ -39,7 +39,7 @@ export const Weather: React.FC = () => {
       retry: 0,
       enabled: true,
     },
-    300,
+    500,
   );
 
   const townListForSelect = useMemo(() => {
@@ -59,80 +59,69 @@ export const Weather: React.FC = () => {
   const weatherHourly = result?.resOpenWeatherMap?.hourly ?? [];
   const weatherCurrent = result?.resOpenWeatherMap?.current;
 
-  return (
-    <>
-      <Grid layout="container" widthMax={'100%'}>
-        <Grid layout="container" widthMax="900px" margin={'0 0 20px 0'}>
-          <Typography appearance="light" variant="display" style={{ margin: 0 }}>
-            Weather
-          </Typography>
-        </Grid>
+  const isNotReady = isLoading || !weatherCurrent?.weather || !weather8Days.length;
 
-        <div className={styles.weatherSelectWrapper}>
-          {townListForSelect.map(({ value, label }) => (
-            <Button
-              key={value}
-              type={'button'}
-              onClick={() => setCoords({ value, label })}
-              disabled={coords.value === value}
-              backgroundColor="orangered"
-              height={'40px'}
-              width={'auto'}
-              padding={'0 10px'}
-              backgroundColorDisabled="#4d4d4d"
-            >
-              <TextBox mobileSize={18} desktopSize={18} color="white">
-                {label}
-              </TextBox>
-            </Button>
-          ))}
-        </div>
+  return (
+    <Grid layout="container" widthMax={'100%'}>
+      <Grid layout="container" widthMax={'100%'} margin={'0 0 30px 0'}>
+        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+          Weather
+        </Typography>
       </Grid>
 
       <Grid
-        layout="container"
-        widthMax={'100%'}
-        padding={
-          (isLoading || !weatherCurrent?.weather || !weather8Days?.length) && width <= 767.98
-            ? '0 0px'
-            : width <= 767.98
-              ? 0
-              : '0 0px'
-        }
-        minHeight="415px"
-        loading={isLoading || !weatherCurrent?.weather || !weather8Days?.length}
+        layout="columns"
+        gap={{ col: '100px', row: '20px' }}
+        col={{
+          smallDesktop: 2,
+          desktop: 2,
+          mobile: 1,
+          tablet: 2,
+        }}
       >
-        {!isLoading && weather8Days && weatherCurrent && (
-          <div className={styles.weatherWrapper}>
-            <SliderScroll gap="10px">
-              <div
-                style={{
-                  background: 'darkgrey',
-                  margin: width <= 767.98 ? '0 0 0 0px' : 0,
-                }}
-                className={styles.weatherTiles}
-              >
-                <WeatherImg imgArr={weatherCurrent!.weather} />
-                <WeatherForecastData title={'dayOfWeek'} value={weatherCurrent!.dt} />
-                <WeatherForecastData title={'Temp'} value={forecastDataFormat(weatherCurrent!.temp, 4)} />
-                <WeatherForecastData
-                  title={'Sunrise'}
-                  value={formatDateFromDt(weatherCurrent!.sunrise)?.split(',')[1] ?? ''}
-                />
-                <WeatherForecastData
-                  title={'Sunset'}
-                  value={formatDateFromDt(weatherCurrent!.sunset)?.split(',')[1] ?? ''}
-                />
-                <WeatherForecastData title={'Wind'} value={forecastDataFormat(weatherCurrent!.wind_speed, 1)} />
-                <WeatherForecastData title={'Pressure'} value={forecastDataFormat(weatherCurrent!.pressure, 3)} />
-                <WeatherForecastData title={'Humidity'} value={forecastDataFormat(weatherCurrent!.humidity, 2)} />
-                <WeatherForecastData title={'Clouds'} value={forecastDataFormat(weatherCurrent!.clouds, 2)} />
-                {/* <WeatherForecastData title={'Lat'} value={forecastDataFormat(coords.value?.split(':')[0], 5)} /> */}
-                {/* <WeatherForecastData title={'Lon'} value={forecastDataFormat(coords.value?.split(':')[1], 5)} /> */}
-              </div>
+        <Grid layout="container" widthMax={'100%'} margin={'0 0 30px'}>
+          <Select
+            label="Town"
+            name={'town'}
+            options={townListForSelect}
+            initialValue={{ value: coords.value, label: coords.label }}
+            onBlur={(_, data) => setCoords({ value: data.value, label: data.label })}
+          />
+        </Grid>
+      </Grid>
 
-              {weather8Days &&
-                weather8Days
+      {isNotReady && <LoaderDots />}
+
+      {!isNotReady && weatherCurrent?.weather && (
+        <>
+          <Grid layout="container" widthMax={'100%'} padding={width <= 767.98 ? 0 : '0 0px'} minHeight="415px">
+            <div className={styles.weatherWrapper}>
+              <SliderScroll gap="10px">
+                <div
+                  style={{
+                    background: 'darkgrey',
+                    margin: width <= 767.98 ? '0 0 0 0px' : 0,
+                  }}
+                  className={styles.weatherTiles}
+                >
+                  <WeatherImg imgArr={weatherCurrent.weather} />
+                  <WeatherForecastData title={'dayOfWeek'} value={weatherCurrent.dt} />
+                  <WeatherForecastData title={'Temp'} value={forecastDataFormat(weatherCurrent.temp, 4)} />
+                  <WeatherForecastData
+                    title={'Sunrise'}
+                    value={formatDateFromDt(weatherCurrent.sunrise)?.split(',')[1] ?? ''}
+                  />
+                  <WeatherForecastData
+                    title={'Sunset'}
+                    value={formatDateFromDt(weatherCurrent.sunset)?.split(',')[1] ?? ''}
+                  />
+                  <WeatherForecastData title={'Wind'} value={forecastDataFormat(weatherCurrent.wind_speed, 1)} />
+                  <WeatherForecastData title={'Pressure'} value={forecastDataFormat(weatherCurrent.pressure, 3)} />
+                  <WeatherForecastData title={'Humidity'} value={forecastDataFormat(weatherCurrent.humidity, 2)} />
+                  <WeatherForecastData title={'Clouds'} value={forecastDataFormat(weatherCurrent.clouds, 2)} />
+                </div>
+
+                {weather8Days
                   .filter((_: unknown, i: number) => i !== 0)
                   .map((x: any, i: number, arr: any) => (
                     <div
@@ -154,86 +143,43 @@ export const Weather: React.FC = () => {
                       <WeatherForecastData title={'Clouds'} value={forecastDataFormat(x.clouds, 2)} />
                     </div>
                   ))}
-            </SliderScroll>
-          </div>
-        )}
-      </Grid>
+              </SliderScroll>
+            </div>
+          </Grid>
 
-      <Grid
-        layout="container"
-        widthMax={'100%'}
-        padding={'0 0px'}
-        margin={'30px auto 50px auto'}
-        minHeight="700px"
-        loading={isLoading || !weatherCurrent?.weather || !weather8Days?.length}
-      >
-        {!isLoading && (
-          <div style={{ height: '700px' }}>
+          <Grid layout="container" widthMax={'100%'} padding={'0 0px'} margin={'30px auto 30px auto'} minHeight="700px">
             <ChartLine
               title="Temeperature for next 48h"
               data={chartDataTemp(weatherHourly, weather8Days[0]?.sunrise, weather8Days[0]?.sunset)}
               ySymbol={` ${'\u00b0'}C`}
             />
-          </div>
-        )}
-      </Grid>
+          </Grid>
 
-      <Grid
-        layout="container"
-        widthMax={'100%'}
-        padding={'0 0px'}
-        margin={'30px auto 50px auto'}
-        minHeight="700px"
-        loading={isLoading || !weatherCurrent?.weather || !weather8Days?.length}
-      >
-        {!isLoading && (
-          <div style={{ height: '700px' }}>
+          <Grid layout="container" widthMax={'100%'} padding={'0 0px'} margin={'0px auto 30px auto'} minHeight="700px">
             <ChartLine
               title="Speed of wind for next 48h"
               data={chartDataWind(weatherHourly, weather8Days[0]?.sunrise, weather8Days[0]?.sunset)}
               ySymbol={` km/h`}
             />
-          </div>
-        )}
-      </Grid>
+          </Grid>
 
-      <Grid
-        layout="container"
-        widthMax={'100%'}
-        padding={'0 0px'}
-        margin={'30px auto 50px auto'}
-        minHeight="700px"
-        loading={isLoading || !weatherCurrent?.weather || !weather8Days?.length}
-      >
-        {!isLoading && (
-          <div style={{ height: '700px' }}>
+          <Grid layout="container" widthMax={'100%'} padding={'0 0px'} margin={'0px auto 30px auto'} minHeight="700px">
             <ChartMixed
               title="Rain / Snow for next 48h"
               data={chartDataRainfall(weatherHourly, weather8Days[0]?.sunrise, weather8Days[0]?.sunset)}
               ySymbol={` mm/h`}
             />
-          </div>
-        )}
-      </Grid>
+          </Grid>
 
-      <Grid
-        layout="container"
-        widthMax={'100%'}
-        padding={'0 0px'}
-        margin={'30px auto 80px auto'}
-        minHeight="700px"
-        loading={isLoading || !weatherCurrent?.weather || !weather8Days?.length}
-      >
-        {!isLoading && (
-          <div style={{ height: '700px' }}>
+          <Grid layout="container" widthMax={'100%'} padding={'0 0px'} margin={'0px auto 30px auto'} minHeight="700px">
             <ChartLine
               title="Pressure"
               data={chartDataPressure(weatherHourly, weather8Days[0]?.sunrise, weather8Days[0]?.sunset)}
               ySymbol={` hPa`}
             />
-          </div>
-        )}
-      </Grid>
-    </>
+          </Grid>
+        </>
+      )}
+    </Grid>
   );
 };

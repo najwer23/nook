@@ -2,20 +2,18 @@ import { ChartLine } from '@app/charts/ChartLine';
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQueries } from '@app/hooks/useImmediateThrottledQueries';
 import { Grid } from 'najwer23morsels/lib/Grid';
+import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { chartDataCurrency } from './chartData/chartDataCurrency';
 import { queryStockQuotes } from './StockQuotes.query';
 
+const currencies = ['usd', 'eur', 'chf', 'gbp'];
+
 export const StockQuotes: React.FC = () => {
   useDocumentTitle(`Stock Quotes | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
-  const formatDateTime = (ms: number, locale?: string) =>
-    new Intl.DateTimeFormat(locale, {
-      dateStyle: 'medium',
-    }).format(ms);
-
-  const queriesStockQuotes = ['usd', 'eur', 'chf', 'gbp'].map((currency) => ({
+  const queriesStockQuotes = currencies.map((currency) => ({
     queryKey: ['queryStockQuotes', currency],
     queryFn: () => queryStockQuotes(currency),
     staleTime: 30 * 60 * 1000, // 30 minutes
@@ -24,22 +22,17 @@ export const StockQuotes: React.FC = () => {
     enabled: true,
   }));
 
-  const { resultsArray, isLoading } = useImmediateThrottledQueries(queriesStockQuotes, 300);
-
-  const updatedAt = resultsArray[0].dataUpdatedAt;
+  const { resultsArray, isLoading } = useImmediateThrottledQueries(queriesStockQuotes, 500);
 
   return (
     <>
       <Grid layout="container" widthMax={'100%'} padding={'0 0px 0px 0px'}>
-        <Grid layout="container" widthMax="900px" margin={'0 0 20px 0'}>
+        <Grid layout="container" widthMax="900px" margin={'0 0 30px 0'}>
           <Typography appearance="light" variant="display" style={{ margin: 0 }}>
             Stock Quotes
           </Typography>
-          <Typography appearance="light" variant="caption">
-            Last updated: {updatedAt ? formatDateTime(updatedAt) : '–'}
-          </Typography>
         </Grid>
-        <Grid widthMax={'700'} layout="container" padding="0" margin="0">
+        <Grid widthMax={'700'} layout="container" padding="0" margin={'0 0 30px 0'}>
           <Typography appearance="light" variant="body">
             <TextBox tag="span" color="#FF0000" desktopSize={'inherit'} mobileSize={'inherit'} fontWeight={'bold'}>
               Bid Price (3.9852)
@@ -55,24 +48,20 @@ export const StockQuotes: React.FC = () => {
         </Grid>
       </Grid>
 
-      <Grid layout="container" widthMax={'100%'} padding={'0 0 0px 0px'}>
-        {resultsArray.map((v, i) => (
-          <Grid
-            key={i}
-            layout="container"
-            widthMax={'100%'}
-            padding={'0 0px'}
-            margin={'30px auto 80px auto'}
-            minHeight="700px"
-            loading={isLoading}
-          >
-            {!isLoading && (
-              <div
-                key={v.data?.code}
-                style={{
-                  height: '700px',
-                }}
-              >
+      {isLoading && <LoaderDots />}
+
+      {!isLoading && (
+        <Grid layout="container" widthMax={'100%'} margin={'30px auto 0px auto'}>
+          {resultsArray.map((v, i) => (
+            <Grid
+              key={i}
+              layout="container"
+              widthMax={'100%'}
+              padding={'0 0px'}
+              margin={'0px auto 30px auto'}
+              minHeight="700px"
+            >
+              <div style={{ height: '700px' }}>
                 <ChartLine
                   title={`${v.data?.code ?? 'N/A'}/PLN`}
                   data={chartDataCurrency(v.data?.rates ?? [])}
@@ -80,10 +69,10 @@ export const StockQuotes: React.FC = () => {
                   yStepSize={0.001}
                 />
               </div>
-            )}
-          </Grid>
-        ))}
-      </Grid>
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </>
   );
 };

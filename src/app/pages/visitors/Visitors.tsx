@@ -2,6 +2,7 @@ import { ChartBar } from '@app/charts/ChartBar';
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQuery } from '@app/hooks/useImmediateThrottledQuery';
 import { Grid } from 'najwer23morsels/lib/Grid';
+import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { Select } from 'najwer23morsels/lib/Select';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
@@ -28,7 +29,7 @@ export const Visitors: React.FC = () => {
       retry: 0,
       enabled: true,
     },
-    300,
+    500,
   );
 
   const analytics = result?.data.items ?? [];
@@ -47,8 +48,8 @@ export const Visitors: React.FC = () => {
   }, [analytics]);
 
   const blogViews = useMemo(() => {
-    const resumeItems = analytics.filter((item) => item.path.startsWith('/blog'));
-    return sortByDate(sumByDate(resumeItems));
+    const blogItems = analytics.filter((item) => item.path.startsWith('/blog'));
+    return sortByDate(sumByDate(blogItems));
   }, [analytics]);
 
   const maxViewDay = useMemo(() => {
@@ -73,8 +74,8 @@ export const Visitors: React.FC = () => {
   const [minDate, minViews] = minViewDay;
 
   return (
-    <Grid layout="container" widthMax={'100%'} padding="0 0px 0px 0px">
-      <Grid layout="container" widthMax={'100%'} margin={'0 0 20px 0'}>
+    <Grid layout="container" widthMax={'100%'}>
+      <Grid layout="container" widthMax={'100%'} margin={'0 0 30px 0'}>
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
           Visitors
         </Typography>
@@ -94,35 +95,31 @@ export const Visitors: React.FC = () => {
           tablet: 2,
         }}
       >
-        <Grid layout="container" widthMax={'100%'} margin={'0 0 20px'}>
+        <Grid layout="container" widthMax={'100%'} margin={'0 0 30px'}>
           <Select
             label="Year"
             name={'year'}
             options={Array.from({ length: Math.max(0, Number(currentYear) - START_YEAR + 1) }, (_, i) => {
-              const year = START_YEAR + i;
-              return { value: year.toString(), label: year.toString() };
+              const y = START_YEAR + i;
+              return { value: y.toString(), label: y.toString() };
             })}
-            initialValue={{ value: currentYear, label: currentYear }}
+            initialValue={{ value: year, label: year }}
             onBlur={(_, data) => setYear(data.value)}
           />
         </Grid>
       </Grid>
 
-      {isError && (
-        <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500} margin={'15px 0 0'}>
+      {isLoading && <LoaderDots />}
+
+      {!isLoading && isError && (
+        <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
           No results
         </TextBox>
       )}
 
-      {!isError && (
+      {!isLoading && !isError && (
         <>
-          <Grid
-            margin={'0 0 30px'}
-            layout="container"
-            widthMax={'100%'}
-            minHeight="clamp(100px, 5.09vw + 80.9px, 120px)"
-            loading={isLoading}
-          >
+          <Grid margin={'0 0 30px'} layout="container" widthMax={'100%'}>
             <div>
               <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
                 Yearly Visits:{' '}
@@ -166,28 +163,18 @@ export const Visitors: React.FC = () => {
             </div>
           </Grid>
 
-          <Grid layout="container" widthMax={'100%'} margin="30px auto 50px auto" minHeight="700px" loading={isLoading}>
-            {!isLoading && (
-              <div style={{ height: '700px' }}>
-                <ChartBar title="Daily Visitors Over Time" ySymbol="" data={chartDataVisitors(pageViewsByDate)} />
-              </div>
-            )}
+          <Grid layout="container" widthMax={'100%'} margin="0px auto 30px auto" minHeight="700px">
+            <ChartBar title="Daily Visitors Over Time" ySymbol="" data={chartDataVisitors(pageViewsByDate)} />
           </Grid>
 
-          <Grid layout="container" widthMax={'100%'} margin="30px auto 50px auto" minHeight="700px" loading={isLoading}>
-            {!isLoading && (
-              <div style={{ height: '700px' }}>
-                <ChartBar title="Daily Visitors for /resume" ySymbol="" data={chartDataVisitors(resumeViews)} />
-              </div>
-            )}
+          <Grid layout="container" widthMax={'100%'} margin="0px auto 30px auto" minHeight="700px">
+            <ChartBar title="Daily Visitors for /resume" ySymbol="" data={chartDataVisitors(resumeViews)} />
           </Grid>
 
-          <Grid layout="container" widthMax={'100%'} margin="30px auto 80px auto" minHeight="700px" loading={isLoading}>
-            {!isLoading && (
-              <div style={{ height: '700px' }}>
-                <ChartBar title="Daily Visitors for /blog" ySymbol="" data={chartDataVisitors(blogViews)} />
-              </div>
-            )}
+          <Grid layout="container" widthMax={'100%'} margin="0px auto 30px auto" minHeight="700px">
+            <div style={{ height: '700px' }}>
+              <ChartBar title="Daily Visitors for /blog" ySymbol="" data={chartDataVisitors(blogViews)} />
+            </div>
           </Grid>
         </>
       )}

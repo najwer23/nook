@@ -9,6 +9,7 @@ export const chartDataBMI = (arr: { date: string; weight: string }[], title: str
       month: 'short',
     }),
   );
+
   let labelY = arr.map((x) => Number(x.weight) / 4);
 
   return {
