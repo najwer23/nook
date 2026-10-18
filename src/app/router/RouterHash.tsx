@@ -1,12 +1,12 @@
-import { ForgotPassword } from '@app/auth/forgotPassword/ForgotPassword';
-import { ForgotPasswordOtp } from '@app/auth/forgotPasswordOtp/ForgotPasswordOtp';
+import { ForgotPassword } from '@app/auth/forgotpassword/ForgotPassword';
+import { ForgotPasswordOtp } from '@app/auth/forgotpasswordotp/ForgotPasswordOtp';
 import { Login } from '@app/auth/login/Login';
 import { Logout } from '@app/auth/logout/Logout';
 import { SignUp } from '@app/auth/signup/SignUp';
 import { Layout } from '@app/layout/Layout';
-import { BlogPostCreator } from '@app/pages/blog-post-creator/BlogPostCreator';
+import { BlogPostCreator } from '@app/pages/blogpostcreator/BlogPostCreator';
 import { ErrorNotFound } from '@app/pages/error/ErrorNotFound';
-import { StockQuotes } from '@app/pages/stock-quotes/StockQuotes';
+import { StockQuotes } from '@app/pages/stockquotes/StockQuotes';
 import { Visitors } from '@app/pages/visitors/Visitors';
 import { Weather } from '@app/pages/weather/Weather';
 import { Weight } from '@app/pages/weight/Weight';

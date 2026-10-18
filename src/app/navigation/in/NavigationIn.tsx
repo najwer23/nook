@@ -3,7 +3,7 @@ import { NavigationDashboard } from 'najwer23morsels/lib/NavigationDashboard';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { useNavigate } from 'react-router-dom';
 import { NavigationInAside } from './NavigationInAside';
-import { NavigationInMobile } from './NavigationMobile';
+import { NavigationInMobile } from './NavigationInMobile';
 
 interface Props {
   outlet?: React.ReactNode;

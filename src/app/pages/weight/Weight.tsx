@@ -8,8 +8,8 @@ import { Select } from 'najwer23morsels/lib/Select';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useState } from 'react';
-import { dataForLineChartBMI } from './dataForLineChartBMI';
-import { dataForLineChartWeight } from './dataForLineChartWeight';
+import { chartDataBMI } from './chartData/chartDataBMI';
+import { chartDataWeight } from './chartData/chartDataWeight';
 import { queryDashboardWeight } from './Weight.query';
 
 // import styles from './Home.module.css';
@@ -115,7 +115,7 @@ export const Weight = () => {
                   >
                     <ChartLine
                       title={'Weight'}
-                      data={dataForLineChartWeight(resultQueryDashboardWeight.data.weights, 'Weight')}
+                      data={chartDataWeight(resultQueryDashboardWeight.data.weights, 'Weight')}
                       ySymbol={' kg'}
                     />
                   </div>
@@ -134,7 +134,7 @@ export const Weight = () => {
                   >
                     <ChartLine
                       title={'BMI'}
-                      data={dataForLineChartBMI(resultQueryDashboardWeight.data.weights, 'BMI')}
+                      data={chartDataBMI(resultQueryDashboardWeight.data.weights, 'BMI')}
                       ySymbol={' kg/m²'}
                     />
                   </div>

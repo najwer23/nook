@@ -31,13 +31,3 @@ export const sumByDate = (
 
 export const sortByDate = (totals: Record<string, number>) =>
   Object.entries(totals).sort(([a], [b]) => a.localeCompare(b));
-
-export const buildChartData = (entries: [string, number][]) => ({
-  labels: entries.map(([date]) => date),
-  datasets: [
-    {
-      label: 'Visitors',
-      data: entries.map(([, value]) => value),
-    },
-  ],
-});

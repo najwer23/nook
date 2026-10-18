@@ -1,6 +1,6 @@
 import { configApiOrigin } from '@app/config/configApiOrigin';
 import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
-import type { Forecast } from './chartData/ChartData.types';
+import type { Forecast } from './chartData/chartData.types';
 
 export interface ForecastCurrent extends Omit<Forecast, 'pop'> {
   sunrise: number;

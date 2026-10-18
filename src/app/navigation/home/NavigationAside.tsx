@@ -1,7 +1,8 @@
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { isExternalLink, navigationLinkSections } from './NavigationLinks.const';
+import { isExternalLink } from '../Naviagtion.utils';
+import { navigationHomeLinkSections } from './NavigationLinks.const';
 
 export const NavigationAside: React.FC = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export const NavigationAside: React.FC = () => {
 
   return (
     <Grid layout="container">
-      {navigationLinkSections.map(({ title, links }) => (
+      {navigationHomeLinkSections.map(({ title, links }) => (
         <Grid key={title} layout="container" margin="0 0 24px 0">
           <Grid layout="container" margin="0 0 8px 0">
             <TextBox tag="p" desktopSize={14} mobileSize={14} fontWeight={600} color="black">

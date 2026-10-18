@@ -1,4 +1,4 @@
-export const dataForLineChartWeight = (arr: { date: string; weight: string }[], title: string) => {
+export const chartDataWeight = (arr: { date: string; weight: string }[], title: string) => {
   if (arr == null) {
     return null;
   }

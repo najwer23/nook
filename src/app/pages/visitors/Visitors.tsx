@@ -6,8 +6,9 @@ import { Select } from 'najwer23morsels/lib/Select';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import React, { useMemo, useState } from 'react';
+import { chartDataVisitors } from './chartData/chartDataVisitors';
 import { queryVisitorsHits } from './Visitors.query';
-import { buildChartData, sortByDate, sumByDate, sumByYear } from './Visitors.utils';
+import { sortByDate, sumByDate, sumByYear } from './Visitors.utils';
 
 const START_YEAR = 2026;
 
@@ -168,7 +169,7 @@ export const Visitors: React.FC = () => {
           <Grid layout="container" widthMax={'100%'} margin="30px auto 50px auto" minHeight="700px" loading={isLoading}>
             {!isLoading && (
               <div style={{ height: '700px' }}>
-                <ChartBar title="Daily Visitors Over Time" ySymbol="" data={buildChartData(pageViewsByDate)} />
+                <ChartBar title="Daily Visitors Over Time" ySymbol="" data={chartDataVisitors(pageViewsByDate)} />
               </div>
             )}
           </Grid>
@@ -176,7 +177,7 @@ export const Visitors: React.FC = () => {
           <Grid layout="container" widthMax={'100%'} margin="30px auto 50px auto" minHeight="700px" loading={isLoading}>
             {!isLoading && (
               <div style={{ height: '700px' }}>
-                <ChartBar title="Daily Visitors for /resume" ySymbol="" data={buildChartData(resumeViews)} />
+                <ChartBar title="Daily Visitors for /resume" ySymbol="" data={chartDataVisitors(resumeViews)} />
               </div>
             )}
           </Grid>
@@ -184,7 +185,7 @@ export const Visitors: React.FC = () => {
           <Grid layout="container" widthMax={'100%'} margin="30px auto 80px auto" minHeight="700px" loading={isLoading}>
             {!isLoading && (
               <div style={{ height: '700px' }}>
-                <ChartBar title="Daily Visitors for /blog" ySymbol="" data={buildChartData(blogViews)} />
+                <ChartBar title="Daily Visitors for /blog" ySymbol="" data={chartDataVisitors(blogViews)} />
               </div>
             )}
           </Grid>

@@ -4,7 +4,7 @@ import { useImmediateThrottledQueries } from '@app/hooks/useImmediateThrottledQu
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { chartDataCurrency } from './chartDataCurrency';
+import { chartDataCurrency } from './chartData/chartDataCurrency';
 import { queryStockQuotes } from './StockQuotes.query';
 
 export const StockQuotes: React.FC = () => {

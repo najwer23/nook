@@ -1,9 +1,5 @@
-export type NavigationLink = { to: string; label: string };
-export type NavigationLinkSection = { title: string; links: NavigationLink[] };
-
-export const isExternalLink = (to: string) => /^https?:\/\//i.test(to);
-
-const byLabel = (a: NavigationLink, b: NavigationLink) => a.label.localeCompare(b.label);
+import type { NavigationLinkSection } from '../Naviagtion.types';
+import { navigationLinkSectionsSort } from '../Naviagtion.utils';
 
 const sections: NavigationLinkSection[] = [
   {
@@ -46,7 +42,4 @@ const sections: NavigationLinkSection[] = [
   },
 ];
 
-export const navigationLinkSections: NavigationLinkSection[] = sections.map((section) => ({
-  ...section,
-  links: [...section.links].sort(byLabel),
-}));
+export const navigationHomeLinkSections: NavigationLinkSection[] = navigationLinkSectionsSort(sections);
