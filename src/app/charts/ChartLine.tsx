@@ -47,6 +47,7 @@ export const ChartLine = ({ title, ySymbol = '', data, yStepSize = 1 }: Props) =
             weight: 'normal',
           },
           color: 'black',
+          filter: (item) => !item.text.startsWith('_'),
         },
       },
       title: {

@@ -2,7 +2,7 @@ import { ChartBar } from '@app/charts/ChartBar';
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQuery } from '@app/hooks/useImmediateThrottledQuery';
 import { Grid } from 'najwer23morsels/lib/Grid';
-import { Select } from 'najwer23morsels/lib/select';
+import { Select } from 'najwer23morsels/lib/Select';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import React, { useMemo, useState } from 'react';

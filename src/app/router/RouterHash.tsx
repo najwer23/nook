@@ -9,6 +9,7 @@ import { ErrorNotFound } from '@app/pages/error/ErrorNotFound';
 import { StockQuotes } from '@app/pages/stock-quotes/StockQuotes';
 import { Visitors } from '@app/pages/visitors/Visitors';
 import { Weather } from '@app/pages/weather/Weather';
+import { Weight } from '@app/pages/weight/Weight';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
 import { Home } from '../pages/home/Home';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -90,7 +91,7 @@ export const router = createHashRouter([
     children: [
       {
         path: '/in/weight',
-        element: <div>weight</div>,
+        element: <Weight />,
       },
       {
         path: '/in/dashboard',
