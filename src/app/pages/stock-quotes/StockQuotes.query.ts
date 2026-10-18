@@ -1,17 +1,24 @@
-import { executeFetch } from '@app/config/configFetch';
+import { executeFetchExternal } from '@app/config/configFetch';
 
-type QueryStockQuotes = {
+export interface StockQuotesRate {
+  no: string;
+  effectiveDate: string;
+  bid: number;
+  ask: number;
+}
+
+export interface StockQuotesResponse {
+  table: string;
+  currency: string;
   code: string;
-  rates: {
-    ask: number;
-    bid: number;
-    effectiveDate: string;
-  }[];
-};
+  rates: StockQuotesRate[];
+}
 
-export type StockQuotesRates = QueryStockQuotes['rates'];
+export type StockQuotesRates = StockQuotesResponse['rates'];
 
-export const queryStockQuotes = async (currency: string): Promise<QueryStockQuotes> => {
-  const url = new URL(`https://api.nbp.pl/api/exchangerates/rates/c/${currency}/last/255/?format=json`);
-  return await executeFetch(url);
+export const queryStockQuotes = (currency: string): Promise<StockQuotesResponse> => {
+  const endpointUrl = new URL(`https://api.nbp.pl/api/exchangerates/rates/c/${encodeURIComponent(currency)}/last/255/`);
+  endpointUrl.searchParams.set('format', 'json');
+
+  return executeFetchExternal<StockQuotesResponse>(endpointUrl);
 };

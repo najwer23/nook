@@ -1,22 +1,15 @@
 import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, type ResponseBase } from '@app/config/configFetch';
+import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
 import { storageItemRemove } from '@app/storage/storageItemRemove';
 
-type QueryProps = {
-  data?: {};
-} & ResponseBase;
+export type LogoutResponse = ResponseBase;
 
-export const queryLogout = async (): Promise<QueryProps> => {
-  const url = new URL(`${configApiOrigin()}/auth/jwt/logout`);
-  const options = { ...configFetch({ method: 'POST' }) };
-  const response = await fetch(url, options);
-  const data = await response.json();
+export const queryLogout = async (): Promise<LogoutResponse> => {
+  const endpointUrl = new URL(`${configApiOrigin()}/auth/jwt/logout`);
 
-  if (data.error) {
-    throw Error(data.message);
+  try {
+    return await executeFetch<LogoutResponse>(endpointUrl, configFetch({ method: 'POST' }));
+  } finally {
+    storageItemRemove(sessionStorage, 'tokenJWTaccess');
   }
-
-  storageItemRemove(sessionStorage, 'tokenJWTaccess');
-
-  return data;
 };

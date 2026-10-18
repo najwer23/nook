@@ -1,20 +1,13 @@
 import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, type ResponseBase } from '@app/config/configFetch';
+import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
 
-type QueryProps = {
-  data?: {};
-} & ResponseBase;
+export type ForgotPasswordPayload = Record<string, string> & {
+  appName: string;
+};
 
-export const queryForgotPassword = async (body: Record<string, string>): Promise<QueryProps> => {
-  const url = new URL(`${configApiOrigin()}/auth/forgot-password1`);
-  const options = { ...configFetch({ method: 'POST', body: body }) };
+export type ForgotPasswordResponse = ResponseBase;
 
-  const response = await fetch(url, options);
-  const data = await response.json();
-
-  if (data.error) {
-    throw Error(data.message);
-  }
-
-  return data;
+export const queryForgotPassword = (payload: ForgotPasswordPayload): Promise<ForgotPasswordResponse> => {
+  const endpointUrl = new URL(`${configApiOrigin()}/auth/forgot-password1`);
+  return executeFetch<ForgotPasswordResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
 };

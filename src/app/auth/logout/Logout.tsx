@@ -15,11 +15,9 @@ export const Logout = () => {
 
   const { mutate } = useMutation({
     mutationFn: queryLogout,
-    onSuccess: (data) => {
-      if (data?.code === 'OK') {
-        setAuth(false);
-        navigate('/auth/login');
-      }
+    onSettled: () => {
+      setAuth(false);
+      navigate('/auth/login');
     },
   });
 

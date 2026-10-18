@@ -1,20 +1,11 @@
 import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, type ResponseBase } from '@app/config/configFetch';
+import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
 
-type QueryProps = {
-  data?: {};
-} & ResponseBase;
+export type SignUpPayload = Record<string, string>;
 
-export const querySignUp = async (body: Record<string, string>): Promise<QueryProps> => {
-  const url = new URL(`${configApiOrigin()}/auth/sign-up`);
-  const options = { ...configFetch({ method: 'POST', body: body }) };
+export type SignUpResponse = ResponseBase;
 
-  const response = await fetch(url, options);
-  const data = await response.json();
-
-  if (data.error) {
-    throw Error(data.message);
-  }
-
-  return data;
+export const querySignUp = (payload: SignUpPayload): Promise<SignUpResponse> => {
+  const endpointUrl = new URL(`${configApiOrigin()}/auth/sign-up`);
+  return executeFetch<SignUpResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
 };

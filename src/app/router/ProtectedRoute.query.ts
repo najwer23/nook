@@ -1,8 +1,9 @@
 import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '../config/configFetch';
+import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
 
-export const queryCheckAccess = async (): Promise<ResponseBase> => {
-  const url = new URL(`${configApiOrigin()}/auth/jwt/check-access`);
-  const options = { ...configFetch({ method: 'POST' }) };
-  return await executeFetch(url, options);
+export type CheckAccessResponse = ResponseBase;
+
+export const queryCheckAccess = (): Promise<CheckAccessResponse> => {
+  const endpointUrl = new URL(`${configApiOrigin()}/auth/jwt/check-access`);
+  return executeFetch<CheckAccessResponse>(endpointUrl, configFetch({ method: 'POST' }));
 };

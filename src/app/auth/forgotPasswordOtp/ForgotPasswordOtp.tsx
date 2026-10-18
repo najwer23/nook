@@ -12,7 +12,7 @@ export const ForgotPasswordOtp = () => {
   const navigate = useNavigate();
 
   const { mutate, isPending, isError, data, error } = useMutation({
-    mutationKey: ['queryLogin', 'queryLogin'],
+    mutationKey: ['forgotPasswordOtp', 'forgotPasswordOtp'],
     mutationFn: queryForgotPasswordOtp,
   });
 
