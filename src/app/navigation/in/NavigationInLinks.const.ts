@@ -9,7 +9,7 @@ const sections: NavigationLinkSection[] = [
       { to: '/in/weather', label: 'Weather' },
       { to: '/in/stock-quotes', label: 'Stock Quotes' },
       { to: '/in/visitors', label: 'Visitors' },
-      { to: '/in/blog-post-creator', label: 'Blog post creator' },
+      { to: '/in/blog-post-creator', label: 'Blog Post Creator' },
       { to: '/in/weight', label: 'Weight' },
     ],
   },
