@@ -1,11 +1,12 @@
 import { Button } from 'najwer23morsels/lib/Button';
+import { ButtonCopy } from 'najwer23morsels/lib/ButtonCopy';
 import { Dialog } from 'najwer23morsels/lib/Dialog';
 import type { FormType } from 'najwer23morsels/lib/Form';
 import { Form } from 'najwer23morsels/lib/Form';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EMPTY_POST } from './Post.const';
 import { usePostStore } from './Post.store';
 import type { PostJson } from './Post.types';
@@ -18,18 +19,10 @@ export const PostDialogImport: React.FC<{}> = () => {
 
   const [jsonText, setJsonText] = useState(JSON.stringify(postJson, null, 2));
   const [resetKey, setResetKey] = useState(0);
-  const [copied, setCopied] = useState(false);
-  const copiedTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setJsonText(JSON.stringify(postJson, null, 2));
   }, [postJson]);
-
-  useEffect(() => {
-    return () => {
-      if (copiedTimeout.current) clearTimeout(copiedTimeout.current);
-    };
-  }, []);
 
   const handleOnSubmit = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
@@ -41,18 +34,6 @@ export const PostDialogImport: React.FC<{}> = () => {
   const handleFreshStart = () => {
     setJsonText(JSON.stringify(EMPTY_POST, null, 2));
     setResetKey((k) => k + 1); // remount Input so it picks up the new value and clears old errors
-  };
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(jsonText);
-      setCopied(true);
-
-      if (copiedTimeout.current) clearTimeout(copiedTimeout.current);
-      copiedTimeout.current = setTimeout(() => setCopied(false), 1500);
-    } catch (error) {
-      console.error('Copy failed', error);
-    }
   };
 
   return (
@@ -111,19 +92,11 @@ export const PostDialogImport: React.FC<{}> = () => {
                 </TextBox>
               </Button>
 
-              <Button
-                type="button"
-                height={'40px'}
-                width={'90px'}
-                padding={0}
-                backgroundColor="#1e90ff"
-                backgroundColorDisabled="grey"
-                onClick={handleCopy}
-              >
+              <ButtonCopy height={'40px'} width={'60px'} textToCopy={jsonText}>
                 <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                  {copied ? 'Copied!' : 'Copy'}
+                  Copy
                 </TextBox>
-              </Button>
+              </ButtonCopy>
             </Grid>
 
             <Button
