@@ -38,6 +38,6 @@ run = "yarn start"
 description = "Run tests with Vitest"
 run = "yarn test"
 
-[tasks.sort]
-description = "Sort package.json keys"
-run = "yarn sort"
+[tasks.plop]
+description = "Generate a page, then format"
+run = "yarn plop"
