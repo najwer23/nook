@@ -62,7 +62,7 @@ export const BlogPostCreator = () => {
 
       <Grid layout="container" widthMin="100%" widthMax={'100%'} margin="0 0 40px">
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
-          Blog post creator
+          Blog Post Creator
         </Typography>
 
         <Grid
