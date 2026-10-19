@@ -1,0 +1,12 @@
+@layer Layout {
+  .repRow {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .repsDone > * {
+    height: 100px;
+    width: 100%;
+  }
+}

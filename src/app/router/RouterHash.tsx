@@ -6,6 +6,7 @@ import { SignUp } from '@app/auth/signup/SignUp';
 import { Layout } from '@app/layout/Layout';
 import { BlogPostCreator } from '@app/pages/blogpostcreator/BlogPostCreator';
 import { ErrorNotFound } from '@app/pages/error/ErrorNotFound';
+import { Ex } from '@app/pages/ex/Ex';
 import { StockQuotes } from '@app/pages/stockquotes/StockQuotes';
 import { Visitors } from '@app/pages/visitors/Visitors';
 import { Weather } from '@app/pages/weather/Weather';
@@ -112,6 +113,22 @@ export const router = createHashRouter([
       {
         path: '/in/blog-post-creator',
         element: <BlogPostCreator />,
+      },
+      {
+        path: '/in/push-ups',
+        element: <Ex workoutName={'Push-ups'} key="Push-ups" />,
+      },
+      {
+        path: '/in/squats',
+        element: <Ex workoutName={'Squats'} key="Squats" />,
+      },
+      {
+        path: '/in/sit-ups',
+        element: <Ex workoutName={'Sit-ups'} key="Sit-ups" />,
+      },
+      {
+        path: '/in/pull-ups',
+        element: <Ex workoutName={'Pull-ups'} key="Pull-ups" />,
       },
       {
         path: '*',
