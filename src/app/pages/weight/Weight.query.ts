@@ -6,19 +6,28 @@ export interface WeightEntry {
   weight: string;
 }
 
-export interface DashboardWeightPayload {
+export interface WeightGetStatsPayload {
   year: string;
 }
 
-export interface DashboardWeightResponse extends ResponseBase {
+export interface WeightGetStatsResponse extends ResponseBase {
   data: {
     weights: WeightEntry[];
   };
 }
 
-export const queryDashboardWeight = (year: string): Promise<DashboardWeightResponse> => {
+export const queryWeightGetStats = (year: string): Promise<WeightGetStatsResponse> => {
   const endpointUrl = new URL(`${configApiOrigin()}/gym/weight/stats`);
-  const payload: DashboardWeightPayload = { year };
+  const payload: WeightGetStatsPayload = { year };
 
-  return executeFetch<DashboardWeightResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
+  return executeFetch<WeightGetStatsResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
+};
+
+export type WeighCreatePayload = Record<string, string> & {};
+
+export type WeightCreateResponse = ResponseBase;
+
+export const queryWeightCreate = (payload: WeighCreatePayload): Promise<WeightCreateResponse> => {
+  const endpointUrl = new URL(`${configApiOrigin()}/gym/weight/create`);
+  return executeFetch<WeightCreateResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
 };

@@ -68,7 +68,7 @@ export const PostDialogImport: React.FC<{}> = () => {
             padding={'0'}
             justifyContent="space-between"
             alignItems="right"
-            margin={'30px 0 0 0'}
+            margin={'20px 0 0 0'}
           >
             <Grid
               layout="flex"

@@ -156,7 +156,7 @@ export const PostDialogEdit: React.FC<{}> = () => {
               padding={'0'}
               justifyContent="flex-end"
               alignItems="right"
-              margin={'30px 0 0 0'}
+              margin={'20px 0 0 0'}
             >
               <Button
                 type="submit"

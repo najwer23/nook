@@ -60,7 +60,7 @@ export const BlogPostCreator = () => {
       <PostDialogImport />
       <PostDialogEdit />
 
-      <Grid layout="container" widthMin="100%" widthMax={'100%'} margin="0 0 40px">
+      <Grid layout="container" widthMin="100%" widthMax={'100%'} margin="0 0 30px">
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
           Blog Post Creator
         </Typography>
@@ -116,7 +116,7 @@ export const BlogPostCreator = () => {
         </Grid>
       </Grid>
 
-      <Grid layout="flex" justifyContent="flex-start" alignItems="flex-start" margin={'0 0 40px'} flexWrap="wrap">
+      <Grid layout="flex" justifyContent="flex-start" alignItems="flex-start" margin={'0 0 30px'} flexWrap="wrap">
         <Grid layout="container" margin={0} widthMin={'100%'}>
           {postJson?.sections?.map((section, index) => (
             <Grid
