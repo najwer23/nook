@@ -7,6 +7,7 @@ import { useWindowSize } from 'najwer23morsels/lib/Hooks';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { Select } from 'najwer23morsels/lib/Select';
 import { SliderScroll } from 'najwer23morsels/lib/SliderScroll';
+import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useMemo, useState } from 'react';
 import { chartDataPressure } from './chartData/chartDataPressure';
@@ -30,7 +31,7 @@ export const Weather: React.FC = () => {
   const lat = coords.value.split(':')[0];
   const lon = coords.value.split(':')[1];
 
-  const { result, isLoading } = useImmediateThrottledQuery(
+  const { result, isLoading, isError } = useImmediateThrottledQuery(
     {
       queryKey: ['queryWeatherCoords', 'queryWeatherCoords' + coords.value],
       queryFn: () => queryWeatherCoords(lat, lon),
@@ -58,8 +59,6 @@ export const Weather: React.FC = () => {
   const weather8Days = result?.resOpenWeatherMap?.daily ?? [];
   const weatherHourly = result?.resOpenWeatherMap?.hourly ?? [];
   const weatherCurrent = result?.resOpenWeatherMap?.current;
-
-  const isNotReady = isLoading || !weatherCurrent?.weather || !weather8Days.length;
 
   return (
     <Grid layout="container" widthMax={'100%'}>
@@ -90,9 +89,15 @@ export const Weather: React.FC = () => {
         </Grid>
       </Grid>
 
-      {isNotReady && <LoaderDots />}
+      {isLoading && <LoaderDots />}
 
-      {!isNotReady && weatherCurrent?.weather && (
+      {!isLoading && isError && (
+        <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
+          No results
+        </TextBox>
+      )}
+
+      {!isLoading && weatherCurrent?.weather && (
         <>
           <Grid layout="container" widthMax={'100%'} padding={width <= 767.98 ? 0 : '0 0px'} minHeight="415px">
             <div className={styles.weatherWrapper}>
