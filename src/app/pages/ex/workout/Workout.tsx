@@ -153,7 +153,7 @@ export const Workout: React.FC<{
                       style={{ width: 'calc(100% - 70px)' }}
                       defaultValue={String(v)}
                       label={`Repetition: ${index + 1}`}
-                      type="text"
+                      type="number"
                       name={`reps${index}`}
                       disabled={repCurrent != index}
                       validatorOptions={[
