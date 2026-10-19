@@ -18,6 +18,14 @@ html {
   }
 }
 
+/* PWA, disable pull-to-refresh */
+@media (display-mode: standalone) {
+  html,
+  body {
+    overscroll-behavior-y: none;
+  }
+}
+
 .n23mTextBoxLink {
   --n23mTextBoxColor: var(--linkColor);
   --n23mTextBoxColorHover: var(--linkColorHover);
