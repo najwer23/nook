@@ -6,6 +6,7 @@ import { Form } from 'najwer23morsels/lib/Form';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { Typography } from 'najwer23morsels/lib/Typography';
 import { usePostStore } from './Post.store';
 
 export const PostDialogEdit: React.FC<{}> = () => {
@@ -73,10 +74,10 @@ export const PostDialogEdit: React.FC<{}> = () => {
   return (
     <>
       <Dialog widthMax={'900px'} open={sectionIdDialogOpen} onCancel={() => closeSectionIdDialog()}>
-        <Grid layout="container" padding="0px 30px 30px 30px" margin="auto" widthMin={'min(800px, calc(100vw - 25px))'}>
-          <TextBox mobileSize={20} desktopSize={20} margin={'0 0 30px'} tag="h3" fontWeight={700}>
+        <Grid layout="container" widthMin={'min(800px, calc(100vw - 25px))'} padding="0px 30px 30px 30px" margin="auto">
+          <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
             {isDraft ? 'New section' : `Editing section ${sectionId}`}
-          </TextBox>
+          </Typography>
 
           <Form
             key={`${isDraft ? 'new' : sectionId}-${section?.name}`}

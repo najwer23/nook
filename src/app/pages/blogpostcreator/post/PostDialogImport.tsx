@@ -6,6 +6,7 @@ import { Form } from 'najwer23morsels/lib/Form';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { Typography } from 'najwer23morsels/lib/Typography';
 import { useEffect, useState } from 'react';
 import { EMPTY_POST } from './Post.const';
 import { usePostStore } from './Post.store';
@@ -39,9 +40,9 @@ export const PostDialogImport: React.FC<{}> = () => {
   return (
     <Dialog widthMax={'900px'} open={importDialogOpen} onCancel={() => closeImportDialog()}>
       <Grid layout="container" padding="0px 30px 30px 30px" margin="auto" widthMin={'min(800px, calc(100vw - 25px))'}>
-        <TextBox mobileSize={20} desktopSize={20} margin={'0 0 30px'} tag="h3" fontWeight={700}>
+        <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
           Edit JSON
-        </TextBox>
+        </Typography>
 
         <Form
           onSubmit={handleOnSubmit}

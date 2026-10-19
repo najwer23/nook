@@ -20,18 +20,18 @@ export const NavigationInMobile: React.FC = () => {
         </Grid>
         <TextBox
           tag="a"
-          href="/auth/login"
+          href="/logout"
           desktopSize={28}
           mobileSize={28}
-          fontWeight={isActive('/auth/login') ? 600 : 400}
-          color={isActive('/auth/login') ? 'grey' : 'var(--n23mTextBoxColor)'}
-          colorHover={isActive('/auth/login') ? 'grey' : 'var(--n23mTextBoxColor)'}
+          fontWeight={isActive('/logout') ? 600 : 400}
+          color={isActive('/logout') ? 'grey' : 'var(--n23mTextBoxColor)'}
+          colorHover={isActive('/logout') ? 'grey' : 'var(--n23mTextBoxColor)'}
           onClick={(e: React.MouseEvent) => {
             e.preventDefault();
-            navigate('/auth/login');
+            navigate('/logout');
           }}
         >
-          Login
+          Logout
         </TextBox>
       </Grid>
 
