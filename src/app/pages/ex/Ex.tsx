@@ -5,9 +5,10 @@ import { Button } from 'najwer23morsels/lib/Button';
 import { Form, type FormType } from 'najwer23morsels/lib/Form';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
-import { Loader } from 'najwer23morsels/lib/Loader';
+import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { Typography } from 'najwer23morsels/lib/Typography';
+import React, { useLayoutEffect, useMemo, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import styles from './Ex.module.css';
 import { queryExCreate, queryExDictionary, queryExLevel } from './Ex.query';
@@ -16,20 +17,24 @@ import { Timer } from './timer/Timer';
 export const Ex: React.FC<{
   workoutName: string;
 }> = ({ workoutName }) => {
+  const navigate = useNavigate();
+
   const [repCurrent, setRepCurrent] = useState(0);
   const [repCurrentTimer, setRepCurrentTimer] = useState(0);
   const [repCurrentChange, setRepCurrentChange] = useState('stop');
-  const navigate = useNavigate();
-  const [isLayoutLoading, setIsLayoutLoading] = useState(true);
 
-  useDocumentTitle(`${workoutName} | GYM`);
+  useDocumentTitle(`${workoutName} | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
   const { mutate, isPending, isError, data, error } = useMutation({
     mutationKey: ['queryExCreate', workoutName],
     mutationFn: queryExCreate,
   });
 
-  const { result: resultQueryExDictionary, isLoading: isLoadingQueryExDictionary } = useImmediateThrottledQuery(
+  const {
+    result: resultQueryExDictionary,
+    isLoading: isLoadingQueryExDictionary,
+    isError: isErrorQueryExDictionary,
+  } = useImmediateThrottledQuery(
     {
       queryKey: ['queryExDictionary', workoutName],
       queryFn: () => queryExDictionary(workoutName),
@@ -57,54 +62,50 @@ export const Ex: React.FC<{
     500,
   );
 
+  const isLoading = isLoadingQueryExDictionary || isLoadingQueryExLevel;
+  const isQueryError = isErrorQueryExDictionary || isErrorQueryExLevel;
+
+  const exercises = resultQueryExDictionary?.ex ?? [];
+  const levelData = resultQueryExLevel?.data;
+
+  const needsTest = !!levelData && levelData.level === '-1' && !levelData.repsMax;
+
   useLayoutEffect(() => {
-    const navObj = {
-      pathname: '/in/test',
-      search: `?${createSearchParams({
-        workoutName,
-      })}`,
-    };
-
-    if (resultQueryExLevel) {
-      if (resultQueryExLevel.data.level == '-1' && !resultQueryExLevel.data.repsMax) {
-        navigate(navObj);
-      } else {
-        setIsLayoutLoading(false);
-      }
+    if (needsTest || isErrorQueryExLevel) {
+      navigate({
+        pathname: '/in/test',
+        search: `?${createSearchParams({ workoutName })}`,
+      });
     }
-
-    if (isErrorQueryExLevel) {
-      navigate(navObj);
-    }
-  }, [resultQueryExLevel, isErrorQueryExLevel]);
+  }, [needsTest, isErrorQueryExLevel]);
 
   const workoutLevel = useMemo(() => {
-    if (!resultQueryExLevel?.data || !resultQueryExDictionary) return 0;
+    if (!levelData || exercises.length === 0) return 0;
 
-    if (resultQueryExLevel?.data.level === '-1') {
-      if (resultQueryExLevel?.data.repsMax) {
-        for (let i = 0; i < resultQueryExDictionary?.ex.length; i++) {
-          if (
-            resultQueryExDictionary?.ex[i].max &&
-            Number(resultQueryExLevel?.data.repsMax) <= Number(resultQueryExDictionary?.ex[i].max)
-          ) {
+    if (levelData.level === '-1') {
+      if (levelData.repsMax) {
+        for (let i = 0; i < exercises.length; i++) {
+          if (exercises[i].max && Number(levelData.repsMax) <= Number(exercises[i].max)) {
             return i;
           }
         }
       }
       return 0;
-    } else {
-      return Math.min(resultQueryExDictionary.ex.length - 1, Number(resultQueryExLevel?.data.level));
     }
-  }, [resultQueryExLevel, resultQueryExDictionary?.ex]);
+
+    return Math.min(exercises.length - 1, Number(levelData.level));
+  }, [levelData, exercises]);
+
+  const currentExercise = exercises[workoutLevel];
+  const currentReps = currentExercise?.reps ?? [];
+  const currentRest = currentExercise?.rest ?? 0;
 
   const handleOnSubmit = async (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
-    let dictionarySumReps =
-      resultQueryExDictionary?.ex[workoutLevel].reps.reduce((a, b) => Number(a) + Number(b), 0) ?? 0;
-    let currentSumReps = Object.values(dataForm).reduce((a, b) => Number(a) + Number(b), 0);
+    const dictionarySumReps = currentReps.reduce((a, b) => Number(a) + Number(b), 0);
+    const currentSumReps = Object.values(dataForm).reduce((a, b) => Number(a) + Number(b), 0);
 
     mutate({
       level: currentSumReps >= dictionarySumReps ? workoutLevel + 1 : workoutLevel,
@@ -115,20 +116,28 @@ export const Ex: React.FC<{
   };
 
   return (
-    <Grid layout="container" widthMax={'1400px'} padding={'clamp(40px, 8vw, 60px) 20px 60px 20px'}>
-      <TextBox tag="h2" desktopSize={50} mobileSize={40} fontWeight={500} margin={'0 0 30px 0'}>
-        {workoutName}
-      </TextBox>
-      {(isLoadingQueryExDictionary || isLoadingQueryExLevel) && (
-        <Grid layout="container" widthMax={'1400px'} padding={'0px 0px 60px 0px'}>
-          <Loader minHeight="400px" />
-        </Grid>
+    <Grid layout="container" widthMax={'1400px'}>
+      <Grid layout="container" widthMax={'100%'} margin={'0 0 30px 0'}>
+        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+          {workoutName}
+        </Typography>
+      </Grid>
+
+      {isLoading && <LoaderDots />}
+
+      {!isLoading && isQueryError && (
+        <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
+          No results
+        </TextBox>
       )}
-      {!isLoadingQueryExDictionary && !isLoadingQueryExLevel && !isLayoutLoading && (
+
+      {!isLoading && !isQueryError && !needsTest && (
         <>
-          <TextBox tag="h3" desktopSize={14} mobileSize={14} fontWeight={500} margin={'0 0 40px 0'}>
-            level: {workoutLevel}
-          </TextBox>
+          <Grid margin={'0 0 30px'} layout="container" widthMax={'100%'}>
+            <Typography appearance="light" variant="subheading" style={{ margin: 0 }}>
+              Level: <b>{workoutLevel}</b>
+            </Typography>
+          </Grid>
 
           <Grid
             layout="columns"
@@ -146,7 +155,7 @@ export const Ex: React.FC<{
                 errorMsg={error?.message}
                 successMsg={data?.message}
               >
-                {resultQueryExDictionary?.ex[workoutLevel]?.reps.map((v, index) => (
+                {currentReps.map((v, index) => (
                   <div key={index} className={styles.repRow}>
                     <Input
                       style={{ width: 'calc(100% - 70px)' }}
@@ -197,10 +206,10 @@ export const Ex: React.FC<{
             </div>
             <div>
               <Timer
-                time={resultQueryExDictionary?.ex[workoutLevel]?.rest ?? 0}
+                time={currentRest}
                 repCurrent={repCurrentTimer}
                 repCurrentChange={repCurrentChange}
-                forceStop={repCurrent > (resultQueryExDictionary?.ex[workoutLevel]?.reps.length ?? 0) - 1}
+                forceStop={repCurrent > currentReps.length - 1}
               />
               <div className={styles.repsDone}>
                 <Button
@@ -212,7 +221,7 @@ export const Ex: React.FC<{
                   type="button"
                   height={'100px'}
                   width={'100%'}
-                  backgroundColor="	#9dae11"
+                  backgroundColor="#9dae11"
                   backgroundColorDisabled="grey"
                 >
                   <TextBox tag="span" desktopSize={30} mobileSize={30} fontWeight={600} color="white">
