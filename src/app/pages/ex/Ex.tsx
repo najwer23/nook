@@ -3,12 +3,13 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import React, { useState } from 'react';
+import { Stats } from './stats/Stats';
 import { Workout } from './workout/Workout';
 
 export const Ex: React.FC<{
   workoutName: string;
 }> = ({ workoutName }) => {
-  const [selecteTab, setSelectedTab] = useState<'workout' | 'chart' | 'test'>('workout');
+  const [selecteTab, setSelectedTab] = useState<'workout' | 'stats'>('workout');
 
   return (
     <Grid layout="container" widthMax={'1400px'}>
@@ -41,31 +42,19 @@ export const Ex: React.FC<{
             height="40px"
             width="100px"
             backgroundColor="orange"
-            onClick={() => setSelectedTab('chart')}
+            onClick={() => setSelectedTab('stats')}
             backgroundColorDisabled="darkgrey"
-            disabled={selecteTab == 'chart'}
+            disabled={selecteTab == 'stats'}
           >
             <TextBox mobileSize={18} desktopSize={18}>
               Chart
-            </TextBox>
-          </Button>
-
-          <Button
-            height="40px"
-            width="100px"
-            backgroundColor="orange"
-            onClick={() => setSelectedTab('test')}
-            backgroundColorDisabled="darkgrey"
-            disabled={selecteTab == 'test'}
-          >
-            <TextBox mobileSize={18} desktopSize={18}>
-              Test
             </TextBox>
           </Button>
         </Grid>
       </Grid>
 
       {selecteTab == 'workout' && <Workout workoutName={workoutName} />}
+      {selecteTab == 'stats' && <Stats workoutName={workoutName} />}
     </Grid>
   );
 };
