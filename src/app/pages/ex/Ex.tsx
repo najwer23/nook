@@ -4,15 +4,16 @@ import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import React, { useState } from 'react';
 import { Stats } from './stats/Stats';
+import { Test } from './test/Test';
 import { Workout } from './workout/Workout';
 
 export const Ex: React.FC<{
   workoutName: string;
 }> = ({ workoutName }) => {
-  const [selecteTab, setSelectedTab] = useState<'workout' | 'stats'>('workout');
+  const [selectedTab, setSelectedTab] = useState<'workout' | 'stats' | 'test'>('stats');
 
   return (
-    <Grid layout="container" widthMax={'1400px'}>
+    <Grid layout="container">
       <Grid layout="container" widthMax={'100%'} margin={'0 0 30px 0'}>
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
           {workoutName}
@@ -29,9 +30,22 @@ export const Ex: React.FC<{
             height="40px"
             width="100px"
             backgroundColor="orange"
+            onClick={() => setSelectedTab('stats')}
+            backgroundColorDisabled="darkgrey"
+            disabled={selectedTab == 'stats'}
+          >
+            <TextBox mobileSize={18} desktopSize={18}>
+              Stats
+            </TextBox>
+          </Button>
+
+          <Button
+            height="40px"
+            width="100px"
+            backgroundColor="orange"
             onClick={() => setSelectedTab('workout')}
             backgroundColorDisabled="darkgrey"
-            disabled={selecteTab == 'workout'}
+            disabled={selectedTab == 'workout'}
           >
             <TextBox mobileSize={18} desktopSize={18}>
               Workout
@@ -42,19 +56,20 @@ export const Ex: React.FC<{
             height="40px"
             width="100px"
             backgroundColor="orange"
-            onClick={() => setSelectedTab('stats')}
+            onClick={() => setSelectedTab('test')}
             backgroundColorDisabled="darkgrey"
-            disabled={selecteTab == 'stats'}
+            disabled={selectedTab == 'test'}
           >
             <TextBox mobileSize={18} desktopSize={18}>
-              Chart
+              Test
             </TextBox>
           </Button>
         </Grid>
       </Grid>
 
-      {selecteTab == 'workout' && <Workout workoutName={workoutName} />}
-      {selecteTab == 'stats' && <Stats workoutName={workoutName} />}
+      {selectedTab == 'stats' && <Stats workoutName={workoutName} />}
+      {selectedTab == 'workout' && <Workout workoutName={workoutName} setSelectedTab={setSelectedTab} />}
+      {selectedTab == 'test' && <Test workoutName={workoutName} setSelectedTab={setSelectedTab} />}
     </Grid>
   );
 };

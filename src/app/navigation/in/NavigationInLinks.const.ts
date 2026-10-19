@@ -3,18 +3,26 @@ import { navigationLinkSectionsSort } from '../Naviagtion.utils';
 
 const sections: NavigationLinkSection[] = [
   {
+    title: 'Account',
+    links: [{ to: '/in/dashboard', label: 'Dashboard' }],
+  },
+  {
     title: 'Tools',
     links: [
-      { to: '/in/dashboard', label: 'Dashboard' },
       { to: '/in/weather', label: 'Weather' },
       { to: '/in/stock-quotes', label: 'Stock Quotes' },
       { to: '/in/visitors', label: 'Visitors' },
       { to: '/in/blog-post-creator', label: 'Blog Post Creator' },
       { to: '/in/weight', label: 'Weight' },
-      { to: '/in/push-ups', label: 'Ex: Push Ups' },
-      { to: '/in/squats', label: 'Ex: Squats' },
-      { to: '/in/sit-ups', label: 'Ex: Sit-ups' },
-      { to: '/in/pull-ups', label: 'Ex: Pull-ups' },
+    ],
+  },
+  {
+    title: 'Exercise',
+    links: [
+      { to: '/in/push-ups', label: 'Push Ups' },
+      { to: '/in/squats', label: 'Squats' },
+      { to: '/in/sit-ups', label: 'Sit-ups' },
+      { to: '/in/pull-ups', label: 'Pull-ups' },
     ],
   },
   {

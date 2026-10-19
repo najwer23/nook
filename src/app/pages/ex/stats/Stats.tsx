@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { chartDataWorkout } from './chartData/chartDataWorkout';
 import { queryStatsWorkout } from './Stats.query';
 
-const START_YEAR = 2026;
+const START_YEAR = 2024;
 
 export const Stats: React.FC<{
   workoutName: string;
@@ -39,7 +39,7 @@ export const Stats: React.FC<{
   const isError = isErrorArrayStatsWorkout;
 
   return (
-    <Grid layout="container" widthMax={'1400px'}>
+    <Grid layout="container">
       <Grid
         layout="columns"
         gap={{ col: '100px', row: '20px' }}

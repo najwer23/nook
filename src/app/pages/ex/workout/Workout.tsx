@@ -9,16 +9,14 @@ import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import React, { useLayoutEffect, useMemo, useState } from 'react';
-import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Timer } from '../timer/Timer';
 import styles from './Workout.module.css';
 import { queryWorkoutCreate, queryWorkoutDictionary, queryWorkoutLevel } from './Workout.query';
 
 export const Workout: React.FC<{
   workoutName: string;
-}> = ({ workoutName }) => {
-  const navigate = useNavigate();
-
+  setSelectedTab: React.Dispatch<React.SetStateAction<'workout' | 'stats' | 'test'>>;
+}> = ({ workoutName, setSelectedTab }) => {
   const [repCurrent, setRepCurrent] = useState(0);
   const [repCurrentTimer, setRepCurrentTimer] = useState(0);
   const [repCurrentChange, setRepCurrentChange] = useState('stop');
@@ -28,6 +26,9 @@ export const Workout: React.FC<{
   const { mutate, isPending, isError, data, error } = useMutation({
     mutationKey: ['queryWorkoutCreate', workoutName],
     mutationFn: queryWorkoutCreate,
+    onSuccess: () => {
+      setSelectedTab('stats');
+    },
   });
 
   const {
@@ -72,10 +73,7 @@ export const Workout: React.FC<{
 
   useLayoutEffect(() => {
     if (needsTest || isErrorQueryWorkoutLevel) {
-      navigate({
-        pathname: '/in/test',
-        search: `?${createSearchParams({ workoutName })}`,
-      });
+      setSelectedTab('test');
     }
   }, [needsTest, isErrorQueryWorkoutLevel]);
 
@@ -116,7 +114,7 @@ export const Workout: React.FC<{
   };
 
   return (
-    <Grid layout="container" widthMax={'1400px'}>
+    <Grid layout="container">
       {isLoading && <LoaderDots />}
 
       {!isLoading && isQueryError && (
