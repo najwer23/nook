@@ -61,11 +61,11 @@ export const Login = () => {
       }}
       linkSignUp={{
         link: '/auth/sign-up',
-        text: 'sign up',
+        text: 'Sign up',
       }}
       linkForgotPassword={{
         link: '/auth/forgot-password',
-        text: 'forgot password',
+        text: 'Forgot password?',
       }}
     />
   );

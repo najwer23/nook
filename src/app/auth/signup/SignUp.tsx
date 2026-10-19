@@ -35,7 +35,7 @@ export const SignUp = () => {
       }}
       linkLogin={{
         link: '/auth/login',
-        text: 'login',
+        text: 'Login',
       }}
     />
   );

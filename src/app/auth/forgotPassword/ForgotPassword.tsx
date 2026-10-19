@@ -39,7 +39,7 @@ export const ForgotPassword = () => {
       }}
       linkLogin={{
         link: '/auth/login',
-        text: 'login',
+        text: 'Login',
       }}
     />
   );
