@@ -20,7 +20,6 @@ export const NavigationInMobile: React.FC = () => {
         </Grid>
         <TextBox
           tag="a"
-          data-no-menu-close-animation
           href="/auth/login"
           desktopSize={28}
           mobileSize={28}
