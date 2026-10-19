@@ -1,35 +1,33 @@
 import { configApiOrigin } from '@app/config/configApiOrigin';
 import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
 
-type QueryExDictionary = {
+export interface QueryExDictionary extends ResponseBase {
   ex: {
     rest: number;
     reps: number[];
     dayOff: number;
     max?: number;
   }[];
-} & ResponseBase;
+}
 
-export const queryExDictionary = async (workoutName: string): Promise<QueryExDictionary> => {
-  const url = new URL(`/nook/json/${workoutName}.json`, window.location.origin);
-  return await executeFetch(url);
+export const queryExDictionary = (workoutName: string): Promise<QueryExDictionary> => {
+  const endpointUrl = new URL(`/nook/json/${encodeURIComponent(workoutName)}.json`, window.location.origin);
+  return executeFetch<QueryExDictionary>(endpointUrl, configFetch({ method: 'GET' }));
 };
 
-export const queryExCreate = async (body: Record<string, string | number>): Promise<ResponseBase> => {
-  const url = new URL(`${configApiOrigin()}/gym/ex/create`);
-  const options = { ...configFetch({ method: 'POST', body: body }) };
-  return await executeFetch(url, options);
+export const queryExCreate = (body: Record<string, string | number>): Promise<ResponseBase> => {
+  const endpointUrl = new URL(`${configApiOrigin()}/gym/ex/create`);
+  return executeFetch<ResponseBase>(endpointUrl, configFetch({ method: 'POST', body }));
 };
 
-type QueryExLevel = {
+export interface QueryExLevel extends ResponseBase {
   data: {
     level: string;
     repsMax: string;
   };
-} & ResponseBase;
+}
 
-export const queryExLevel = async (workoutName: string): Promise<QueryExLevel> => {
-  const url = new URL(`${configApiOrigin()}/gym/ex/level`);
-  const options = { ...configFetch({ method: 'POST', body: { workoutName } }) };
-  return await executeFetch(url, options);
+export const queryExLevel = (workoutName: string): Promise<QueryExLevel> => {
+  const endpointUrl = new URL(`${configApiOrigin()}/gym/ex/level`);
+  return executeFetch<QueryExLevel>(endpointUrl, configFetch({ method: 'POST', body: { workoutName } }));
 };
