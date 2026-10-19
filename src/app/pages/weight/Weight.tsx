@@ -86,9 +86,7 @@ export const Weight = () => {
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
           Weight
         </Typography>
-      </Grid>
 
-      <Grid layout="container" widthMax={'100%'} margin={'0 0 30px 0'}>
         <Grid
           layout="flex"
           justifyContent="flex-start"
