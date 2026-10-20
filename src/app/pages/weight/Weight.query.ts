@@ -22,6 +22,6 @@ export type QueryWeightAddPayload = Record<string, string> & {};
 export type QueryWeightAddResponse = FetchClientBaseResponse;
 
 export const queryWeightAdd = (payload: QueryWeightAddPayload): Promise<QueryWeightAddResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/weight`);
+  const endpointUrl = new URL(`${apiOrigin()}/weight/add`);
   return fetchClientExecute<QueryWeightAddResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
 };
