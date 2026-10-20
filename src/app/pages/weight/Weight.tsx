@@ -14,7 +14,7 @@ import { Typography } from 'najwer23morsels/lib/Typography';
 import { useState } from 'react';
 import { chartDataBMI } from './chartData/chartDataBMI';
 import { chartDataWeight } from './chartData/chartDataWeight';
-import { queryWeightCreate, queryWeightGetStats } from './Weight.query';
+import { queryWeightAdd, queryWeightGetByYear } from './Weight.query';
 
 const START_YEAR = 2026;
 
@@ -25,8 +25,8 @@ export const Weight = () => {
 
   const currentYear = String(new Date().getFullYear());
   const [year, setYear] = useState(currentYear);
-  const [isOpenDialogAddWeight, openDialogAddWeight] = useState(false);
-  const [weightFormKey, setWeightFormKey] = useState(0);
+  const [isOpenDialogWeightAdd, openDialogWeightAdd] = useState(false);
+  const [weightAddFormKey, setWeightAddFormKey] = useState(0);
 
   const handleOnSubmitSelectYear = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
@@ -35,41 +35,41 @@ export const Weight = () => {
   };
 
   const {
-    mutate: mutateQueryWeightCreate,
-    isPending: isPendingQueryWeightCreate,
-    isError: isErrorQueryWeightCreate,
-    data: dataQueryWeightCreate,
-    error: errorQueryWeightCreate,
-    reset: resetQueryWeightCreate,
+    mutate: mutateQueryWeightAdd,
+    isPending: isPendingQueryWeightAdd,
+    isError: isErrorQueryWeightAdd,
+    data: dataQueryWeightAdd,
+    error: errorQueryWeightAdd,
+    reset: resetQueryWeightAdd,
   } = useMutation({
-    mutationKey: ['queryWeightCreate', 'queryWeightCreate'],
-    mutationFn: queryWeightCreate,
+    mutationKey: ['queryWeightAdd', 'queryWeightAdd'],
+    mutationFn: queryWeightAdd,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['queryWeightGetStats'],
+        queryKey: ['queryWeightGetByYear'],
       });
 
-      setWeightFormKey((prev) => prev + 1);
+      setWeightAddFormKey((prev) => prev + 1);
     },
   });
 
-  const handleOnSubmitWeightCreate = (form: FormType) => {
+  const handleOnSubmitWeightAdd = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
-    mutateQueryWeightCreate({
+    mutateQueryWeightAdd({
       ...dataForm,
     });
   };
 
   const {
-    result: resultQueryWeightGetStats,
-    isLoading: isLoadingQueryWeightGetStats,
-    isError: isErrorQueryWeightGetStats,
+    result: resultQueryWeightGetByYear,
+    isLoading: isLoadingQueryWeightGetByYear,
+    isError: isErrorQueryWeightGetByYear,
   } = useImmediateThrottledQuery(
     {
-      queryKey: ['queryWeightGetStats', 'queryWeightGetStats' + year],
-      queryFn: () => queryWeightGetStats(year),
+      queryKey: ['queryWeightGetByYear', 'queryWeightGetByYear' + year],
+      queryFn: () => queryWeightGetByYear(year),
       staleTime: 0,
       gcTime: 0,
       retry: 0,
@@ -78,7 +78,7 @@ export const Weight = () => {
     500,
   );
 
-  const weights = resultQueryWeightGetStats?.data?.weights;
+  const weights = resultQueryWeightGetByYear?.data?.weights;
 
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
@@ -94,7 +94,7 @@ export const Weight = () => {
           gap={{ col: '20px', row: '20px' }}
           margin={'20px 0 0'}
         >
-          <Button height="40px" width="120px" backgroundColor="orangered" onClick={() => openDialogAddWeight(true)}>
+          <Button height="40px" width="120px" backgroundColor="orangered" onClick={() => openDialogWeightAdd(true)}>
             <TextBox mobileSize={18} desktopSize={18} color="white">
               Add Weight
             </TextBox>
@@ -102,10 +102,10 @@ export const Weight = () => {
 
           <Dialog
             widthMax={'900px'}
-            open={isOpenDialogAddWeight}
+            open={isOpenDialogWeightAdd}
             onCancel={() => {
-              openDialogAddWeight(false);
-              resetQueryWeightCreate();
+              openDialogWeightAdd(false);
+              resetQueryWeightAdd();
             }}
           >
             <Grid
@@ -119,13 +119,13 @@ export const Weight = () => {
               </Typography>
 
               <Form
-                key={weightFormKey}
-                onSubmit={handleOnSubmitWeightCreate}
-                isError={isErrorQueryWeightCreate}
-                isPending={isPendingQueryWeightCreate}
-                isSuccess={dataQueryWeightCreate?.code === 'OK'}
-                errorMsg={errorQueryWeightCreate?.message}
-                successMsg={dataQueryWeightCreate?.message}
+                key={weightAddFormKey}
+                onSubmit={handleOnSubmitWeightAdd}
+                isError={isErrorQueryWeightAdd}
+                isPending={isPendingQueryWeightAdd}
+                isSuccess={dataQueryWeightAdd?.code === 'OK'}
+                errorMsg={errorQueryWeightAdd?.message}
+                successMsg={dataQueryWeightAdd?.message}
               >
                 <Grid
                   widthMax={1400}
@@ -162,7 +162,7 @@ export const Weight = () => {
                         height={'40px'}
                         width={'80px'}
                         padding={0}
-                        disabled={isPendingQueryWeightCreate}
+                        disabled={isPendingQueryWeightAdd}
                         backgroundColor="#4BB543"
                         backgroundColorDisabled="grey"
                       >
@@ -213,16 +213,16 @@ export const Weight = () => {
         </Grid>
       </Form>
 
-      {isLoadingQueryWeightGetStats && <LoaderDots />}
+      {isLoadingQueryWeightGetByYear && <LoaderDots />}
 
-      {!isLoadingQueryWeightGetStats && isErrorQueryWeightGetStats && (
+      {!isLoadingQueryWeightGetByYear && isErrorQueryWeightGetByYear && (
         <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
           No results
         </TextBox>
       )}
 
       <Grid layout="container" widthMax={'100%'}>
-        {!isLoadingQueryWeightGetStats && weights && (
+        {!isLoadingQueryWeightGetByYear && weights && (
           <>
             <Grid layout="container" widthMax={'100%'} padding={'0px 0px 30px 0px'} minHeight={'700px'}>
               <ChartLine title={'Weight'} data={chartDataWeight(weights, 'Weight')} ySymbol={' kg'} />

@@ -6,23 +6,26 @@ import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { Select } from 'najwer23morsels/lib/Select';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { chartDataVisitors } from './chartData/chartDataVisitors';
 import { queryVisitorsHits } from './Visitors.query';
 import { sortByDate, sumByDate, sumByYear } from './Visitors.utils';
 
 const START_YEAR = 2026;
 
-export const Visitors: React.FC = () => {
-  const currentYear = String(new Date().getFullYear());
-
-  const [year, setYear] = useState(currentYear);
-
+export const Visitors = () => {
   useDocumentTitle(`Visitors | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
-  const { result, isLoading, isError } = useImmediateThrottledQuery(
+  const currentYear = String(new Date().getFullYear());
+  const [year, setYear] = useState(currentYear);
+
+  const {
+    result: resultQueryVisitorsHits,
+    isLoading: isLoadingQueryVisitorsHits,
+    isError: isErrorQueryVisitorsHits,
+  } = useImmediateThrottledQuery(
     {
-      queryKey: ['queryVisitorsHits', year],
+      queryKey: ['queryVisitorsHits', 'queryVisitorsHits' + year],
       queryFn: () => queryVisitorsHits(year),
       staleTime: 0,
       gcTime: 0,
@@ -32,7 +35,7 @@ export const Visitors: React.FC = () => {
     500,
   );
 
-  const analytics = result?.data.items ?? [];
+  const analytics = resultQueryVisitorsHits?.data?.items ?? [];
 
   const yearlyViews = useMemo(() => {
     return sumByYear(analytics);
@@ -61,7 +64,7 @@ export const Visitors: React.FC = () => {
 
   const minViewDay = useMemo(() => {
     return pageViewsByDate.reduce(
-      (max, current) => (current[1] < max[1] ? current : max),
+      (min, current) => (current[1] < min[1] ? current : min),
       pageViewsByDate[0] ?? ['-', 0],
     );
   }, [pageViewsByDate]);
@@ -70,12 +73,13 @@ export const Visitors: React.FC = () => {
   const previous = pageViewsByDate.at(-2)?.[1] ?? 0;
   const diff = current - previous;
   const percent = previous === 0 ? 0 : ((current - previous) / previous) * 100;
+
   const [maxDate, maxViews] = maxViewDay;
   const [minDate, minViews] = minViewDay;
 
   return (
-    <Grid layout="container" widthMax={'100%'}>
-      <Grid layout="container" widthMax={'100%'} margin={'0 0 30px 0'}>
+    <Grid layout="container" widthMax="100%">
+      <Grid layout="container" widthMax="100%" margin="0 0 30px 0">
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
           Visitors
         </Typography>
@@ -95,10 +99,10 @@ export const Visitors: React.FC = () => {
           tablet: 2,
         }}
       >
-        <Grid layout="container" widthMax={'100%'} margin={'0 0 30px'}>
+        <Grid layout="container" widthMax="100%" margin="0 0 30px">
           <Select
             label="Year"
-            name={'year'}
+            name="year"
             options={Array.from({ length: Math.max(0, Number(currentYear) - START_YEAR + 1) }, (_, i) => {
               const y = START_YEAR + i;
               return { value: y.toString(), label: y.toString() };
@@ -109,17 +113,17 @@ export const Visitors: React.FC = () => {
         </Grid>
       </Grid>
 
-      {isLoading && <LoaderDots />}
+      {isLoadingQueryVisitorsHits && <LoaderDots />}
 
-      {!isLoading && isError && (
+      {!isLoadingQueryVisitorsHits && isErrorQueryVisitorsHits && (
         <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
           No results
         </TextBox>
       )}
 
-      {!isLoading && !isError && (
+      {!isLoadingQueryVisitorsHits && !isErrorQueryVisitorsHits && (
         <>
-          <Grid margin={'0 0 30px'} layout="container" widthMax={'100%'}>
+          <Grid margin="0 0 30px" layout="container" widthMax="100%">
             <div>
               <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
                 Yearly Visits:{' '}
@@ -128,6 +132,7 @@ export const Visitors: React.FC = () => {
                 </TextBox>
               </TextBox>
             </div>
+
             <div>
               <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
                 Daily Change:{' '}
@@ -145,6 +150,7 @@ export const Visitors: React.FC = () => {
                 </TextBox>
               </TextBox>
             </div>
+
             <div>
               <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
                 Max daily views:{' '}
@@ -153,6 +159,7 @@ export const Visitors: React.FC = () => {
                 </TextBox>
               </TextBox>
             </div>
+
             <div>
               <TextBox tag="p" desktopSize={22} mobileSize={18} fontWeight={200}>
                 Min daily views:{' '}
@@ -163,15 +170,15 @@ export const Visitors: React.FC = () => {
             </div>
           </Grid>
 
-          <Grid layout="container" widthMax={'100%'} margin="0px auto 30px auto" minHeight="700px">
+          <Grid layout="container" widthMax="100%" margin="0px auto 30px auto" minHeight="700px">
             <ChartBar title="Daily Visitors Over Time" ySymbol="" data={chartDataVisitors(pageViewsByDate)} />
           </Grid>
 
-          <Grid layout="container" widthMax={'100%'} margin="0px auto 30px auto" minHeight="700px">
+          <Grid layout="container" widthMax="100%" margin="0px auto 30px auto" minHeight="700px">
             <ChartBar title="Daily Visitors for /resume" ySymbol="" data={chartDataVisitors(resumeViews)} />
           </Grid>
 
-          <Grid layout="container" widthMax={'100%'} margin="0px auto 30px auto" minHeight="700px">
+          <Grid layout="container" widthMax="100%" margin="0px auto 30px auto" minHeight="700px">
             <div style={{ height: '700px' }}>
               <ChartBar title="Daily Visitors for /blog" ySymbol="" data={chartDataVisitors(blogViews)} />
             </div>

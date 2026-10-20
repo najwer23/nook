@@ -6,18 +6,21 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
 import { Select } from 'najwer23morsels/lib/Select';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
-import { useSearchParams } from 'react-router-dom';
 import { queryTest } from './Test.query';
 
 export const Test: React.FC<{
   workoutName: string;
   setSelectedTab: React.Dispatch<React.SetStateAction<'workout' | 'stats' | 'test'>>;
 }> = ({ workoutName, setSelectedTab }) => {
-  let [searchParams] = useSearchParams();
+  useDocumentTitle(`Test: ${workoutName} | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
-  useDocumentTitle(`Test${searchParams.get('workoutName') ? ': ' + searchParams.get('workoutName') : ''} | GYM`);
-
-  const { mutate, isPending, isError, data, error } = useMutation({
+  const {
+    mutate: mutateQueryTest,
+    isPending: isPendingQueryTest,
+    isError: isErrorQueryTest,
+    data: dataQueryTest,
+    error: errorQueryTest,
+  } = useMutation({
     mutationKey: ['queryTest', 'queryTest'],
     mutationFn: queryTest,
     onSuccess: () => {
@@ -25,11 +28,12 @@ export const Test: React.FC<{
     },
   });
 
-  const handleOnSubmit = (form: FormType) => {
+  const handleOnSubmitTest = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
+
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
-    mutate({
+    mutateQueryTest({
       kind: 'test',
       level: '-1',
       repsMax: dataForm.reps,
@@ -40,12 +44,12 @@ export const Test: React.FC<{
   return (
     <Grid layout="container">
       <Form
-        onSubmit={handleOnSubmit}
-        isError={isError}
-        isPending={isPending}
-        isSuccess={data?.code === 'OK'}
-        errorMsg={error?.message}
-        successMsg={data?.message}
+        onSubmit={handleOnSubmitTest}
+        isError={isErrorQueryTest}
+        isPending={isPendingQueryTest}
+        isSuccess={dataQueryTest?.code === 'OK'}
+        errorMsg={errorQueryTest?.message}
+        successMsg={dataQueryTest?.message}
       >
         <Grid
           layout="columns"
@@ -62,7 +66,7 @@ export const Test: React.FC<{
                 value: workoutName,
                 label: workoutName,
               }}
-              label={'Workout Name'}
+              label="Workout Name"
               validatorOptions={[{ type: 'empty' }]}
               name="workoutName"
               options={[
@@ -87,9 +91,9 @@ export const Test: React.FC<{
 
             <Button
               type="submit"
-              disabled={isPending}
-              height={'40px'}
-              width={'80px'}
+              disabled={isPendingQueryTest}
+              height="40px"
+              width="80px"
               padding={0}
               backgroundColor="orangered"
               backgroundColorDisabled="grey"

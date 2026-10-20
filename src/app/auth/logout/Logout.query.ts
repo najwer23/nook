@@ -1,14 +1,16 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 import { storageItemRemove } from '@app/storage/storageItemRemove';
 
-export type LogoutResponse = ResponseBase;
+export type QueryLogoutResponse = FetchClientBaseResponse;
 
-export const queryLogout = async (): Promise<LogoutResponse> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/auth/jwt/logout`);
+export const queryLogout = async (): Promise<QueryLogoutResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/auth/jwt/logout`);
 
   try {
-    return await executeFetch<LogoutResponse>(endpointUrl, configFetch({ method: 'POST' }));
+    return await fetchClientExecute<QueryLogoutResponse>(endpointUrl, fetchClientConfig({ method: 'POST' }));
   } finally {
     storageItemRemove(sessionStorage, 'tokenJWTaccess');
   }

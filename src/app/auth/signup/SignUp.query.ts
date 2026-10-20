@@ -1,11 +1,20 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 
-export type SignUpPayload = Record<string, string>;
+export type QuerySignUpPayload = Record<string, string>;
 
-export type SignUpResponse = ResponseBase;
+export type QuerySignUpResponse = FetchClientBaseResponse;
 
-export const querySignUp = (payload: SignUpPayload): Promise<SignUpResponse> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/auth/sign-up`);
-  return executeFetch<SignUpResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
+export const querySignUp = (payload: QuerySignUpPayload): Promise<QuerySignUpResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/auth/sign-up`);
+
+  return fetchClientExecute<QuerySignUpResponse>(
+    endpointUrl,
+    fetchClientConfig({
+      method: 'POST',
+      body: payload,
+    }),
+  );
 };

@@ -1,7 +1,9 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 
-export interface StatsWorkoutResponse extends ResponseBase {
+export interface QueryStatsWorkoutResponse extends FetchClientBaseResponse {
   data: {
     repsMax: string;
     level: string;
@@ -14,7 +16,19 @@ export interface StatsWorkoutResponse extends ResponseBase {
   };
 }
 
-export const queryStatsWorkout = (workoutName: string, year: string): Promise<StatsWorkoutResponse> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/gym/ex/stats`);
-  return executeFetch<StatsWorkoutResponse>(endpointUrl, configFetch({ method: 'POST', body: { workoutName, year } }));
+export type QueryStatsWorkoutPayload = {
+  workoutName: string;
+  year: string;
+};
+
+export const queryStatsWorkout = (payload: QueryStatsWorkoutPayload): Promise<QueryStatsWorkoutResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/stats`);
+
+  return fetchClientExecute<QueryStatsWorkoutResponse>(
+    endpointUrl,
+    fetchClientConfig({
+      method: 'POST',
+      body: payload,
+    }),
+  );
 };

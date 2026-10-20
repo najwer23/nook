@@ -8,33 +8,41 @@ import { queryForgotPasswordOtp } from './ForgotPasswordOtp.query';
 export const ForgotPasswordOtp = () => {
   const { otp } = useParams<{ otp: string }>();
 
-  useDocumentTitle(`Forgot Password Opt | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
+  useDocumentTitle(`Forgot Password OTP | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
+
   const navigate = useNavigate();
 
-  const { mutate, isPending, isError, data, error } = useMutation({
-    mutationKey: ['forgotPasswordOtp', 'forgotPasswordOtp'],
+  const {
+    mutate: mutateQueryForgotPasswordOtp,
+    isPending: isPendingQueryForgotPasswordOtp,
+    isError: isErrorQueryForgotPasswordOtp,
+    data: dataQueryForgotPasswordOtp,
+    error: errorQueryForgotPasswordOtp,
+  } = useMutation({
+    mutationKey: ['queryForgotPasswordOtp', 'queryForgotPasswordOtp'],
     mutationFn: queryForgotPasswordOtp,
   });
 
-  const handleOnSubmit = (form: FormType) => {
+  const handleOnSubmitForgotPasswordOtp = (form: FormType) => {
     if (!otp) return;
     if (Object.values(form).some(({ error }) => error)) return;
+
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
-    mutate({
+    mutateQueryForgotPasswordOtp({
       ...dataForm,
-      otp: otp,
+      otp,
     });
   };
 
   return (
     <FormForgotPassOtp
-      isError={isError}
-      isPending={isPending}
-      isSuccess={data?.code === 'OK'}
-      onSubmit={handleOnSubmit}
-      errorMsg={error?.message}
-      successMsg={data?.message}
+      isError={isErrorQueryForgotPasswordOtp}
+      isPending={isPendingQueryForgotPasswordOtp}
+      isSuccess={dataQueryForgotPasswordOtp?.code === 'OK'}
+      onSubmit={handleOnSubmitForgotPasswordOtp}
+      errorMsg={errorQueryForgotPasswordOtp?.message}
+      successMsg={dataQueryForgotPasswordOtp?.message}
       onNavigate={navigate}
       linkMainPage={{
         link: '/',

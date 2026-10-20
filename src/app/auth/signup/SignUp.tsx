@@ -10,24 +10,33 @@ export const SignUp = () => {
 
   useDocumentTitle(`Sign Up | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
-  const { mutate, isPending, isError, data, error } = useMutation({
-    mutationKey: ['queryLogin', 'queryLogin'],
+  const {
+    mutate: mutateQuerySignUp,
+    isPending: isPendingQuerySignUp,
+    isError: isErrorQuerySignUp,
+    data: dataQuerySignUp,
+    error: errorQuerySignUp,
+  } = useMutation({
+    mutationKey: ['querySignUp', 'querySignUp'],
     mutationFn: querySignUp,
   });
 
-  const handleOnSubmit = (form: FormType) => {
+  const handleOnSubmitSignUp = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
-    mutate(Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value])));
+
+    const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
+
+    mutateQuerySignUp(dataForm);
   };
 
   return (
     <FormSignUp
-      isError={isError}
-      isPending={isPending}
-      isSuccess={data?.code === 'OK'}
-      onSubmit={handleOnSubmit}
-      errorMsg={error?.message}
-      successMsg={data?.message}
+      isError={isErrorQuerySignUp}
+      isPending={isPendingQuerySignUp}
+      isSuccess={dataQuerySignUp?.code === 'OK'}
+      onSubmit={handleOnSubmitSignUp}
+      errorMsg={errorQuerySignUp?.message}
+      successMsg={dataQuerySignUp?.message}
       onNavigate={navigate}
       linkMainPage={{
         link: '/',

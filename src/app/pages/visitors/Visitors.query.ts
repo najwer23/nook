@@ -1,21 +1,23 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 
-export interface VisitorsHitsItem {
+export interface QueryVisitorsHitsItem {
   path: string;
   data: Record<string, number>[];
 }
 
-export interface VisitorsHitsResponse extends ResponseBase {
+export interface QueryVisitorsHitsResponse extends FetchClientBaseResponse {
   data: {
-    items: VisitorsHitsItem[];
+    items: QueryVisitorsHitsItem[];
   };
 }
 
-export const queryVisitorsHits = (year: string): Promise<VisitorsHitsResponse> => {
+export const queryVisitorsHits = (year: string): Promise<QueryVisitorsHitsResponse> => {
   const endpointUrl = new URL(
-    `${configApiOrigin()}/analytics/hits/app-name/najwer23.github.io/year/${encodeURIComponent(year)}`,
+    `${apiOrigin()}/analytics/hits/app-name/najwer23.github.io/year/${encodeURIComponent(year)}`,
   );
 
-  return executeFetch<VisitorsHitsResponse>(endpointUrl, configFetch({ method: 'GET' }));
+  return fetchClientExecute<QueryVisitorsHitsResponse>(endpointUrl, fetchClientConfig({ method: 'GET' }));
 };

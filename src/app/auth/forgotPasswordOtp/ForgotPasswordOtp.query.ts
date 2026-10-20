@@ -1,13 +1,24 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 
-export type ForgotPasswordOtpPayload = Record<string, string> & {
+export type QueryForgotPasswordOtpPayload = Record<string, string> & {
   otp: string;
 };
 
-export type ForgotPasswordOtpResponse = ResponseBase;
+export type QueryForgotPasswordOtpResponse = FetchClientBaseResponse;
 
-export const queryForgotPasswordOtp = (payload: ForgotPasswordOtpPayload): Promise<ForgotPasswordOtpResponse> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/auth/forgot-password2`);
-  return executeFetch<ForgotPasswordOtpResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
+export const queryForgotPasswordOtp = (
+  payload: QueryForgotPasswordOtpPayload,
+): Promise<QueryForgotPasswordOtpResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/auth/forgot-password2`);
+
+  return fetchClientExecute<QueryForgotPasswordOtpResponse>(
+    endpointUrl,
+    fetchClientConfig({
+      method: 'POST',
+      body: payload,
+    }),
+  );
 };

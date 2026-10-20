@@ -1,11 +1,14 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 
-export type TestPayload = Record<string, string>;
+export type QueryTestPayload = Record<string, string>;
 
-export type TestResponse = ResponseBase;
+export type QueryTestResponse = FetchClientBaseResponse;
 
-export const queryTest = (payload: TestPayload): Promise<TestResponse> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/gym/ex/create`);
-  return executeFetch<TestResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
+export const queryTest = (payload: QueryTestPayload): Promise<QueryTestResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/create`);
+
+  return fetchClientExecute<QueryTestResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
 };

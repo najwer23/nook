@@ -10,37 +10,40 @@ import { queryStockQuotes } from './StockQuotes.query';
 
 const currencies = ['usd', 'eur', 'chf', 'gbp'];
 
-export const StockQuotes: React.FC = () => {
+export const StockQuotes = () => {
   useDocumentTitle(`Stock Quotes | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
   const queriesStockQuotes = currencies.map((currency) => ({
-    queryKey: ['queryStockQuotes', currency],
+    queryKey: ['queryStockQuotes', 'queryStockQuotes' + currency],
     queryFn: () => queryStockQuotes(currency),
-    staleTime: 30 * 60 * 1000, // 30 minutes
+    staleTime: 30 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     retry: 0,
     enabled: true,
   }));
 
-  const { resultsArray, isLoading } = useImmediateThrottledQueries(queriesStockQuotes, 500);
+  const { resultsArray: resultsArrayQueryStockQuotes, isLoading: isLoadingQueryStockQuotes } =
+    useImmediateThrottledQueries(queriesStockQuotes, 500);
 
   return (
     <>
-      <Grid layout="container" widthMax={'100%'} padding={'0 0px 0px 0px'}>
-        <Grid layout="container" widthMax="900px" margin={'0 0 30px 0'}>
+      <Grid layout="container" widthMax="100%" padding="0">
+        <Grid layout="container" widthMax="900px" margin="0 0 30px 0">
           <Typography appearance="light" variant="display" style={{ margin: 0 }}>
             Stock Quotes
           </Typography>
         </Grid>
-        <Grid widthMax={'700'} layout="container" padding="0" margin={'0 0 30px 0'}>
+
+        <Grid widthMax="700px" layout="container" padding="0" margin="0 0 30px 0">
           <Typography appearance="light" variant="body">
-            <TextBox tag="span" color="#FF0000" desktopSize={'inherit'} mobileSize={'inherit'} fontWeight={'bold'}>
+            <TextBox tag="span" color="#FF0000" desktopSize="inherit" mobileSize="inherit" fontWeight="bold">
               Bid Price (3.9852)
             </TextBox>
             : If you want to sell the asset, you can sell it at this price.
           </Typography>
+
           <Typography appearance="light" variant="body">
-            <TextBox tag="span" color="green" desktopSize={'inherit'} mobileSize={'inherit'} fontWeight={'bold'}>
+            <TextBox tag="span" color="green" desktopSize="inherit" mobileSize="inherit" fontWeight="bold">
               Ask Price (4.0658)
             </TextBox>
             : If you want to buy the asset, you will have to pay this price.
@@ -48,23 +51,23 @@ export const StockQuotes: React.FC = () => {
         </Grid>
       </Grid>
 
-      {isLoading && <LoaderDots />}
+      {isLoadingQueryStockQuotes && <LoaderDots />}
 
-      {!isLoading && (
-        <Grid layout="container" widthMax={'100%'} margin={'30px auto 0px auto'}>
-          {resultsArray.map((v, i) => (
+      {!isLoadingQueryStockQuotes && (
+        <Grid layout="container" widthMax="100%" margin="30px auto 0">
+          {resultsArrayQueryStockQuotes.map((resultQueryStockQuotes) => (
             <Grid
-              key={i}
+              key={resultQueryStockQuotes.data?.code}
               layout="container"
-              widthMax={'100%'}
-              padding={'0 0px'}
-              margin={'0px auto 30px auto'}
+              widthMax="100%"
+              padding="0"
+              margin="0 auto 30px"
               minHeight="700px"
             >
               <div style={{ height: '700px' }}>
                 <ChartLine
-                  title={`${v.data?.code ?? 'N/A'}/PLN`}
-                  data={chartDataCurrency(v.data?.rates ?? [])}
+                  title={`${resultQueryStockQuotes.data?.code ?? 'N/A'}/PLN`}
+                  data={chartDataCurrency(resultQueryStockQuotes.data?.rates ?? [])}
                   ySymbol=" PLN"
                   yStepSize={0.001}
                 />

@@ -4,7 +4,6 @@ import { storageItemGet } from '@app/storage/storageItemGet';
 import { useMutation } from '@tanstack/react-query';
 import { type FormType } from 'najwer23morsels/lib/Form';
 import { FormLogin } from 'najwer23morsels/lib/FormLogin';
-
 import { useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { queryLogin } from './Login.query';
@@ -17,43 +16,49 @@ export const Login = () => {
 
   useDocumentTitle(`Login | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
-  const { mutate, isPending, isError, data, error } = useMutation({
+  const {
+    mutate: mutateQueryLogin,
+    isPending: isPendingQueryLogin,
+    isError: isErrorQueryLogin,
+    data: dataQueryLogin,
+    error: errorQueryLogin,
+  } = useMutation({
     mutationKey: ['queryLogin', 'queryLogin'],
     mutationFn: queryLogin,
   });
 
   useLayoutEffect(() => {
-    if (data?.code === 'OK') {
+    if (dataQueryLogin?.code === 'OK') {
       setAuth(true);
     }
-    if (data?.code === 'OK' || isAuth || storageItemGet(sessionStorage, 'tokenJWTaccess')) {
+
+    if (dataQueryLogin?.code === 'OK' || isAuth || storageItemGet(sessionStorage, 'tokenJWTaccess')) {
       navigate('/in/dashboard');
     } else {
       setIsLayoutLoading(false);
     }
-  }, [data?.code, isAuth]);
+  }, [dataQueryLogin?.code, isAuth]);
 
-  const handleOnSubmit = (form: FormType) => {
+  const handleOnSubmitLogin = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
-    mutate(Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value])));
+
+    const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
+
+    mutateQueryLogin(dataForm);
   };
 
-  if (isAuth) {
-    return;
-  }
-
-  if (isLayoutLoading) {
-    return;
+  if (isAuth || isLayoutLoading) {
+    return null;
   }
 
   return (
     <FormLogin
-      isError={isError}
-      isPending={isPending}
-      isSuccess={data?.code === 'OK'}
-      onSubmit={handleOnSubmit}
-      errorMsg={error?.message}
-      successMsg={data?.message}
+      isError={isErrorQueryLogin}
+      isPending={isPendingQueryLogin}
+      isSuccess={dataQueryLogin?.code === 'OK'}
+      onSubmit={handleOnSubmitLogin}
+      errorMsg={errorQueryLogin?.message}
+      successMsg={dataQueryLogin?.message}
       onNavigate={navigate}
       linkMainPage={{
         link: '/',

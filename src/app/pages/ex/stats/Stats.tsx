@@ -14,19 +14,19 @@ const START_YEAR = 2024;
 export const Stats: React.FC<{
   workoutName: string;
 }> = ({ workoutName }) => {
-  useDocumentTitle('Dashboard | GYM');
+  useDocumentTitle(`Stats: ${workoutName} | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
   const currentYear = String(new Date().getFullYear());
   const [year, setYear] = useState(currentYear);
 
   const {
-    resultsArray: resultsStatsWorkout,
-    isLoading: isLoadingStatsWorkout,
-    isError: isErrorArrayStatsWorkout,
+    resultsArray: resultsArrayQueryStatsWorkout,
+    isLoading: isLoadingQueryStatsWorkout,
+    isError: isErrorQueryStatsWorkout,
   } = useImmediateThrottledQueries(
     [workoutName].map((ex) => ({
       queryKey: ['queryStatsWorkout', ex + year],
-      queryFn: () => queryStatsWorkout(ex, year),
+      queryFn: () => queryStatsWorkout({ workoutName: ex, year }),
       staleTime: 0,
       gcTime: 0,
       retry: 0,
@@ -34,9 +34,6 @@ export const Stats: React.FC<{
     })),
     500,
   );
-
-  const isLoading = isLoadingStatsWorkout;
-  const isError = isErrorArrayStatsWorkout;
 
   return (
     <Grid layout="container">
@@ -50,10 +47,10 @@ export const Stats: React.FC<{
           tablet: 2,
         }}
       >
-        <Grid layout="container" widthMax={'100%'} margin={'0 0 30px'}>
+        <Grid layout="container" widthMax="100%" margin="0 0 30px">
           <Select
             label="Year"
-            name={'year'}
+            name="year"
             options={Array.from({ length: Math.max(0, Number(currentYear) - START_YEAR + 1) }, (_, i) => {
               const y = START_YEAR + i;
               return { value: y.toString(), label: y.toString() };
@@ -64,23 +61,26 @@ export const Stats: React.FC<{
         </Grid>
       </Grid>
 
-      {isLoading && <LoaderDots />}
+      {isLoadingQueryStatsWorkout && <LoaderDots />}
 
-      {!isLoading && isError && (
+      {!isLoadingQueryStatsWorkout && isErrorQueryStatsWorkout && (
         <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
           No results
         </TextBox>
       )}
 
-      {!isLoading && !isError && (
+      {!isLoadingQueryStatsWorkout && !isErrorQueryStatsWorkout && (
         <>
-          {resultsStatsWorkout.map((ex, i) => (
+          {resultsArrayQueryStatsWorkout.map((resultQueryStatsWorkout, i) => (
             <div key={i}>
-              {ex.data?.code === 'OK' && (
-                <Grid layout="container" widthMax={'100%'} margin="0px auto 30px auto" minHeight="700px">
+              {resultQueryStatsWorkout.data?.code === 'OK' && (
+                <Grid layout="container" widthMax="100%" margin="0px auto 30px auto" minHeight="700px">
                   <ChartLine
-                    title={ex.data.data.workoutName}
-                    data={chartDataWorkout(ex.data.data.reps, ex.data.data.workoutName)}
+                    title={resultQueryStatsWorkout.data.data.workoutName}
+                    data={chartDataWorkout(
+                      resultQueryStatsWorkout.data.data.reps,
+                      resultQueryStatsWorkout.data.data.workoutName,
+                    )}
                   />
                 </Grid>
               )}

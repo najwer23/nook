@@ -1,33 +1,27 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 
-export interface WeightEntry {
-  date: string;
-  weight: string;
-}
-
-export interface WeightGetStatsPayload {
-  year: string;
-}
-
-export interface WeightGetStatsResponse extends ResponseBase {
+export interface QueryWeightGetByYearResponse extends FetchClientBaseResponse {
   data: {
-    weights: WeightEntry[];
+    weights: {
+      date: string;
+      weight: string;
+    }[];
   };
 }
 
-export const queryWeightGetStats = (year: string): Promise<WeightGetStatsResponse> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/gym/weight/stats`);
-  const payload: WeightGetStatsPayload = { year };
-
-  return executeFetch<WeightGetStatsResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
+export const queryWeightGetByYear = (year: string): Promise<QueryWeightGetByYearResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/weight/${encodeURIComponent(year)}`);
+  return fetchClientExecute<QueryWeightGetByYearResponse>(endpointUrl, fetchClientConfig({ method: 'GET' }));
 };
 
-export type WeighCreatePayload = Record<string, string> & {};
+export type QueryWeightAddPayload = Record<string, string> & {};
 
-export type WeightCreateResponse = ResponseBase;
+export type QueryWeightAddResponse = FetchClientBaseResponse;
 
-export const queryWeightCreate = (payload: WeighCreatePayload): Promise<WeightCreateResponse> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/gym/weight/create`);
-  return executeFetch<WeightCreateResponse>(endpointUrl, configFetch({ method: 'POST', body: payload }));
+export const queryWeightAdd = (payload: QueryWeightAddPayload): Promise<QueryWeightAddResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/weight`);
+  return fetchClientExecute<QueryWeightAddResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
 };

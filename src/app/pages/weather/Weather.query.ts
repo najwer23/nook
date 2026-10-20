@@ -1,5 +1,7 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 import type { Forecast } from './chartData/chartData.types';
 
 export interface ForecastCurrent extends Omit<Forecast, 'pop'> {
@@ -42,14 +44,14 @@ export interface OpenWeatherMapOneCall {
   daily: ForecastDaily[];
 }
 
-export interface WeatherCoordsResponse extends ResponseBase {
+export interface QueryWeatherGetByCoordsResponse extends FetchClientBaseResponse {
   resOpenWeatherMap: OpenWeatherMapOneCall;
 }
 
-export const queryWeatherCoords = (lat: string, lon: string): Promise<WeatherCoordsResponse> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/openweathermap/forecast/onecall`);
+export const queryWeatherGetByCoords = (lat: string, lon: string): Promise<QueryWeatherGetByCoordsResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/openweathermap/forecast/onecall`);
   endpointUrl.searchParams.set('lat', lat);
   endpointUrl.searchParams.set('lon', lon);
 
-  return executeFetch<WeatherCoordsResponse>(endpointUrl, configFetch({ method: 'GET' }));
+  return fetchClientExecute<QueryWeatherGetByCoordsResponse>(endpointUrl, fetchClientConfig({ method: 'GET' }));
 };

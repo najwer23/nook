@@ -8,7 +8,7 @@ import { Input } from 'najwer23morsels/lib/Input';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import React, { useLayoutEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useState } from 'react';
 import { Timer } from '../timer/Timer';
 import styles from './Workout.module.css';
 import { queryWorkoutCreate, queryWorkoutDictionary, queryWorkoutLevel } from './Workout.query';
@@ -21,9 +21,15 @@ export const Workout: React.FC<{
   const [repCurrentTimer, setRepCurrentTimer] = useState(0);
   const [repCurrentChange, setRepCurrentChange] = useState('stop');
 
-  useDocumentTitle(`${workoutName} | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
+  useDocumentTitle(`Workout: ${workoutName} | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
-  const { mutate, isPending, isError, data, error } = useMutation({
+  const {
+    mutate: mutateQueryWorkoutCreate,
+    isPending: isPendingQueryWorkoutCreate,
+    isError: isErrorQueryWorkoutCreate,
+    data: dataQueryWorkoutCreate,
+    error: errorQueryWorkoutCreate,
+  } = useMutation({
     mutationKey: ['queryWorkoutCreate', workoutName],
     mutationFn: queryWorkoutCreate,
     onSuccess: () => {
@@ -63,8 +69,8 @@ export const Workout: React.FC<{
     500,
   );
 
-  const isLoading = isLoadingQueryWorkoutDictionary || isLoadingQueryWorkoutLevel;
-  const isQueryError = isErrorQueryWorkoutDictionary || isErrorQueryWorkoutLevel;
+  const isLoadingQueryWorkout = isLoadingQueryWorkoutDictionary || isLoadingQueryWorkoutLevel;
+  const isErrorQueryWorkout = isErrorQueryWorkoutDictionary || isErrorQueryWorkoutLevel;
 
   const exercises = resultQueryWorkoutDictionary?.ex ?? [];
   const levelData = resultQueryWorkoutLevel?.data;
@@ -75,7 +81,7 @@ export const Workout: React.FC<{
     if (needsTest || isErrorQueryWorkoutLevel) {
       setSelectedTab('test');
     }
-  }, [needsTest, isErrorQueryWorkoutLevel]);
+  }, [needsTest, isErrorQueryWorkoutLevel, setSelectedTab]);
 
   const workoutLevel = useMemo(() => {
     if (!levelData || exercises.length === 0) return 0;
@@ -88,6 +94,7 @@ export const Workout: React.FC<{
           }
         }
       }
+
       return 0;
     }
 
@@ -98,14 +105,15 @@ export const Workout: React.FC<{
   const currentReps = currentExercise?.reps ?? [];
   const currentRest = currentExercise?.rest ?? 0;
 
-  const handleOnSubmit = async (form: FormType) => {
+  const handleOnSubmitWorkoutCreate = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
+
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
     const dictionarySumReps = currentReps.reduce((a, b) => Number(a) + Number(b), 0);
     const currentSumReps = Object.values(dataForm).reduce((a, b) => Number(a) + Number(b), 0);
 
-    mutate({
+    mutateQueryWorkoutCreate({
       level: currentSumReps >= dictionarySumReps ? workoutLevel + 1 : workoutLevel,
       workoutName,
       kind: 'ex',
@@ -115,17 +123,17 @@ export const Workout: React.FC<{
 
   return (
     <Grid layout="container">
-      {isLoading && <LoaderDots />}
+      {isLoadingQueryWorkout && <LoaderDots />}
 
-      {!isLoading && isQueryError && (
+      {!isLoadingQueryWorkout && isErrorQueryWorkout && (
         <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
           No results
         </TextBox>
       )}
 
-      {!isLoading && !isQueryError && !needsTest && (
+      {!isLoadingQueryWorkout && !isErrorQueryWorkout && !needsTest && (
         <>
-          <Grid margin={'0 0 30px'} layout="container" widthMax={'100%'}>
+          <Grid margin="0 0 30px" layout="container" widthMax="100%">
             <Typography appearance="light" variant="subheading" style={{ margin: 0 }}>
               Level: <b>{workoutLevel}</b>
             </Typography>
@@ -140,40 +148,41 @@ export const Workout: React.FC<{
           >
             <div>
               <Form
-                onSubmit={handleOnSubmit}
-                isError={isError}
-                isPending={isPending}
-                isSuccess={data?.code === 'OK'}
-                errorMsg={error?.message}
-                successMsg={data?.message}
+                onSubmit={handleOnSubmitWorkoutCreate}
+                isError={isErrorQueryWorkoutCreate}
+                isPending={isPendingQueryWorkoutCreate}
+                isSuccess={dataQueryWorkoutCreate?.code === 'OK'}
+                errorMsg={errorQueryWorkoutCreate?.message}
+                successMsg={dataQueryWorkoutCreate?.message}
               >
-                {currentReps.map((v, index) => (
+                {currentReps.map((reps, index) => (
                   <div key={index} className={styles.repRow}>
                     <Input
                       style={{ width: 'calc(100% - 70px)' }}
-                      defaultValue={String(v)}
+                      defaultValue={String(reps)}
                       label={`Repetition: ${index + 1}`}
                       type="number"
                       name={`reps${index}`}
-                      disabled={repCurrent != index}
+                      disabled={repCurrent !== index}
                       validatorOptions={[
                         { type: 'empty' },
                         { type: 'numberInRange', options: { min: 1, max: 1000 } },
                         { type: 'naturalNumber' },
                       ]}
                     />
+
                     <Button
                       type="button"
-                      disabled={repCurrent == index}
+                      disabled={repCurrent === index}
                       onClick={() => {
                         setRepCurrent(index);
                         setRepCurrentChange('stop' + index);
                       }}
-                      height={'40px'}
-                      width={'70px'}
+                      height="40px"
+                      width="70px"
                       backgroundColor="orangered"
                       backgroundColorDisabled="grey"
-                      margin={'10px 0 0 0'}
+                      margin="10px 0 0 0"
                     >
                       <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
                         Unlock
@@ -181,11 +190,12 @@ export const Workout: React.FC<{
                     </Button>
                   </div>
                 ))}
+
                 <Button
                   type="submit"
-                  disabled={isPending}
-                  height={'40px'}
-                  width={'80px'}
+                  disabled={isPendingQueryWorkoutCreate}
+                  height="40px"
+                  width="80px"
                   padding={0}
                   backgroundColor="orangered"
                   backgroundColorDisabled="grey"
@@ -196,6 +206,7 @@ export const Workout: React.FC<{
                 </Button>
               </Form>
             </div>
+
             <div>
               <Timer
                 time={currentRest}
@@ -203,16 +214,17 @@ export const Workout: React.FC<{
                 repCurrentChange={repCurrentChange}
                 forceStop={repCurrent > currentReps.length - 1}
               />
+
               <div className={styles.repsDone}>
                 <Button
                   onClick={() => {
-                    setRepCurrentTimer(repCurrentTimer + 1);
-                    setRepCurrent(repCurrent + 1);
-                    setRepCurrentChange('play' + repCurrent + 1);
+                    setRepCurrentTimer((prev) => prev + 1);
+                    setRepCurrent((prev) => prev + 1);
+                    setRepCurrentChange('play' + (repCurrent + 1));
                   }}
                   type="button"
-                  height={'100px'}
-                  width={'100%'}
+                  height="100px"
+                  width="100%"
                   backgroundColor="#9dae11"
                   backgroundColorDisabled="grey"
                 >

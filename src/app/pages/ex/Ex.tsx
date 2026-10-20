@@ -2,7 +2,7 @@ import { Button } from 'najwer23morsels/lib/Button';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Stats } from './stats/Stats';
 import { Test } from './test/Test';
 import { Workout } from './workout/Workout';
@@ -14,7 +14,7 @@ export const Ex: React.FC<{
 
   return (
     <Grid layout="container">
-      <Grid layout="container" widthMax={'100%'} margin={'0 0 30px 0'}>
+      <Grid layout="container" widthMax="100%" margin="0 0 30px 0">
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
           {workoutName}
         </Typography>
@@ -24,7 +24,7 @@ export const Ex: React.FC<{
           justifyContent="flex-start"
           flexWrap="wrap"
           gap={{ col: '20px', row: '20px' }}
-          margin={'20px 0 0'}
+          margin="20px 0 0"
         >
           <Button
             height="40px"
@@ -32,7 +32,7 @@ export const Ex: React.FC<{
             backgroundColor="orange"
             onClick={() => setSelectedTab('stats')}
             backgroundColorDisabled="darkgrey"
-            disabled={selectedTab == 'stats'}
+            disabled={selectedTab === 'stats'}
           >
             <TextBox mobileSize={18} desktopSize={18}>
               Stats
@@ -45,7 +45,7 @@ export const Ex: React.FC<{
             backgroundColor="orange"
             onClick={() => setSelectedTab('workout')}
             backgroundColorDisabled="darkgrey"
-            disabled={selectedTab == 'workout'}
+            disabled={selectedTab === 'workout'}
           >
             <TextBox mobileSize={18} desktopSize={18}>
               Workout
@@ -58,7 +58,7 @@ export const Ex: React.FC<{
             backgroundColor="orange"
             onClick={() => setSelectedTab('test')}
             backgroundColorDisabled="darkgrey"
-            disabled={selectedTab == 'test'}
+            disabled={selectedTab === 'test'}
           >
             <TextBox mobileSize={18} desktopSize={18}>
               Test
@@ -67,9 +67,11 @@ export const Ex: React.FC<{
         </Grid>
       </Grid>
 
-      {selectedTab == 'stats' && <Stats workoutName={workoutName} />}
-      {selectedTab == 'workout' && <Workout workoutName={workoutName} setSelectedTab={setSelectedTab} />}
-      {selectedTab == 'test' && <Test workoutName={workoutName} setSelectedTab={setSelectedTab} />}
+      {selectedTab === 'stats' && <Stats workoutName={workoutName} />}
+
+      {selectedTab === 'workout' && <Workout workoutName={workoutName} setSelectedTab={setSelectedTab} />}
+
+      {selectedTab === 'test' && <Test workoutName={workoutName} setSelectedTab={setSelectedTab} />}
     </Grid>
   );
 };

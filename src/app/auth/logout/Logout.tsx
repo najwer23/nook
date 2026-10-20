@@ -13,7 +13,8 @@ export const Logout = () => {
 
   useDocumentTitle(`Logout | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
-  const { mutate } = useMutation({
+  const { mutate: mutateQueryLogout } = useMutation({
+    mutationKey: ['queryLogout', 'queryLogout'],
     mutationFn: queryLogout,
     onSettled: () => {
       setAuth(false);
@@ -22,11 +23,11 @@ export const Logout = () => {
   });
 
   useEffect(() => {
-    mutate();
+    mutateQueryLogout();
   }, []);
 
   return (
-    <Grid widthMax={1400} layout="container" padding="10px 10px 10px 10px" margin="auto">
+    <Grid widthMax={1400} layout="container" padding="10px" margin="auto">
       <TextBox tag="h2" mobileSize={20} desktopSize={20}>
         Logout..
       </TextBox>

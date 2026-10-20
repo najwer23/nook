@@ -15,7 +15,7 @@ import { chartDataRainfall } from './chartData/chartDataRainfall';
 import { chartDataTemp } from './chartData/chartDataTemp';
 import { chartDataWind } from './chartData/chartDataWind';
 import styles from './Weather.module.css';
-import { queryWeatherCoords } from './Weather.query';
+import { queryWeatherGetByCoords } from './Weather.query';
 import { forecastDataFormat, formatDateFromDt, sortArrOfObjByLabel } from './Weather.utils';
 import { WeatherForecastData } from './WeatherForecastData';
 import { WeatherImg } from './WeatherImg';
@@ -31,10 +31,14 @@ export const Weather: React.FC = () => {
   const lat = coords.value.split(':')[0];
   const lon = coords.value.split(':')[1];
 
-  const { result, isLoading, isError } = useImmediateThrottledQuery(
+  const {
+    result: resultQueryWeatherGetByCoords,
+    isLoading: isLoadingQueryWeatherGetByCoords,
+    isError: isErrorQueryWeatherGetByCoords,
+  } = useImmediateThrottledQuery(
     {
-      queryKey: ['queryWeatherCoords', 'queryWeatherCoords' + coords.value],
-      queryFn: () => queryWeatherCoords(lat, lon),
+      queryKey: ['queryWeatherGetByCoords', 'queryWeatherGetByCoords' + coords.value],
+      queryFn: () => queryWeatherGetByCoords(lat, lon),
       staleTime: 30 * 1000 * 60,
       gcTime: 30 * 1000 * 60,
       retry: 0,
@@ -56,9 +60,9 @@ export const Weather: React.FC = () => {
     ]);
   }, []);
 
-  const weather8Days = result?.resOpenWeatherMap?.daily ?? [];
-  const weatherHourly = result?.resOpenWeatherMap?.hourly ?? [];
-  const weatherCurrent = result?.resOpenWeatherMap?.current;
+  const weather8Days = resultQueryWeatherGetByCoords?.resOpenWeatherMap?.daily ?? [];
+  const weatherHourly = resultQueryWeatherGetByCoords?.resOpenWeatherMap?.hourly ?? [];
+  const weatherCurrent = resultQueryWeatherGetByCoords?.resOpenWeatherMap?.current;
 
   return (
     <Grid layout="container" widthMax={'100%'}>
@@ -89,15 +93,15 @@ export const Weather: React.FC = () => {
         </Grid>
       </Grid>
 
-      {isLoading && <LoaderDots />}
+      {isLoadingQueryWeatherGetByCoords && <LoaderDots />}
 
-      {!isLoading && isError && (
+      {!isLoadingQueryWeatherGetByCoords && isErrorQueryWeatherGetByCoords && (
         <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
           No results
         </TextBox>
       )}
 
-      {!isLoading && weatherCurrent?.weather && (
+      {!isLoadingQueryWeatherGetByCoords && weatherCurrent?.weather && (
         <>
           <Grid layout="container" widthMax={'100%'} padding={width <= 767.98 ? 0 : '0 0px'} minHeight="415px">
             <div className={styles.weatherWrapper}>

@@ -1,7 +1,9 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type ResponseBase } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 
-export interface QueryExDictionary extends ResponseBase {
+export interface QueryExDictionaryResponse extends FetchClientBaseResponse {
   ex: {
     rest: number;
     reps: number[];
@@ -10,24 +12,46 @@ export interface QueryExDictionary extends ResponseBase {
   }[];
 }
 
-export const queryExDictionary = (workoutName: string): Promise<QueryExDictionary> => {
+export const queryExDictionary = (workoutName: string): Promise<QueryExDictionaryResponse> => {
   const endpointUrl = new URL(`/nook/json/${encodeURIComponent(workoutName)}.json`, window.location.origin);
-  return executeFetch<QueryExDictionary>(endpointUrl, configFetch({ method: 'GET' }));
+  return fetchClientExecute<QueryExDictionaryResponse>(endpointUrl, fetchClientConfig({ method: 'GET' }));
 };
 
-export const queryExCreate = (body: Record<string, string | number>): Promise<ResponseBase> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/gym/ex/create`);
-  return executeFetch<ResponseBase>(endpointUrl, configFetch({ method: 'POST', body }));
+export type QueryExCreatePayload = Record<string, string | number>;
+
+export type QueryExCreateResponse = FetchClientBaseResponse;
+
+export const queryExCreate = (payload: QueryExCreatePayload): Promise<QueryExCreateResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/create`);
+
+  return fetchClientExecute<QueryExCreateResponse>(
+    endpointUrl,
+    fetchClientConfig({
+      method: 'POST',
+      body: payload,
+    }),
+  );
 };
 
-export interface QueryExLevel extends ResponseBase {
+export interface QueryExLevelResponse extends FetchClientBaseResponse {
   data: {
     level: string;
     repsMax: string;
   };
 }
 
-export const queryExLevel = (workoutName: string): Promise<QueryExLevel> => {
-  const endpointUrl = new URL(`${configApiOrigin()}/gym/ex/level`);
-  return executeFetch<QueryExLevel>(endpointUrl, configFetch({ method: 'POST', body: { workoutName } }));
+export type QueryExLevelPayload = {
+  workoutName: string;
+};
+
+export const queryExLevel = (payload: QueryExLevelPayload): Promise<QueryExLevelResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/level`);
+
+  return fetchClientExecute<QueryExLevelResponse>(
+    endpointUrl,
+    fetchClientConfig({
+      method: 'POST',
+      body: payload,
+    }),
+  );
 };
