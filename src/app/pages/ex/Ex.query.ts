@@ -22,7 +22,7 @@ export type QueryExCreatePayload = Record<string, string | number>;
 export type QueryExCreateResponse = FetchClientBaseResponse;
 
 export const queryExCreate = (payload: QueryExCreatePayload): Promise<QueryExCreateResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/create`);
+  const endpointUrl = new URL(`${apiOrigin()}/calisthenics/ex/create`);
 
   return fetchClientExecute<QueryExCreateResponse>(
     endpointUrl,
@@ -45,7 +45,7 @@ export type QueryExLevelPayload = {
 };
 
 export const queryExLevel = (payload: QueryExLevelPayload): Promise<QueryExLevelResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/level`);
+  const endpointUrl = new URL(`${apiOrigin()}/calisthenics/ex/level`);
 
   return fetchClientExecute<QueryExLevelResponse>(
     endpointUrl,

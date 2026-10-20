@@ -23,7 +23,7 @@ export type QueryWorkoutCreatePayload = Record<string, string | number>;
 export type QueryWorkoutCreateResponse = FetchClientBaseResponse;
 
 export const queryWorkoutCreate = (payload: QueryWorkoutCreatePayload): Promise<QueryWorkoutCreateResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/create`);
+  const endpointUrl = new URL(`${apiOrigin()}/calisthenics/ex/create`);
 
   return fetchClientExecute<QueryWorkoutCreateResponse>(
     endpointUrl,
@@ -43,7 +43,7 @@ export type QueryWorkoutLevelPayload = {
 };
 
 export const queryWorkoutLevel = (workoutName: string): Promise<QueryWorkoutLevelResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/level`);
+  const endpointUrl = new URL(`${apiOrigin()}/calisthenics/ex/level`);
 
   return fetchClientExecute<QueryWorkoutLevelResponse>(
     endpointUrl,

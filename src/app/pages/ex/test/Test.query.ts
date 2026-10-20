@@ -8,7 +8,7 @@ export type QueryTestPayload = Record<string, string>;
 export type QueryTestResponse = FetchClientBaseResponse;
 
 export const queryTest = (payload: QueryTestPayload): Promise<QueryTestResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/create`);
+  const endpointUrl = new URL(`${apiOrigin()}/calisthenics/ex/create`);
 
   return fetchClientExecute<QueryTestResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
 };

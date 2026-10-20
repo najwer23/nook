@@ -22,7 +22,7 @@ export type QueryStatsWorkoutPayload = {
 };
 
 export const queryStatsWorkout = (payload: QueryStatsWorkoutPayload): Promise<QueryStatsWorkoutResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/gym/ex/stats`);
+  const endpointUrl = new URL(`${apiOrigin()}/calisthenics/ex/stats`);
 
   return fetchClientExecute<QueryStatsWorkoutResponse>(
     endpointUrl,
