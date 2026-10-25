@@ -8,6 +8,7 @@ import { BlogPostCreator } from '@app/pages/blogpostcreator/BlogPostCreator';
 import { ErrorNotFound } from '@app/pages/error/ErrorNotFound';
 import { Ex } from '@app/pages/ex/Ex';
 import { StockQuotes } from '@app/pages/stockquotes/StockQuotes';
+import { Vacations } from '@app/pages/vacations/Vacations';
 import { Visitors } from '@app/pages/visitors/Visitors';
 import { Weather } from '@app/pages/weather/Weather';
 import { Weight } from '@app/pages/weight/Weight';
@@ -41,6 +42,10 @@ export const router = createHashRouter([
       {
         path: '/visitors',
         element: <Visitors />,
+      },
+      {
+        path: '/vacations',
+        element: <Vacations />,
       },
       {
         path: '/blog-post-creator',
@@ -129,6 +134,10 @@ export const router = createHashRouter([
       {
         path: '/in/pull-ups',
         element: <Ex workoutName={'Pull-ups'} key="Pull-ups" />,
+      },
+      {
+        path: '/in/vacations',
+        element: <Vacations />,
       },
       {
         path: '*',

@@ -14,6 +14,7 @@ const sections: NavigationLinkSection[] = [
       { to: '/in/visitors', label: 'Visitors' },
       { to: '/in/blog-post-creator', label: 'Blog Post Creator' },
       { to: '/in/weight', label: 'Weight' },
+      { to: '/in/vacations', label: 'Vacations' },
     ],
   },
   {

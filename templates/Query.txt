@@ -1,21 +1,19 @@
-import { configApiOrigin } from '@app/config/configApiOrigin';
-import { configFetch, executeFetch, type BaseResponse } from '@app/config/configFetch';
+import { apiOrigin } from '@app/api/apiOrigin';
+import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
+import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
+import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 
-export type Query{{name}}Payload = Record<string, string> & {
+export type Query{{name}}Payload = Record<string, string> & {};
 
-};
-
-export interface Query{{name}}Response extends BaseResponse {
-  data?: {
-
-  };
+export interface Query{{name}}Response extends FetchClientBaseResponse {
+  data?: {};
 }
 
 export const query{{name}} = async (payload: Query{{name}}Payload): Promise<Query{{name}}Response> => {
-  const endpointUrl = new URL(`${configApiOrigin()}`);
-  const response = await executeFetch<Query{{name}}Response>(
+  const endpointUrl = new URL(`${apiOrigin()}`);
+  const response = await fetchClientExecute<Query{{name}}Response>(
     endpointUrl,
-    configFetch({ method: 'GET', body: payload }),
+    fetchClientConfig({ method: 'GET', body: payload }),
   );
 
   return response;
