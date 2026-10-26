@@ -11,6 +11,7 @@ const sections: NavigationLinkSection[] = [
       { to: '/visitors', label: 'Visitors' },
       { to: '/blog-post-creator', label: 'Blog Post Creator' },
       { to: '/vacations', label: 'Vacations' },
+      { to: '/music', label: 'Music' },
     ],
   },
   {

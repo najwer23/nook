@@ -17,7 +17,7 @@ const Masonry = lazy(() =>
 interface Props {}
 
 export const Vacations: React.FC<Props> = ({}) => {
-  useDocumentTitle(`Masonry | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
+  useDocumentTitle(`Vacations | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
   return (
     <Grid layout="container" widthMax="100%" padding="0">
