@@ -145,6 +145,10 @@ export const router = createHashRouter([
         element: <Vacations />,
       },
       {
+        path: '/in/music',
+        element: <Music navigationType="in" />,
+      },
+      {
         path: '*',
         element: <ErrorNotFound />,
       },

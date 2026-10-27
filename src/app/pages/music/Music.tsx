@@ -8,9 +8,11 @@ import { useState } from 'react';
 import AudioVisualizer from './AudioVisualizer';
 import { queryPlaylist } from './Music.query';
 
-interface Props {}
+interface Props {
+  navigationType?: 'in' | 'home';
+}
 
-export const Music: React.FC<Props> = ({}) => {
+export const Music: React.FC<Props> = ({ navigationType = 'home' }) => {
   useDocumentTitle(`Music | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
   const [counterSong, setCounterSong] = useState<number>(0);
@@ -20,8 +22,8 @@ export const Music: React.FC<Props> = ({}) => {
     isLoading: isLoadingQueryPlaylist,
     isError: isErrorQueryPlaylist,
   } = useImmediateThrottledQuery({
-    queryKey: ['queryPlaylist', 'queryPlaylist'],
-    queryFn: () => queryPlaylist(),
+    queryKey: ['queryPlaylist', navigationType],
+    queryFn: () => queryPlaylist(navigationType),
     staleTime: 30 * 1000 * 60,
     gcTime: 30 * 1000 * 60,
     retry: 0,
