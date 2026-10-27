@@ -53,11 +53,13 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
         audio.src = song.url;
       }
 
+      setIsPlaying(true);
+
       try {
         await audio.play();
-        setIsPlaying(true);
         setupAudio();
       } catch (error) {
+        setIsPlaying(false);
         console.error('Play failed:', error);
       }
     }
@@ -250,13 +252,17 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
         ref={audioRef}
         crossOrigin="anonymous"
         preload="auto"
+        onLoadStart={() => setIsBuffering(true)}
         onLoadedMetadata={(e) => {
           const target = e.currentTarget as HTMLAudioElement;
           setDuration(target.duration || 0);
           setTimeout(() => {
             setIsBuffering(false);
-          }, 400);
+          }, 200);
         }}
+        onWaiting={() => setIsBuffering(true)}
+        onCanPlay={() => setIsBuffering(false)}
+        onPlaying={() => setIsBuffering(false)}
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleNext}
       />
