@@ -117,7 +117,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
   const seekValue = useMemo(() => (duration > 0 ? (currentTime / duration) * 100 : 0), [currentTime, duration]);
 
   return (
-    <Grid layout="container" widthMax="100%" padding={'0'}>
+    <Grid layout="container" widthMax="100%" padding={'0'} minHeight={'170px'}>
       <Grid
         layout="flex"
         flexWrap="wrap"
@@ -144,28 +144,89 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
             widthMax="100%"
             gap={{ col: '10px', row: '0px' }}
           >
-            <input type="range" min="0" max="100" value={seekValue} onChange={handleSeekChange} />
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={seekValue}
+              onChange={handleSeekChange}
+              style={{ accentColor: '#ef5527' }}
+            />
 
             <TextBox tag="p" desktopSize={14} mobileSize={14} fontWeight={400} color="gray">
               {displayTime}
             </TextBox>
           </Grid>
 
-          <Button
-            type="button"
-            height={'40px'}
-            width={'80px'}
-            padding={0}
-            disabled={isBuffering}
-            backgroundColor="orangered"
-            backgroundColorDisabled="grey"
-            onClick={togglePlay}
-            margin={'20px 0 10px'}
+          <Grid
+            layout="flex"
+            minHeight="20px"
+            flexWrap="wrap"
+            justifyContent="flexstart"
+            alignItems="flexstart"
+            widthMax="100%"
+            gap={{ col: '10px', row: '0px' }}
           >
-            <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-              {isPlaying ? 'Stop' : 'Play'}
-            </TextBox>
-          </Button>
+            <Button
+              type="button"
+              height={'40px'}
+              width={'60px'}
+              padding={0}
+              backgroundColor="purple"
+              backgroundColorDisabled="grey"
+              onClick={() => {
+                if (song?.id == 1) {
+                  setCounterSong(playlistLength - 1);
+                } else {
+                  setCounterSong((prev) => prev - 1);
+                }
+                setCurrentTime(0);
+              }}
+              margin={'20px 0 3px'}
+            >
+              <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                Prev
+              </TextBox>
+            </Button>
+
+            <Button
+              type="button"
+              height={'40px'}
+              width={'60px'}
+              padding={0}
+              backgroundColor={isPlaying ? 'red' : '  green'}
+              backgroundColorDisabled="grey"
+              onClick={togglePlay}
+              margin={'20px 0 3px'}
+            >
+              <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                {isPlaying ? 'Stop' : 'Play'}
+              </TextBox>
+            </Button>
+
+            <Button
+              type="button"
+              height={'40px'}
+              width={'60px'}
+              padding={0}
+              backgroundColor="purple"
+              backgroundColorDisabled="grey"
+              onClick={() => {
+                if (song?.id == playlistLength) {
+                  setIsPlaying(false);
+                  setCounterSong(0);
+                } else {
+                  setCounterSong((prev) => prev + 1);
+                }
+                setCurrentTime(0);
+              }}
+              margin={'20px 0 3px'}
+            >
+              <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                Next
+              </TextBox>
+            </Button>
+          </Grid>
 
           <TextBox tag="span" desktopSize={12} mobileSize={12} fontWeight={400} color="grey">
             {isBuffering && 'Buffering..'}

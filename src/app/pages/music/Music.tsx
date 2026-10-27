@@ -4,18 +4,15 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AudioVisualizer from './AudioVisualizer';
-import { queryPlaylist, type Song } from './Music.query';
-
-// import styles from './Music.module.css';
+import { queryPlaylist } from './Music.query';
 
 interface Props {}
 
 export const Music: React.FC<Props> = ({}) => {
   useDocumentTitle(`Music | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
-  const [selectedSong, setSelectedSong] = useState<Song | null>(null);
   const [counterSong, setCounterSong] = useState<number>(0);
 
   const {
@@ -33,15 +30,6 @@ export const Music: React.FC<Props> = ({}) => {
 
   const playlist = resultQueryPlaylist?.data.audios ?? [];
 
-  useEffect(() => {
-    if ((playlist.length > 0 && counterSong === 0 && !selectedSong) || counterSong >= playlist.length) {
-      setCounterSong(0);
-      setSelectedSong(null);
-    }
-  }, [counterSong, playlist.length]);
-
-  const song = !selectedSong && playlist.length > 0 ? playlist[counterSong] : selectedSong;
-
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
       <Grid layout="container" widthMax="900px" margin="0 0 30px 0">
@@ -56,59 +44,73 @@ export const Music: React.FC<Props> = ({}) => {
 
       {isLoadingQueryPlaylist && <LoaderDots />}
 
+      {!isLoadingQueryPlaylist && isErrorQueryPlaylist && (
+        <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
+          No results
+        </TextBox>
+      )}
+
       {!isLoadingQueryPlaylist && !isErrorQueryPlaylist && (
         <>
-          <Grid layout="container" minHeight={'180px'}>
-            <AudioVisualizer song={song} setCounterSong={setCounterSong} playlistLength={playlist.length} />
-          </Grid>
+          <AudioVisualizer
+            song={playlist[counterSong]}
+            setCounterSong={setCounterSong}
+            playlistLength={playlist.length}
+          />
 
-          <Grid margin={'30px 0 0 0'} layout="container" widthMax={'1400px'} minHeight="200px">
+          <Grid margin={'10px 0 0 0'} layout="container" widthMax={'1400px'} minHeight="200px">
             <TextBox tag="p" desktopSize={32} mobileSize={24} fontWeight={500} margin={'0 0 10px 0'}>
               Playlist
             </TextBox>
 
-            <ul
-              style={{
-                paddingLeft: '30px',
-              }}
-            >
-              {playlist?.map((song) => (
-                <li
-                  style={{ cursor: 'pointer' }}
-                  key={song.id}
-                  onClick={() => {
-                    setSelectedSong(song);
-                    setCounterSong(song.id - 1);
-                  }}
-                >
+            {playlist?.map((song) => (
+              <TextBox
+                style={{ cursor: 'pointer' }}
+                key={song.id}
+                onClick={() => {
+                  setCounterSong(song.id - 1);
+                }}
+                tag="div"
+                desktopSize={18}
+                mobileSize={18}
+                fontWeight={400}
+                margin={'0 0px 5px 10px'}
+              >
+                {counterSong == song.id - 1 ? (
                   <Grid
-                    minHeight="auto"
+                    padding={0}
+                    margin={0}
+                    minHeight={0}
                     layout="flex"
-                    flexWrap="nowrap"
+                    justifyContent="flexstart"
+                    alignItems="flexstart"
                     gap={{ col: '10px', row: '0px' }}
-                    margin={'0 0 10px'}
                   >
-                    <TextBox tag="p" desktopSize={18} mobileSize={18} fontWeight={400}>
-                      {counterSong == song.id - 1 ? (
-                        <u>
-                          <b>{song.author}</b> -{' '}
-                          <i>
-                            {song.name}, {song.licence}
-                          </i>
-                        </u>
-                      ) : (
-                        <>
-                          <b>{song.author}</b> -{' '}
-                          <i>
-                            {song.name}, {song.licence}
-                          </i>
-                        </>
-                      )}
-                    </TextBox>
+                    <span style={{ display: 'inline-block', width: '20px', color: 'orangered' }}> {song.id}. </span>
+                    <b>{song.author}</b> -{' '}
+                    <i>
+                      {song.name}, {song.licence}
+                    </i>
                   </Grid>
-                </li>
-              ))}
-            </ul>
+                ) : (
+                  <Grid
+                    padding={0}
+                    margin={0}
+                    minHeight={0}
+                    layout="flex"
+                    justifyContent="flexstart"
+                    alignItems="flexstart"
+                    gap={{ col: '10px', row: '0px' }}
+                  >
+                    <span style={{ display: 'inline-block', width: '20px' }}> {song.id}. </span>
+                    <b>{song.author}</b> -{' '}
+                    <i>
+                      {song.name}, {song.licence}
+                    </i>
+                  </Grid>
+                )}
+              </TextBox>
+            ))}
           </Grid>
         </>
       )}
