@@ -91,7 +91,7 @@ export const Music: React.FC<Props> = ({ navigationType = 'home' }) => {
                     <span style={{ display: 'inline-block', width: '20px', color: 'orangered' }}> {song.id}. </span>
                     <b>{song.author}</b> -{' '}
                     <i>
-                      {song.name}, {song.licence}
+                      {song.name} {song.licence && `, ${song.licence}`}
                     </i>
                   </Grid>
                 ) : (
@@ -107,7 +107,7 @@ export const Music: React.FC<Props> = ({ navigationType = 'home' }) => {
                     <span style={{ display: 'inline-block', width: '20px' }}> {song.id}. </span>
                     <b>{song.author}</b> -{' '}
                     <i>
-                      {song.name}, {song.licence}
+                      {song.name} {song.licence && `, ${song.licence}`}
                     </i>
                   </Grid>
                 )}
