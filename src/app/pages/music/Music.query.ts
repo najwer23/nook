@@ -18,7 +18,11 @@ export type QueryPlaylistResponse = FetchClientBaseResponse & {
 };
 
 export const queryPlaylist = (navigationType: 'in' | 'home'): Promise<QueryPlaylistResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/audio/playlist${navigationType == 'in' ? '/in' : ''}`);
+  let endpointUrl = new URL(`${apiOrigin()}/audio/free/playlist`);
+
+  if (navigationType == 'in') {
+    endpointUrl = new URL(`${apiOrigin()}/audio/premium/playlist`);
+  }
 
   return fetchClientExecute<QueryPlaylistResponse>(
     endpointUrl,
