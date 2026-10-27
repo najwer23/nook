@@ -34,6 +34,13 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
     [throttledSetCurrentTime],
   );
 
+  const setupAudio = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio || audioCtxRef.current) return;
+    const audioCtx = new AudioContext();
+    audioCtxRef.current = audioCtx;
+  }, []);
+
   const togglePlay = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio || !song) return;
@@ -54,14 +61,39 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
         console.error('Play failed:', error);
       }
     }
-  }, [isPlaying, song?.url]);
+  }, [isPlaying, song?.url, setupAudio]);
 
-  const setupAudio = useCallback(() => {
+  const stopPlayback = useCallback(() => {
     const audio = audioRef.current;
-    if (!audio || audioCtxRef.current) return;
-    const audioCtx = new AudioContext();
-    audioCtxRef.current = audioCtx;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setCurrentTime(0);
   }, []);
+
+  const handleNext = useCallback(() => {
+    if (song?.id === playlistLength) {
+      stopPlayback();
+      setCounterSong(0);
+    } else {
+      setCounterSong((prev) => prev + 1);
+      setCurrentTime(0);
+    }
+  }, [song?.id, playlistLength, stopPlayback, setCounterSong]);
+
+  const handlePrev = useCallback(() => {
+    if (song?.id === 1) {
+      setCounterSong(playlistLength - 1);
+      if (playlistLength === 1 && audioRef.current) {
+        audioRef.current.currentTime = 0;
+      }
+    } else {
+      setCounterSong((prev) => prev - 1);
+    }
+    setCurrentTime(0);
+  }, [song?.id, playlistLength, setCounterSong]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -88,11 +120,6 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
         });
     }
   }, [song?.url]);
-
-  useEffect(() => {
-    setDuration(0);
-    setCurrentTime(0);
-  }, []);
 
   const formatTime = useCallback((seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -174,14 +201,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
               padding={0}
               backgroundColor="purple"
               backgroundColorDisabled="grey"
-              onClick={() => {
-                if (song?.id == 1) {
-                  setCounterSong(playlistLength - 1);
-                } else {
-                  setCounterSong((prev) => prev - 1);
-                }
-                setCurrentTime(0);
-              }}
+              onClick={handlePrev}
               margin={'20px 0 3px'}
             >
               <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
@@ -194,7 +214,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
               height={'40px'}
               width={'60px'}
               padding={0}
-              backgroundColor={isPlaying ? 'red' : '  green'}
+              backgroundColor={isPlaying ? 'red' : 'green'}
               backgroundColorDisabled="grey"
               onClick={togglePlay}
               margin={'20px 0 3px'}
@@ -211,15 +231,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
               padding={0}
               backgroundColor="purple"
               backgroundColorDisabled="grey"
-              onClick={() => {
-                if (song?.id == playlistLength) {
-                  setIsPlaying(false);
-                  setCounterSong(0);
-                } else {
-                  setCounterSong((prev) => prev + 1);
-                }
-                setCurrentTime(0);
-              }}
+              onClick={handleNext}
               margin={'20px 0 3px'}
             >
               <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
@@ -229,7 +241,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
           </Grid>
 
           <TextBox tag="span" desktopSize={12} mobileSize={12} fontWeight={400} color="grey">
-            {isBuffering && 'Buffering..'}
+            {isBuffering && isPlaying && 'Buffering..'}
           </TextBox>
         </div>
       </Grid>
@@ -246,13 +258,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
           }, 400);
         }}
         onTimeUpdate={handleTimeUpdate}
-        onEnded={() => {
-          if (song?.id == playlistLength) {
-            setIsPlaying(false);
-          }
-          setCounterSong((prev) => prev + 1);
-          setCurrentTime(0);
-        }}
+        onEnded={handleNext}
       />
     </Grid>
   );
