@@ -10,14 +10,37 @@ interface AudioVisualizerProps {
   playlistLength: number;
 }
 
+const BUFFERING_DELAY_MS = 300;
+
 const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong, playlistLength }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isBuffering, setIsBuffering] = useState(true);
+  const [isBuffering, setIsBuffering] = useState(false);
   const lastTimeRef = useRef(0);
+  const bufferingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // show "Buffering.." only if the stall lasts longer than BUFFERING_DELAY_MS
+  const startBuffering = useCallback(() => {
+    if (bufferingTimerRef.current) return; // already pending
+    bufferingTimerRef.current = setTimeout(() => {
+      setIsBuffering(true);
+      bufferingTimerRef.current = null;
+    }, BUFFERING_DELAY_MS);
+  }, []);
+
+  // hide immediately and cancel any pending show
+  const stopBuffering = useCallback(() => {
+    if (bufferingTimerRef.current) {
+      clearTimeout(bufferingTimerRef.current);
+      bufferingTimerRef.current = null;
+    }
+    setIsBuffering(false);
+  }, []);
+
+  useEffect(() => stopBuffering, [stopBuffering]);
 
   const throttledSetCurrentTime = useCallback((time: number) => {
     if (Date.now() - lastTimeRef.current > 1000) {
@@ -100,11 +123,12 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
   useEffect(() => {
     const audio = audioRef.current;
 
-    setIsBuffering(true);
+    startBuffering();
     setDuration(0);
     setCurrentTime(0);
 
     if (!audio || !song) {
+      stopBuffering();
       setIsPlaying(false);
       return;
     }
@@ -243,7 +267,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
           </Grid>
 
           <TextBox tag="span" desktopSize={12} mobileSize={12} fontWeight={400} color="grey">
-            {isBuffering && isPlaying && 'Buffering..'}
+            {isBuffering && 'Buffering..'}
           </TextBox>
         </div>
       </Grid>
@@ -252,17 +276,16 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
         ref={audioRef}
         crossOrigin="anonymous"
         preload="auto"
-        onLoadStart={() => setIsBuffering(true)}
+        onLoadStart={startBuffering}
         onLoadedMetadata={(e) => {
           const target = e.currentTarget as HTMLAudioElement;
           setDuration(target.duration || 0);
-          setTimeout(() => {
-            setIsBuffering(false);
-          }, 200);
         }}
-        onWaiting={() => setIsBuffering(true)}
-        onCanPlay={() => setIsBuffering(false)}
-        onPlaying={() => setIsBuffering(false)}
+        onWaiting={startBuffering}
+        onCanPlay={stopBuffering}
+        onPlaying={stopBuffering}
+        onSeeked={stopBuffering}
+        onError={stopBuffering}
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleNext}
       />
