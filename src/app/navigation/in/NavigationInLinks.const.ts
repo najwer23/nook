@@ -19,6 +19,10 @@ const sections: NavigationLinkSection[] = [
     ],
   },
   {
+    title: 'Radosna',
+    links: [{ to: '/in/rent', label: 'Rent' }],
+  },
+  {
     title: 'Exercise',
     links: [
       { to: '/in/push-ups', label: 'Push Ups' },
