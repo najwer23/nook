@@ -102,9 +102,11 @@ export const Weight = () => {
             onCancel={() => {
               openDialogWeightAdd(false);
               resetQueryWeightAdd();
-              queryClient.invalidateQueries({
-                queryKey: ['queryWeightGetByYear'],
-              });
+              if (dataQueryWeightAdd?.code === 'OK') {
+                queryClient.invalidateQueries({
+                  queryKey: ['queryWeightGetByYear'],
+                });
+              }
             }}
           >
             <Grid

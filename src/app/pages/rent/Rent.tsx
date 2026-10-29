@@ -127,9 +127,11 @@ export const Rent: React.FC<Props> = ({}) => {
               onCancel={() => {
                 setIsOpenDialogInvoiceAdd(false);
                 resetQueryInvoiceAdd();
-                queryClient.invalidateQueries({
-                  queryKey: ['queryRentTable'],
-                });
+                if (dataQueryInvoiceAdd?.code === 'OK') {
+                  queryClient.invalidateQueries({
+                    queryKey: ['queryRentTable'],
+                  });
+                }
               }}
             >
               <Grid
@@ -201,9 +203,11 @@ export const Rent: React.FC<Props> = ({}) => {
             handleCellEdit={(form) => handleCellEdit(form)}
             resetQueryCellEdit={() => {
               resetQueryInvoiceUpdate();
-              queryClient.invalidateQueries({
-                queryKey: ['queryRentTable'],
-              });
+              if (dataQueryInvoiceUpdate?.code === 'OK') {
+                queryClient.invalidateQueries({
+                  queryKey: ['queryRentTable'],
+                });
+              }
             }}
             isErrorCellEdit={isErrorQueryInvoiceUpdate}
             isPendingCellEdit={isPendingQueryInvoiceUpdate}
