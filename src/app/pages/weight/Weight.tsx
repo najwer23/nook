@@ -45,10 +45,6 @@ export const Weight = () => {
     mutationKey: ['queryWeightAdd', 'queryWeightAdd'],
     mutationFn: queryWeightAdd,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['queryWeightGetByYear'],
-      });
-
       setWeightAddFormKey((prev) => prev + 1);
     },
   });
@@ -106,6 +102,9 @@ export const Weight = () => {
             onCancel={() => {
               openDialogWeightAdd(false);
               resetQueryWeightAdd();
+              queryClient.invalidateQueries({
+                queryKey: ['queryWeightGetByYear'],
+              });
             }}
           >
             <Grid

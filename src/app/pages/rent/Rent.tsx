@@ -52,10 +52,6 @@ export const Rent: React.FC<Props> = ({}) => {
     mutationKey: ['QueryInvoiceAdd', 'QueryInvoiceAdd'],
     mutationFn: queryInvoiceAdd,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['queryWeightGetByYear'],
-      });
-
       setDialogInvoiceAddKey((prev) => prev + 1);
     },
   });
@@ -111,6 +107,9 @@ export const Rent: React.FC<Props> = ({}) => {
               onCancel={() => {
                 setIsOpenDialogInvoiceAdd(false);
                 resetQueryInvoiceAdd();
+                queryClient.invalidateQueries({
+                  queryKey: ['queryRentTable'],
+                });
               }}
             >
               <Grid
