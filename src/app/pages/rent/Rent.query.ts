@@ -30,3 +30,8 @@ export const queryInvoiceUpdate = (payload: QueryRentTablePayload): Promise<Quer
   const endpointUrl = new URL(`${apiOrigin()}/invoices/Rent/update`);
   return fetchClientExecute<QueryInvoiceAddResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
 };
+
+export const queryInvoiceDel = (payload: QueryRentTablePayload): Promise<QueryInvoiceAddResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/invoices/Rent/del`);
+  return fetchClientExecute<QueryInvoiceAddResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
+};

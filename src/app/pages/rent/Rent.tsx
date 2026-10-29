@@ -11,7 +11,7 @@ import { Table } from 'najwer23morsels/lib/Table';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useState } from 'react';
-import { queryInvoiceAdd, queryInvoiceUpdate, queryRentTable } from './Rent.query';
+import { queryInvoiceAdd, queryInvoiceDel, queryInvoiceUpdate, queryRentTable } from './Rent.query';
 
 // import styles from './Rent.module.css';
 
@@ -83,7 +83,28 @@ export const Rent: React.FC<Props> = ({}) => {
     });
   };
 
-  console.log(resultQueryRentTable);
+  const {
+    mutate: mutateQueryInvoiceDel,
+    // isPending: isPendingQueryInvoiceDel,
+    // isError: isErrorQueryInvoiceDel,
+    // data: dataQueryInvoiceDel,
+    // error: errorQueryInvoiceDel,
+    // reset: resetQueryInvoiceDel,
+  } = useMutation({
+    mutationKey: ['queryInvoiceDel', 'queryInvoiceDel'],
+    mutationFn: queryInvoiceDel,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['queryRentTable'],
+      });
+    },
+  });
+
+  const handleCellDel = (id: number | string) => {
+    mutateQueryInvoiceDel({
+      id: String(id),
+    });
+  };
 
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
@@ -214,6 +235,7 @@ export const Rent: React.FC<Props> = ({}) => {
             isSuccessCellEdit={dataQueryInvoiceUpdate?.code === 'OK'}
             errorMsgCellEdit={errorQueryInvoiceUpdate?.message}
             successMsgCellEdit={dataQueryInvoiceUpdate?.message}
+            handelCellDel={(id) => handleCellDel(id)}
           />
         </Grid>
       )}
