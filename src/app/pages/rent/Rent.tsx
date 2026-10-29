@@ -11,7 +11,7 @@ import { Table } from 'najwer23morsels/lib/Table';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useState } from 'react';
-import { queryInvoiceAdd, queryRentTable } from './Rent.query';
+import { queryInvoiceAdd, queryInvoiceUpdate, queryRentTable } from './Rent.query';
 
 // import styles from './Rent.module.css';
 
@@ -64,6 +64,26 @@ export const Rent: React.FC<Props> = ({}) => {
       ...dataForm,
     });
   };
+
+  const {
+    mutate: mutateQueryInvoiceUpdate,
+    isPending: isPendingQueryInvoiceUpdate,
+    isError: isErrorQueryInvoiceUpdate,
+    data: dataQueryInvoiceUpdate,
+    error: errorQueryInvoiceUpdate,
+    reset: resetQueryInvoiceUpdate,
+  } = useMutation({
+    mutationKey: ['QueryInvoiceUpdate', 'QueryInvoiceUpdate'],
+    mutationFn: queryInvoiceUpdate,
+  });
+
+  const handleCellEdit = (form: Record<string, string>) => {
+    mutateQueryInvoiceUpdate({
+      ...form,
+    });
+  };
+
+  console.log(resultQueryRentTable);
 
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
@@ -133,8 +153,8 @@ export const Rent: React.FC<Props> = ({}) => {
                 >
                   <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
                     {resultQueryRentTable?.data?.cols
-                      .filter((col: any) => col.cellName !== 'id')
-                      .map((col: any) => (
+                      ?.filter((col: any) => col.cellName !== 'id')
+                      ?.map((col: any) => (
                         <Input
                           key={col.cellName}
                           label={col.cellText}
@@ -173,12 +193,23 @@ export const Rent: React.FC<Props> = ({}) => {
 
           <Table
             jsonSchema={{
-              cols: resultQueryRentTable?.data?.cols,
+              cols: resultQueryRentTable?.data?.cols ?? [],
             }}
             jsonData={{
-              rows: resultQueryRentTable?.data?.rows,
+              rows: resultQueryRentTable?.data?.rows ?? [],
             }}
-            handleCellEdit={() => {}}
+            handleCellEdit={(form) => handleCellEdit(form)}
+            resetQueryCellEdit={() => {
+              resetQueryInvoiceUpdate();
+              queryClient.invalidateQueries({
+                queryKey: ['queryRentTable'],
+              });
+            }}
+            isErrorCellEdit={isErrorQueryInvoiceUpdate}
+            isPendingCellEdit={isPendingQueryInvoiceUpdate}
+            isSuccessCellEdit={dataQueryInvoiceUpdate?.code === 'OK'}
+            errorMsgCellEdit={errorQueryInvoiceUpdate?.message}
+            successMsgCellEdit={dataQueryInvoiceUpdate?.message}
           />
         </Grid>
       )}
