@@ -133,20 +133,17 @@ export const Rent: React.FC<Props> = ({}) => {
                   successMsg={dataQueryInvoiceAdd?.message}
                 >
                   <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
-                    {resultQueryRentTable?.data?.cols.map((col: any) => {
-                      const isId = col.cellName === 'id';
-
-                      return (
+                    {resultQueryRentTable?.data?.cols
+                      .filter((col: any) => col.cellName !== 'id')
+                      .map((col: any) => (
                         <Input
                           key={col.cellName}
                           label={col.cellText}
                           name={col.cellName}
                           type="text"
-                          disabled={isId}
                           placeholder={col.cellText}
                         />
-                      );
-                    })}
+                      ))}
                   </Grid>
 
                   <Grid
