@@ -1,6 +1,6 @@
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQuery } from '@app/hooks/useImmediateThrottledQuery';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from 'najwer23morsels/lib/Button';
 import { Calendar } from 'najwer23morsels/lib/Calendar';
 import { Dialog } from 'najwer23morsels/lib/Dialog';
@@ -35,6 +35,7 @@ export const Rent: React.FC<Props> = ({}) => {
     {
       queryKey: ['queryRentTable', 'queryRentTable'],
       queryFn: () => queryRentTable(),
+      placeholderData: keepPreviousData,
       staleTime: 0,
       gcTime: 0,
       retry: 0,
@@ -103,6 +104,8 @@ export const Rent: React.FC<Props> = ({}) => {
     });
   };
 
+  const hasData = Boolean(resultQueryRentTable?.data);
+
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
       <Grid layout="container" widthMax="900px" margin="0 0 30px 0">
@@ -111,7 +114,7 @@ export const Rent: React.FC<Props> = ({}) => {
         </Typography>
       </Grid>
 
-      {isLoadingQueryRentTable && <LoaderDots />}
+      {isLoadingQueryRentTable && !hasData && <LoaderDots />}
 
       {!isLoadingQueryRentTable && isErrorQueryRentTable && (
         <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
@@ -119,7 +122,7 @@ export const Rent: React.FC<Props> = ({}) => {
         </TextBox>
       )}
 
-      {!isLoadingQueryRentTable && (
+      {hasData && (
         <Grid layout="container" widthMax={'100%'}>
           <Grid
             layout="flex"
