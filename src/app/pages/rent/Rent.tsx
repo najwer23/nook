@@ -249,21 +249,27 @@ export const Rent: React.FC<Props> = ({}) => {
             jsonData={{
               rows: resultQueryRentTable?.data?.rows ?? [],
             }}
-            handleCellEdit={(form) => handleCellEdit(form)}
-            resetQueryCellEdit={() => {
-              resetQueryInvoiceUpdate();
-              if (dataQueryInvoiceUpdate?.code === 'OK') {
-                queryClient.invalidateQueries({
-                  queryKey: ['queryRentTable'],
-                });
-              }
+            cellEdit={{
+              isCellError: isErrorQueryInvoiceUpdate,
+              isCellPending: isPendingQueryInvoiceUpdate,
+              isCellSuccess: dataQueryInvoiceUpdate?.code === 'OK',
+              cellErrorMsg: errorQueryInvoiceUpdate?.message,
+              cellSuccessMsg: dataQueryInvoiceUpdate?.message,
+              onCellDelete: (id) => {
+                handleCellDel(id);
+              },
+              onCellEdit: (form) => {
+                handleCellEdit(form);
+              },
+              onCellReset: () => {
+                resetQueryInvoiceUpdate();
+                if (dataQueryInvoiceUpdate?.code === 'OK') {
+                  queryClient.invalidateQueries({
+                    queryKey: ['queryRentTable'],
+                  });
+                }
+              },
             }}
-            isErrorCellEdit={isErrorQueryInvoiceUpdate}
-            isPendingCellEdit={isPendingQueryInvoiceUpdate}
-            isSuccessCellEdit={dataQueryInvoiceUpdate?.code === 'OK'}
-            errorMsgCellEdit={errorQueryInvoiceUpdate?.message}
-            successMsgCellEdit={dataQueryInvoiceUpdate?.message}
-            handelCellDel={(id) => handleCellDel(id)}
           />
         </Grid>
       )}
