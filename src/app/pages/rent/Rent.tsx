@@ -87,19 +87,14 @@ export const Rent: React.FC<Props> = ({}) => {
 
   const {
     mutate: mutateQueryInvoiceDel,
-    // isPending: isPendingQueryInvoiceDel,
-    // isError: isErrorQueryInvoiceDel,
-    // data: dataQueryInvoiceDel,
-    // error: errorQueryInvoiceDel,
-    // reset: resetQueryInvoiceDel,
+    isPending: isPendingQueryInvoiceDel,
+    isError: isErrorQueryInvoiceDel,
+    data: dataQueryInvoiceDel,
+    error: errorQueryInvoiceDel,
+    reset: resetQueryInvoiceDel,
   } = useMutation({
     mutationKey: ['queryInvoiceDel', 'queryInvoiceDel'],
     mutationFn: queryInvoiceDel,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['queryRentTable'],
-      });
-    },
   });
 
   const handleCellDel = (id: number | string) => {
@@ -227,8 +222,8 @@ export const Rent: React.FC<Props> = ({}) => {
                     <Button
                       type="submit"
                       height="40px"
-                      width="80px"
-                      padding={0}
+                      width="auto"
+                      padding={'0 10px'}
                       backgroundColor="#4BB543"
                       backgroundColorDisabled="grey"
                     >
@@ -250,25 +245,33 @@ export const Rent: React.FC<Props> = ({}) => {
               rows: resultQueryRentTable?.data?.rows ?? [],
             }}
             cellEdit={{
-              isCellError: isErrorQueryInvoiceUpdate,
-              isCellPending: isPendingQueryInvoiceUpdate,
-              isCellSuccess: dataQueryInvoiceUpdate?.code === 'OK',
-              cellErrorMsg: errorQueryInvoiceUpdate?.message,
-              cellSuccessMsg: dataQueryInvoiceUpdate?.message,
-              onCellDelete: (id) => {
-                handleCellDel(id);
-              },
+              isCellEditError: isErrorQueryInvoiceUpdate,
+              isCellEditPending: isPendingQueryInvoiceUpdate,
+              isCellEditSuccess: dataQueryInvoiceUpdate?.code === 'OK',
+              cellEditErrorMsg: errorQueryInvoiceUpdate?.message,
+              cellEditSuccessMsg: dataQueryInvoiceUpdate?.message,
               onCellEdit: (form) => {
                 handleCellEdit(form);
               },
-              onCellReset: () => {
-                resetQueryInvoiceUpdate();
-                if (dataQueryInvoiceUpdate?.code === 'OK') {
-                  queryClient.invalidateQueries({
-                    queryKey: ['queryRentTable'],
-                  });
-                }
+            }}
+            cellDelete={{
+              onCellDelete: (id) => {
+                handleCellDel(id);
               },
+              isCellDeleteError: isErrorQueryInvoiceDel,
+              isCellDeletePending: isPendingQueryInvoiceDel,
+              isCellDeleteSuccess: dataQueryInvoiceDel?.code === 'OK',
+              cellDeleteErrorMsg: errorQueryInvoiceDel?.message,
+              cellDeleteSuccessMsg: dataQueryInvoiceDel?.message,
+            }}
+            onCellReset={() => {
+              resetQueryInvoiceDel();
+              resetQueryInvoiceUpdate();
+              if (dataQueryInvoiceUpdate?.code === 'OK' || dataQueryInvoiceDel?.code === 'OK') {
+                queryClient.invalidateQueries({
+                  queryKey: ['queryRentTable'],
+                });
+              }
             }}
           />
         </Grid>
