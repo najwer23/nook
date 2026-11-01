@@ -247,6 +247,8 @@ export const Rent: React.FC<Props> = ({}) => {
             jsonData={{
               rows: resultQueryRentTable?.data?.rows ?? [],
             }}
+            isLoading={isLoadingQueryRentTable}
+            tableLoadingHeight={43.88 + 'px'}
             cellEdit={{
               isCellEditError: isErrorQueryInvoiceUpdate,
               isCellEditPending: isPendingQueryInvoiceUpdate,
