@@ -2,13 +2,14 @@ import { apiOrigin } from '@app/api/apiOrigin';
 import type { FetchClientBaseResponse } from '@app/fetchClient/fetchClient.types';
 import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
 import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
+import type { TableColumn, TableRow } from 'najwer23morsels/lib/Table';
 
 export type QueryRentTablePayload = Record<string, string> & {};
 
 export interface QueryRentTableResponse extends FetchClientBaseResponse {
   data?: {
-    cols: any;
-    rows: any;
+    cols: TableColumn[];
+    rows: TableRow[];
   };
 }
 

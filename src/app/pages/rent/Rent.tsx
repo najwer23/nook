@@ -2,11 +2,13 @@ import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQuery } from '@app/hooks/useImmediateThrottledQuery';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from 'najwer23morsels/lib/Button';
+import { Calendar } from 'najwer23morsels/lib/Calendar';
 import { Dialog } from 'najwer23morsels/lib/Dialog';
 import { Form, type FormType } from 'najwer23morsels/lib/Form';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
+import { Select } from 'najwer23morsels/lib/Select';
 import { Table } from 'najwer23morsels/lib/Table';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
@@ -176,16 +178,42 @@ export const Rent: React.FC<Props> = ({}) => {
                 >
                   <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
                     {resultQueryRentTable?.data?.cols
-                      ?.filter((col: any) => col.cellName !== 'id')
-                      ?.map((col: any) => (
-                        <Input
-                          key={col.cellName}
-                          label={col.cellText}
-                          name={col.cellName}
-                          type="text"
-                          placeholder={col.cellText}
-                        />
-                      ))}
+                      ?.filter((col) => col.cellName !== 'id')
+                      ?.map((col) => {
+                        if (col.cellType === 'date') {
+                          return (
+                            <Calendar
+                              key={col.cellName}
+                              label={col.cellText}
+                              name={col.cellName}
+                              initialValue={col.initialValue}
+                              placeholder={col.cellText}
+                            />
+                          );
+                        }
+
+                        if (col.cellType === 'select') {
+                          return (
+                            <Select
+                              key={col.cellName}
+                              name={col.cellName}
+                              options={col.options}
+                              initialValue={col.initialValue}
+                            />
+                          );
+                        }
+
+                        return (
+                          <Input
+                            key={col.cellName}
+                            label={col.cellText}
+                            name={col.cellName}
+                            type={col.cellType}
+                            step={col.cellType === 'number' ? 0.01 : undefined}
+                            placeholder={col.cellText}
+                          />
+                        );
+                      })}
                   </Grid>
 
                   <Grid
