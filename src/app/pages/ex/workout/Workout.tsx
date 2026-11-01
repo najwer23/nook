@@ -195,8 +195,8 @@ export const Workout: React.FC<{
                   type="submit"
                   disabled={isPendingQueryWorkoutCreate}
                   height="40px"
-                  width="80px"
-                  padding={0}
+                  width={'auto'}
+                  padding={'0 10px'}
                   backgroundColor="orangered"
                   backgroundColorDisabled="grey"
                 >

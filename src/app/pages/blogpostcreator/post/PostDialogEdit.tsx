@@ -162,8 +162,8 @@ export const PostDialogEdit: React.FC<{}> = () => {
               <Button
                 type="submit"
                 height={'40px'}
-                width={'80px'}
-                padding={0}
+                width={'auto'}
+                padding={'0 10px'}
                 backgroundColor="#4BB543"
                 backgroundColorDisabled="grey"
               >

@@ -90,7 +90,13 @@ export const Weight = () => {
           gap={{ col: '20px', row: '20px' }}
           margin={'20px 0 0'}
         >
-          <Button height="40px" width="120px" backgroundColor="orangered" onClick={() => openDialogWeightAdd(true)}>
+          <Button
+            height="40px"
+            width={'auto'}
+            padding={'0 10px'}
+            backgroundColor="orangered"
+            onClick={() => openDialogWeightAdd(true)}
+          >
             <TextBox mobileSize={18} desktopSize={18} color="white">
               Add Weight
             </TextBox>
@@ -161,8 +167,8 @@ export const Weight = () => {
                       <Button
                         type="submit"
                         height={'40px'}
-                        width={'80px'}
-                        padding={0}
+                        width={'auto'}
+                        padding={'0 10px'}
                         disabled={isPendingQueryWeightAdd}
                         backgroundColor="#4BB543"
                         backgroundColorDisabled="grey"

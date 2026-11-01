@@ -28,7 +28,8 @@ export const Ex: React.FC<{
         >
           <Button
             height="40px"
-            width="100px"
+            width={'auto'}
+            padding={'0 10px'}
             backgroundColor="orange"
             onClick={() => setSelectedTab('stats')}
             backgroundColorDisabled="darkgrey"
@@ -41,7 +42,8 @@ export const Ex: React.FC<{
 
           <Button
             height="40px"
-            width="100px"
+            width={'auto'}
+            padding={'0 10px'}
             backgroundColor="orange"
             onClick={() => setSelectedTab('workout')}
             backgroundColorDisabled="darkgrey"
@@ -54,7 +56,8 @@ export const Ex: React.FC<{
 
           <Button
             height="40px"
-            width="100px"
+            width={'auto'}
+            padding={'0 10px'}
             backgroundColor="orange"
             onClick={() => setSelectedTab('test')}
             backgroundColorDisabled="darkgrey"

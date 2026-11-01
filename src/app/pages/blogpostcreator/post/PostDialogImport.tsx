@@ -82,8 +82,8 @@ export const PostDialogImport: React.FC<{}> = () => {
               <Button
                 type="button"
                 height={'40px'}
-                width={'110px'}
-                padding={0}
+                width={'auto'}
+                padding={'0 10px'}
                 backgroundColor="indigo"
                 backgroundColorDisabled="grey"
                 onClick={handleFreshStart}
@@ -93,7 +93,7 @@ export const PostDialogImport: React.FC<{}> = () => {
                 </TextBox>
               </Button>
 
-              <ButtonCopy height={'40px'} width={'60px'} textToCopy={jsonText}>
+              <ButtonCopy height={'40px'} width={'auto'} padding={'0 10px'} textToCopy={jsonText}>
                 <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
                   Copy
                 </TextBox>
@@ -103,8 +103,8 @@ export const PostDialogImport: React.FC<{}> = () => {
             <Button
               type="submit"
               height={'40px'}
-              width={'80px'}
-              padding={0}
+              width={'auto'}
+              padding={'0 10px'}
               backgroundColor="#4BB543"
               backgroundColorDisabled="grey"
             >
