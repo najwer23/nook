@@ -176,7 +176,7 @@ export const Rent: React.FC<Props> = ({}) => {
                 >
                   <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
                     {resultQueryRentTable?.data?.cols
-                      ?.filter((col) => col.cellName !== 'id')
+                      ?.filter((col) => col.disabled !== true)
                       ?.map((col) => {
                         if (col.cellType === 'date') {
                           return (
@@ -186,6 +186,7 @@ export const Rent: React.FC<Props> = ({}) => {
                               name={col.cellName}
                               initialValue={col.initialValue}
                               placeholder={col.cellText}
+                              disabled={col.disabled}
                             />
                           );
                         }
@@ -197,6 +198,7 @@ export const Rent: React.FC<Props> = ({}) => {
                               name={col.cellName}
                               options={col.options}
                               initialValue={col.initialValue}
+                              disabled={col.disabled}
                             />
                           );
                         }
@@ -209,6 +211,7 @@ export const Rent: React.FC<Props> = ({}) => {
                             type={col.cellType}
                             step={col.cellType === 'number' ? 0.01 : undefined}
                             placeholder={col.cellText}
+                            disabled={col.disabled}
                           />
                         );
                       })}
@@ -231,7 +234,7 @@ export const Rent: React.FC<Props> = ({}) => {
                       backgroundColorDisabled="grey"
                     >
                       <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                        Save
+                        Save changes
                       </TextBox>
                     </Button>
                   </Grid>

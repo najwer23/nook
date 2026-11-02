@@ -174,7 +174,7 @@ export const Weight = () => {
                         backgroundColorDisabled="grey"
                       >
                         <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                          Save
+                          Save changes
                         </TextBox>
                       </Button>
                     </Grid>
