@@ -14,8 +14,11 @@ export default defineConfig({
       //   enabled: true,
       // },
       manifest: {
-        name: 'Nook by Mariusz Najwer',
+        id: '/nook/',
+        name: 'Mariusz Najwer | Nook',
         short_name: 'Nook',
+        description: 'A collection of simple, useful web apps by Mariusz Najwer.',
+        lang: 'en',
         start_url: '/nook/',
         scope: '/nook/',
         display: 'standalone',
@@ -34,6 +37,13 @@ export default defineConfig({
             type: 'image/png',
             purpose: 'any',
           },
+          // Optional: add a dedicated maskable icon (with safe-zone padding)
+          // {
+          //   src: 'icon/512-maskable.png',
+          //   sizes: '512x512',
+          //   type: 'image/png',
+          //   purpose: 'maskable',
+          // },
         ],
       },
     }),

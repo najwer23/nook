@@ -1,24 +1,72 @@
-<!DOCTYPE HTML>
-<html lang="en" class="notranslate" translate="no">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-	<meta name="google" content="notranslate">
 	<meta charset="UTF-8">
-	<meta name="description" content="React starter kit with Vite, TypeScript, CSS modules">
-	<meta name="author" content="Mariusz Najwer">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="keywords" content="najwer23, Mariusz Najwer">
-	<meta name="robots" content="INDEX,FOLLOW">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Nook</title>
-	<meta property="og:image" content="/najwer23.png">
+
+	<!-- Hide the static fallback only when JS is running, until React mounts -->
+	<script>document.documentElement.classList.add('js');</script>
+	<style>.js #root > main { visibility: hidden; }</style>
+
+	<title>Mariusz Najwer | Nook</title>
+	<meta name="description" content="Nook is a collection of simple, useful web apps by Mariusz Najwer. Track invoices and balances, and manage everyday tasks in one place.">
+	<meta name="author" content="Mariusz Najwer">
+	<link rel="canonical" href="https://najwer23.github.io/nook/">
+
 	<link rel="icon" href="/icon/favicon.ico" sizes="32x32">
 	<link rel="icon" href="/icon/icon.svg" type="image/svg+xml">
 	<link rel="apple-touch-icon" href="/icon/apple-touch-icon.png">
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://najwer23.github.io/nook/">
+	<meta property="og:site_name" content="Nook">
+	<meta property="og:title" content="Mariusz Najwer | Nook">
+	<meta property="og:description" content="A collection of simple, useful web apps by Mariusz Najwer.">
+	<meta property="og:image" content="https://najwer23.github.io/najwer23.png">
+	<meta property="og:image:alt" content="Nook by Mariusz Najwer">
+
+	<!-- Twitter / X -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Mariusz Najwer | Nook">
+	<meta name="twitter:description" content="A collection of simple, useful web apps by Mariusz Najwer.">
+	<meta name="twitter:image" content="https://najwer23.github.io/najwer23.png">
+
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "WebApplication",
+			"name": "Nook",
+			"url": "https://najwer23.github.io/nook/",
+			"description": "A collection of simple, useful web apps: household bills and invoices, weather, stock quotes, gym workouts and blog drafts.",
+			"applicationCategory": "UtilitiesApplication",
+			"operatingSystem": "Any",
+			"inLanguage": "en",
+			"author": {
+				"@type": "Person",
+				"name": "Mariusz Najwer",
+				"url": "https://najwer23.github.io/"
+			}
+		}
+	</script>
 </head>
 
 <body>
-	<div id="root"></div>
+	<div id="root">
+		<main>
+			<h1>Nook</h1>
+			<p>A collection of simple, useful web apps by <a href="https://najwer23.github.io/">Mariusz Najwer</a>, all in one place.</p>
+			<ul>
+				<li>Household bills and invoices, with balances and spending analytics</li>
+				<li>Weather and stock quotes</li>
+				<li>Gym workout log</li>
+				<li>Blog post drafts</li>
+			</ul>
+			<p>Built with React, TypeScript, Fastify and AWS.</p>
+		</main>
+	</div>
+	<noscript>Please enable JavaScript to use Nook.</noscript>
 	<script type="module" src="/src/main.tsx"></script>
 </body>
 
