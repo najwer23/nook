@@ -176,7 +176,7 @@ export const Rent: React.FC<Props> = ({}) => {
                 >
                   <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
                     {resultQueryRentTable?.data?.cols
-                      ?.filter((col) => col.disabled !== true && col.cellName != 'paidDate')
+                      ?.filter((col) => col.disabledAdd !== true)
                       ?.map((col) => {
                         if (col.cellType === 'date') {
                           return (
@@ -186,7 +186,7 @@ export const Rent: React.FC<Props> = ({}) => {
                               name={col.cellName}
                               initialValue={col.initialValue}
                               placeholder={col.cellText}
-                              disabled={col.disabled}
+                              disabled={col.disabledAdd}
                             />
                           );
                         }
@@ -198,7 +198,7 @@ export const Rent: React.FC<Props> = ({}) => {
                               name={col.cellName}
                               options={col.options}
                               initialValue={col.initialValue}
-                              disabled={col.disabled}
+                              disabled={col.disabledAdd}
                             />
                           );
                         }
@@ -211,7 +211,7 @@ export const Rent: React.FC<Props> = ({}) => {
                             type={col.cellType}
                             step={col.cellType === 'number' ? 0.01 : undefined}
                             placeholder={col.cellText}
-                            disabled={col.disabled}
+                            disabled={col.disabledAdd}
                           />
                         );
                       })}
