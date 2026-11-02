@@ -176,7 +176,7 @@ export const Rent: React.FC<Props> = ({}) => {
                 >
                   <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
                     {resultQueryRentTable?.data?.cols
-                      ?.filter((col) => col.disabled !== true)
+                      ?.filter((col) => col.disabled !== true && col.cellName != 'paidDate')
                       ?.map((col) => {
                         if (col.cellType === 'date') {
                           return (
