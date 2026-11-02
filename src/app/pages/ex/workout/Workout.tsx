@@ -142,8 +142,8 @@ export const Workout: React.FC<{
           <Grid
             layout="columns"
             padding="0"
-            margin="0"
-            col={{ mobile: 1, smallDesktop: 2, desktop: 2, tablet: 2 }}
+            margin="0 0 30px"
+            col={{ mobile: 1, smallDesktop: 2, desktop: 2, tablet: 1 }}
             gap={{ col: '50px', row: '50px' }}
           >
             <div>
