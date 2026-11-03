@@ -12,7 +12,7 @@ import { Select } from 'najwer23morsels/lib/Select';
 import { Table } from 'najwer23morsels/lib/Table';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { queryInvoiceAdd, queryInvoiceDel, queryInvoiceUpdate, queryRentTable } from './Rent.query';
 
 // import styles from './Rent.module.css';
@@ -26,6 +26,9 @@ export const Rent: React.FC<Props> = ({}) => {
 
   const [isOpenDialogInvoiceAdd, setIsOpenDialogInvoiceAdd] = useState(false);
   const [dialogInvoiceAddKey, setDialogInvoiceAddKey] = useState(0);
+
+  const hasAddedInvoiceRef = useRef(false);
+  const hasChangedRowRef = useRef(false);
 
   const {
     result: resultQueryRentTable,
@@ -54,7 +57,10 @@ export const Rent: React.FC<Props> = ({}) => {
   } = useMutation({
     mutationKey: ['QueryInvoiceAdd', 'QueryInvoiceAdd'],
     mutationFn: queryInvoiceAdd,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (data?.code === 'OK') {
+        hasAddedInvoiceRef.current = true;
+      }
       setDialogInvoiceAddKey((prev) => prev + 1);
     },
   });
@@ -78,6 +84,9 @@ export const Rent: React.FC<Props> = ({}) => {
   } = useMutation({
     mutationKey: ['QueryInvoiceUpdate', 'QueryInvoiceUpdate'],
     mutationFn: queryInvoiceUpdate,
+    onSuccess: (data) => {
+      if (data?.code === 'OK') hasChangedRowRef.current = true;
+    },
   });
 
   const handleCellEdit = (form: Record<string, string>) => {
@@ -96,6 +105,9 @@ export const Rent: React.FC<Props> = ({}) => {
   } = useMutation({
     mutationKey: ['queryInvoiceDel', 'queryInvoiceDel'],
     mutationFn: queryInvoiceDel,
+    onSuccess: (data) => {
+      if (data?.code === 'OK') hasChangedRowRef.current = true;
+    },
   });
 
   const handleCellDel = (id: number | string) => {
@@ -148,10 +160,9 @@ export const Rent: React.FC<Props> = ({}) => {
               onCancel={() => {
                 setIsOpenDialogInvoiceAdd(false);
                 resetQueryInvoiceAdd();
-                if (dataQueryInvoiceAdd?.code === 'OK') {
-                  queryClient.invalidateQueries({
-                    queryKey: ['queryRentTable'],
-                  });
+                if (hasAddedInvoiceRef.current) {
+                  hasAddedInvoiceRef.current = false;
+                  queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
                 }
               }}
             >
@@ -275,10 +286,9 @@ export const Rent: React.FC<Props> = ({}) => {
             onCellReset={() => {
               resetQueryInvoiceDel();
               resetQueryInvoiceUpdate();
-              if (dataQueryInvoiceUpdate?.code === 'OK' || dataQueryInvoiceDel?.code === 'OK') {
-                queryClient.invalidateQueries({
-                  queryKey: ['queryRentTable'],
-                });
+              if (hasChangedRowRef.current) {
+                hasChangedRowRef.current = false;
+                queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
               }
             }}
           />

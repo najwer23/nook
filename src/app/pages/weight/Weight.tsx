@@ -11,7 +11,7 @@ import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { Select } from 'najwer23morsels/lib/Select';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { chartDataBMI } from './chartData/chartDataBMI';
 import { chartDataWeight } from './chartData/chartDataWeight';
 import { queryWeightAdd, queryWeightGetByYear } from './Weight.query';
@@ -27,6 +27,8 @@ export const Weight = () => {
   const [year, setYear] = useState(currentYear);
   const [isOpenDialogWeightAdd, openDialogWeightAdd] = useState(false);
   const [weightAddFormKey, setWeightAddFormKey] = useState(0);
+
+  const hasChangedWeightRef = useRef(false);
 
   const handleOnSubmitSelectYear = (form: FormType) => {
     if (Object.values(form).some(({ error }) => error)) return;
@@ -44,7 +46,10 @@ export const Weight = () => {
   } = useMutation({
     mutationKey: ['queryWeightAdd', 'queryWeightAdd'],
     mutationFn: queryWeightAdd,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (data?.code === 'OK') {
+        hasChangedWeightRef.current = true;
+      }
       setWeightAddFormKey((prev) => prev + 1);
     },
   });
@@ -108,10 +113,9 @@ export const Weight = () => {
             onCancel={() => {
               openDialogWeightAdd(false);
               resetQueryWeightAdd();
-              if (dataQueryWeightAdd?.code === 'OK') {
-                queryClient.invalidateQueries({
-                  queryKey: ['queryWeightGetByYear'],
-                });
+              if (hasChangedWeightRef.current) {
+                hasChangedWeightRef.current = false;
+                queryClient.invalidateQueries({ queryKey: ['queryWeightGetByYear'] });
               }
             }}
           >
