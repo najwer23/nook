@@ -68,7 +68,7 @@ export const Rent: React.FC<{
 
       {!isInitialLoading && (
         <>
-          <RentBalance credits={credits} />
+          <RentBalance credits={credits} isLoading={isLoadingQueryBalanceGet} />
 
           {isErrorQueryRentTable && (
             <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
