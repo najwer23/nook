@@ -58,15 +58,13 @@ export const RentTable: React.FC<{
   };
 
   const handleCellReset = () => {
-    setTimeout(() => {
-      resetQueryInvoiceDel();
-      resetQueryInvoiceUpdate();
-      if (hasChangedRowRef.current) {
-        hasChangedRowRef.current = false;
-        queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
-        queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
-      }
-    }, 300);
+    resetQueryInvoiceDel();
+    resetQueryInvoiceUpdate();
+    if (hasChangedRowRef.current) {
+      hasChangedRowRef.current = false;
+      queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
+      queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
+    }
   };
 
   return (
