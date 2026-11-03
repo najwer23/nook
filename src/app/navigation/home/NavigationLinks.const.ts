@@ -19,7 +19,7 @@ const sections: NavigationLinkSection[] = [
     links: [{ to: 'https://najwer23.github.io/najwer23morsels', label: 'Design System' }],
   },
   {
-    title: 'More Me',
+    title: 'More of Me',
     links: [
       { to: 'https://najwer23.github.io/', label: 'Portfolio' },
       { to: 'https://najwer23.github.io/resume/', label: 'Résumé' },
