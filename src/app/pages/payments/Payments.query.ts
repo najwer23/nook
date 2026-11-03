@@ -34,6 +34,10 @@ export const queryInvoiceDel = ({ type, ...payload }: FetchClientBasePayload): P
 export interface QueryBalanceGetResponse extends FetchClientBaseResponse {
   data?: {
     credits: number;
+    templateText: string;
+    templateParams: {
+      [key: string]: string;
+    };
   };
 }
 

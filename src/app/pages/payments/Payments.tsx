@@ -2,10 +2,13 @@ import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQuery } from '@app/hooks/useImmediateThrottledQuery';
 import { keepPreviousData } from '@tanstack/react-query';
 import { Grid } from 'najwer23morsels/lib/Grid';
+import { Input } from 'najwer23morsels/lib/Input';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
+import { useMemo } from 'react';
 import { queryBalanceGet, queryPaymentsTable } from './Payments.query';
+import { replaceStringVariables } from './Payments.utils';
 import { PaymentsBalance } from './PaymentsBalance';
 import { PaymentsBalanceAddDialog } from './PaymentsBalanceAddDialog';
 import { PaymentsInvoiceAddDialog } from './PaymentsInvoiceAddDialog';
@@ -57,6 +60,17 @@ export const Payments: React.FC<{
   const cols = resultQueryPaymentsTable?.data?.cols ?? [];
   const rows = resultQueryPaymentsTable?.data?.rows ?? [];
   const credits = resultQueryBalanceGet?.data?.credits;
+  const templateParams = resultQueryBalanceGet?.data?.templateParams;
+  const templateText = resultQueryBalanceGet?.data?.templateText ?? '';
+
+  const generatedText = useMemo(
+    () =>
+      replaceStringVariables(type, templateText, {
+        ...rows[0],
+        ...templateParams,
+      }),
+    [type, templateText, rows, templateParams],
+  );
 
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
@@ -70,6 +84,10 @@ export const Payments: React.FC<{
 
       {!isInitialLoading && (
         <>
+          <Grid layout="container" widthMax="900px" margin="0 0 30px 0">
+            <Input key={generatedText} kind="textarea" name="templateText" defaultValue={generatedText} />
+          </Grid>
+
           <PaymentsBalance credits={credits} isLoading={isLoadingQueryBalanceGet} />
 
           {isErrorQueryPaymentsTable && (
