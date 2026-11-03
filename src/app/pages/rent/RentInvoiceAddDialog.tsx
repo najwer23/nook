@@ -51,12 +51,14 @@ export const RentInvoiceAddDialog: React.FC<{
 
   const handleOnCancelDialogInvoiceAdd = () => {
     openDialogInvoiceAdd(false);
-    resetQueryInvoiceAdd();
-    if (hasChangedInvoiceRef.current) {
-      hasChangedInvoiceRef.current = false;
-      queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
-      queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
-    }
+    setTimeout(() => {
+      resetQueryInvoiceAdd();
+      if (hasChangedInvoiceRef.current) {
+        hasChangedInvoiceRef.current = false;
+        queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
+        queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
+      }
+    }, 300);
   };
 
   return (

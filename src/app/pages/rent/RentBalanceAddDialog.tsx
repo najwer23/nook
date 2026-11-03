@@ -49,11 +49,13 @@ export const RentBalanceAddDialog: React.FC<{
 
   const handleOnCancelDialogBalanceAdd = () => {
     openDialogBalanceAdd(false);
-    resetQueryBalanceAdd();
-    if (hasChangedBalanceRef.current) {
-      hasChangedBalanceRef.current = false;
-      queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
-    }
+    setTimeout(() => {
+      resetQueryBalanceAdd();
+      if (hasChangedBalanceRef.current) {
+        hasChangedBalanceRef.current = false;
+        queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
+      }
+    }, 300);
   };
 
   return (
