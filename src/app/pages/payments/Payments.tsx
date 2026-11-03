@@ -101,7 +101,13 @@ export const Payments: React.FC<{
           </PaymentsBalanceLoader>
 
           <Grid layout="container" widthMax="900px" margin="30px 0 30px 0">
-            <Input key={generatedText} kind="textarea" name="templateText" defaultValue={generatedText} />
+            <Input
+              key={generatedText}
+              kind="textarea"
+              name="templateText"
+              defaultValue={generatedText}
+              label="Transfer title"
+            />
           </Grid>
 
           {isErrorQueryPaymentsTable && (
