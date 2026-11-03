@@ -25,6 +25,8 @@ const formatIssueDate = (type: string, value: string): string => {
   return monthName ? `${monthName} ${year}` : value;
 };
 
+export const hasInput = (value: unknown) => String(value ?? '').trim() !== '';
+
 export const replaceStringVariables = (
   type: string,
   string: string,

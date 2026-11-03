@@ -7,13 +7,16 @@ import type { TableColumn } from 'najwer23morsels/lib/Table';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useRef, useState } from 'react';
+import { BALANCE_REFRESH_CREDITS, BALANCE_REFRESH_IDLE } from './Payments.const';
 import { queryInvoiceAdd } from './Payments.query';
+import type { BalanceRefreshFlags } from './Payments.types';
 import { PaymentsInvoiceFields } from './PaymentsInvoiceFields';
 
 export const PaymentsInvoiceAddDialog: React.FC<{
   cols: TableColumn[];
   type: string;
-}> = ({ cols, type }) => {
+  onRefreshChange: (flags: BalanceRefreshFlags) => void;
+}> = ({ cols, type, onRefreshChange }) => {
   const queryClient = useQueryClient();
 
   const [isOpenDialogInvoiceAdd, openDialogInvoiceAdd] = useState(false);
@@ -51,13 +54,19 @@ export const PaymentsInvoiceAddDialog: React.FC<{
 
   const handleOnCancelDialogInvoiceAdd = () => {
     openDialogInvoiceAdd(false);
+
     setTimeout(() => {
       resetQueryInvoiceAdd();
-      if (hasChangedInvoiceRef.current) {
-        hasChangedInvoiceRef.current = false;
-        queryClient.invalidateQueries({ queryKey: ['queryPaymentsTable'] });
-        queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
-      }
+
+      if (!hasChangedInvoiceRef.current) return;
+      hasChangedInvoiceRef.current = false;
+
+      onRefreshChange(BALANCE_REFRESH_CREDITS);
+
+      queryClient.invalidateQueries({ queryKey: ['queryPaymentsTable'] });
+      queryClient
+        .invalidateQueries({ queryKey: ['queryBalanceGet'] })
+        .finally(() => onRefreshChange(BALANCE_REFRESH_IDLE));
     }, 300);
   };
 

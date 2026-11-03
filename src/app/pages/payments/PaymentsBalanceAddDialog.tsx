@@ -7,17 +7,21 @@ import { Input } from 'najwer23morsels/lib/Input';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useRef, useState } from 'react';
+import { BALANCE_REFRESH_IDLE } from './Payments.const';
 import { queryBalanceAdd } from './Payments.query';
+import type { BalanceRefreshFlags } from './Payments.types';
+import { hasInput } from './Payments.utils';
 
 export const PaymentsBalanceAddDialog: React.FC<{
   type: string;
-}> = ({ type }) => {
+  onRefreshChange: (flags: BalanceRefreshFlags) => void;
+}> = ({ type, onRefreshChange }) => {
   const queryClient = useQueryClient();
 
   const [isOpenDialogBalanceAdd, openDialogBalanceAdd] = useState(false);
   const [balanceAddFormKey, setBalanceAddFormKey] = useState(0);
 
-  const hasChangedBalanceRef = useRef(false);
+  const hasChangedBalanceRef = useRef<BalanceRefreshFlags>(BALANCE_REFRESH_IDLE);
 
   const {
     mutate: mutateQueryBalanceAdd,
@@ -29,9 +33,12 @@ export const PaymentsBalanceAddDialog: React.FC<{
   } = useMutation({
     mutationKey: ['queryBalanceAdd', 'queryBalanceAdd'],
     mutationFn: queryBalanceAdd,
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       if (data?.code === 'OK') {
-        hasChangedBalanceRef.current = true;
+        hasChangedBalanceRef.current = {
+          credits: hasChangedBalanceRef.current.credits || hasInput(variables.credits),
+          bankAccountNumber: hasChangedBalanceRef.current.bankAccountNumber || hasInput(variables.bankAccountNumber),
+        };
       }
       setBalanceAddFormKey((prev) => prev + 1);
     },
@@ -49,12 +56,19 @@ export const PaymentsBalanceAddDialog: React.FC<{
 
   const handleOnCancelDialogBalanceAdd = () => {
     openDialogBalanceAdd(false);
+
     setTimeout(() => {
       resetQueryBalanceAdd();
-      if (hasChangedBalanceRef.current) {
-        hasChangedBalanceRef.current = false;
-        queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
-      }
+
+      const saved = hasChangedBalanceRef.current;
+      if (!saved.credits && !saved.bankAccountNumber) return;
+      hasChangedBalanceRef.current = BALANCE_REFRESH_IDLE;
+
+      onRefreshChange(saved);
+
+      queryClient
+        .invalidateQueries({ queryKey: ['queryBalanceGet'] })
+        .finally(() => onRefreshChange(BALANCE_REFRESH_IDLE));
     }, 300);
   };
 
@@ -88,7 +102,7 @@ export const PaymentsBalanceAddDialog: React.FC<{
                 type="number"
                 step={0.01}
                 placeholder="Credits"
-                validatorOptions={[{ type: 'empty' }, { type: 'decimalDigits', options: { digits: 2 } }]}
+                validatorOptions={[{ type: 'decimalDigits', options: { digits: 2 } }]}
               />
 
               <Input
