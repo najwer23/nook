@@ -2,7 +2,7 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 
-export const RentBalance: React.FC<{
+export const PaymentsBalance: React.FC<{
   credits?: number;
   isLoading: boolean;
 }> = ({ credits, isLoading }) => {

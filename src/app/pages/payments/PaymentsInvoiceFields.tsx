@@ -4,7 +4,7 @@ import { Input } from 'najwer23morsels/lib/Input';
 import { Select } from 'najwer23morsels/lib/Select';
 import type { TableColumn } from 'najwer23morsels/lib/Table';
 
-export const RentInvoiceFields: React.FC<{
+export const PaymentsInvoiceFields: React.FC<{
   cols: TableColumn[];
 }> = ({ cols }) => {
   return (

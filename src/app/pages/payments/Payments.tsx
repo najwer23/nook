@@ -5,25 +5,26 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { queryBalanceGet, queryRentTable } from './Rent.query';
-import { RentBalance } from './RentBalance';
-import { RentBalanceAddDialog } from './RentBalanceAddDialog';
-import { RentInvoiceAddDialog } from './RentInvoiceAddDialog';
-import { RentTable } from './RentTable';
+import { queryBalanceGet, queryPaymentsTable } from './Payments.query';
+import { PaymentsBalance } from './PaymentsBalance';
+import { PaymentsBalanceAddDialog } from './PaymentsBalanceAddDialog';
+import { PaymentsInvoiceAddDialog } from './PaymentsInvoiceAddDialog';
+import { PaymentsTable } from './PaymentsTable';
 
-export const Rent: React.FC<{
+export const Payments: React.FC<{
   type: string;
-}> = ({ type = 'Rent' }) => {
-  useDocumentTitle(`Rent | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
+  title: string;
+}> = ({ type, title }) => {
+  useDocumentTitle(`${title} | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
   const {
-    result: resultQueryRentTable,
-    isLoading: isLoadingQueryRentTable,
-    isError: isErrorQueryRentTable,
+    result: resultQueryPaymentsTable,
+    isLoading: isLoadingQueryPaymentsTable,
+    isError: isErrorQueryPaymentsTable,
   } = useImmediateThrottledQuery(
     {
-      queryKey: ['queryRentTable', 'queryRentTable'],
-      queryFn: () => queryRentTable(),
+      queryKey: ['queryPaymentsTable', 'queryPaymentsTable' + type],
+      queryFn: () => queryPaymentsTable({ type }),
       placeholderData: keepPreviousData,
       staleTime: 0,
       gcTime: 0,
@@ -35,8 +36,8 @@ export const Rent: React.FC<{
 
   const { result: resultQueryBalanceGet, isLoading: isLoadingQueryBalanceGet } = useImmediateThrottledQuery(
     {
-      queryKey: ['queryBalanceGet', 'Rent'],
-      queryFn: () => queryBalanceGet({ type: 'Rent' }),
+      queryKey: ['queryBalanceGet', 'queryBalanceGet' + type],
+      queryFn: () => queryBalanceGet({ type }),
       placeholderData: keepPreviousData,
       staleTime: 0,
       gcTime: 0,
@@ -46,21 +47,22 @@ export const Rent: React.FC<{
     500,
   );
 
-  const hasResultQueryRentTable = Boolean(resultQueryRentTable?.data);
+  const hasResultQueryPaymentsTable = Boolean(resultQueryPaymentsTable?.data);
   const hasResultQueryBalanceGet = Boolean(resultQueryBalanceGet?.data);
 
   const isInitialLoading =
-    (isLoadingQueryRentTable && !hasResultQueryRentTable) || (isLoadingQueryBalanceGet && !hasResultQueryBalanceGet);
+    (isLoadingQueryPaymentsTable && !hasResultQueryPaymentsTable) ||
+    (isLoadingQueryBalanceGet && !hasResultQueryBalanceGet);
 
-  const cols = resultQueryRentTable?.data?.cols ?? [];
-  const rows = resultQueryRentTable?.data?.rows ?? [];
+  const cols = resultQueryPaymentsTable?.data?.cols ?? [];
+  const rows = resultQueryPaymentsTable?.data?.rows ?? [];
   const credits = resultQueryBalanceGet?.data?.credits;
 
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
       <Grid layout="container" widthMax="900px" margin="0 0 30px 0">
         <Typography appearance="light" variant="display" style={{ margin: 0 }}>
-          Rent
+          {title}
         </Typography>
       </Grid>
 
@@ -68,15 +70,15 @@ export const Rent: React.FC<{
 
       {!isInitialLoading && (
         <>
-          <RentBalance credits={credits} isLoading={isLoadingQueryBalanceGet} />
+          <PaymentsBalance credits={credits} isLoading={isLoadingQueryBalanceGet} />
 
-          {isErrorQueryRentTable && (
+          {isErrorQueryPaymentsTable && (
             <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
               No results
             </TextBox>
           )}
 
-          {hasResultQueryRentTable && (
+          {hasResultQueryPaymentsTable && (
             <Grid layout="container" widthMax={'100%'}>
               <Grid
                 layout="flex"
@@ -85,11 +87,11 @@ export const Rent: React.FC<{
                 gap={{ col: '10px', row: '10px' }}
                 margin={'0px 0 20px'}
               >
-                <RentInvoiceAddDialog cols={cols} type={type} />
-                <RentBalanceAddDialog type={type} />
+                <PaymentsInvoiceAddDialog cols={cols} type={type} />
+                <PaymentsBalanceAddDialog type={type} />
               </Grid>
 
-              <RentTable cols={cols} rows={rows} isLoading={isLoadingQueryRentTable} type={type} />
+              <PaymentsTable cols={cols} rows={rows} isLoading={isLoadingQueryPaymentsTable} type={type} />
             </Grid>
           )}
         </>

@@ -8,7 +8,7 @@ import { BlogPostCreator } from '@app/pages/blogpostcreator/BlogPostCreator';
 import { ErrorNotFound } from '@app/pages/error/ErrorNotFound';
 import { Ex } from '@app/pages/ex/Ex';
 import { Music } from '@app/pages/music/Music';
-import { Rent } from '@app/pages/rent/Rent';
+import { Payments } from '@app/pages/payments/Payments';
 import { StockQuotes } from '@app/pages/stockquotes/StockQuotes';
 import { Vacations } from '@app/pages/vacations/Vacations';
 import { Visitors } from '@app/pages/visitors/Visitors';
@@ -151,7 +151,7 @@ export const router = createHashRouter([
       },
       {
         path: '/in/rent',
-        element: <Rent />,
+        element: <Payments type="Rent" key={'rent'} title="Rent" />,
       },
       {
         path: '*',

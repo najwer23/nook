@@ -7,9 +7,9 @@ import { Input } from 'najwer23morsels/lib/Input';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useRef, useState } from 'react';
-import { queryBalanceAdd } from './Rent.query';
+import { queryBalanceAdd } from './Payments.query';
 
-export const RentBalanceAddDialog: React.FC<{
+export const PaymentsBalanceAddDialog: React.FC<{
   type: string;
 }> = ({ type }) => {
   const queryClient = useQueryClient();

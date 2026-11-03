@@ -4,18 +4,16 @@ import { fetchClientConfig } from '@app/fetchClient/fetchClientConfig';
 import { fetchClientExecute } from '@app/fetchClient/fetchClientExecute';
 import type { TableColumn, TableRow } from 'najwer23morsels/lib/Table';
 
-export interface QueryRentTableResponse extends FetchClientBaseResponse {
+export interface QueryPaymentsTableResponse extends FetchClientBaseResponse {
   data?: {
     cols: TableColumn[];
     rows: TableRow[];
   };
 }
 
-export const queryRentTable = async (): Promise<QueryRentTableResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/invoices/Rent`);
-  const response = await fetchClientExecute<QueryRentTableResponse>(endpointUrl, fetchClientConfig({ method: 'GET' }));
-
-  return response;
+export const queryPaymentsTable = async ({ type }: FetchClientBasePayload): Promise<QueryPaymentsTableResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/invoices/${encodeURIComponent(type)}`);
+  return await fetchClientExecute<QueryPaymentsTableResponse>(endpointUrl, fetchClientConfig({ method: 'GET' }));
 };
 
 export const queryInvoiceAdd = ({ type, ...payload }: FetchClientBasePayload): Promise<FetchClientBaseResponse> => {

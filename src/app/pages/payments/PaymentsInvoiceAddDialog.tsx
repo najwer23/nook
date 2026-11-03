@@ -7,10 +7,10 @@ import type { TableColumn } from 'najwer23morsels/lib/Table';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useRef, useState } from 'react';
-import { queryInvoiceAdd } from './Rent.query';
-import { RentInvoiceFields } from './RentInvoiceFields';
+import { queryInvoiceAdd } from './Payments.query';
+import { PaymentsInvoiceFields } from './PaymentsInvoiceFields';
 
-export const RentInvoiceAddDialog: React.FC<{
+export const PaymentsInvoiceAddDialog: React.FC<{
   cols: TableColumn[];
   type: string;
 }> = ({ cols, type }) => {
@@ -55,7 +55,7 @@ export const RentInvoiceAddDialog: React.FC<{
       resetQueryInvoiceAdd();
       if (hasChangedInvoiceRef.current) {
         hasChangedInvoiceRef.current = false;
-        queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
+        queryClient.invalidateQueries({ queryKey: ['queryPaymentsTable'] });
         queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
       }
     }, 300);
@@ -84,7 +84,7 @@ export const RentInvoiceAddDialog: React.FC<{
             errorMsg={errorQueryInvoiceAdd?.message}
             successMsg={dataQueryInvoiceAdd?.message}
           >
-            <RentInvoiceFields cols={cols} />
+            <PaymentsInvoiceFields cols={cols} />
 
             <Grid
               layout="flex"

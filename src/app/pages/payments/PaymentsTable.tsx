@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Table, type TableColumn, type TableRow } from 'najwer23morsels/lib/Table';
 import { useRef } from 'react';
-import { queryInvoiceDel, queryInvoiceUpdate } from './Rent.query';
+import { queryInvoiceDel, queryInvoiceUpdate } from './Payments.query';
 
-export const RentTable: React.FC<{
+export const PaymentsTable: React.FC<{
   cols: TableColumn[];
   rows: TableRow[];
   isLoading: boolean;
@@ -62,7 +62,7 @@ export const RentTable: React.FC<{
     resetQueryInvoiceUpdate();
     if (hasChangedRowRef.current) {
       hasChangedRowRef.current = false;
-      queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
+      queryClient.invalidateQueries({ queryKey: ['queryPaymentsTable'] });
       queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
     }
   };
