@@ -13,7 +13,7 @@ import { Table } from 'najwer23morsels/lib/Table';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useRef, useState } from 'react';
-import { queryInvoiceAdd, queryInvoiceDel, queryInvoiceUpdate, queryRentTable } from './Rent.query';
+import { queryBalanceGet, queryInvoiceAdd, queryInvoiceDel, queryInvoiceUpdate, queryRentTable } from './Rent.query';
 
 // import styles from './Rent.module.css';
 
@@ -38,6 +38,19 @@ export const Rent: React.FC<Props> = ({}) => {
     {
       queryKey: ['queryRentTable', 'queryRentTable'],
       queryFn: () => queryRentTable(),
+      placeholderData: keepPreviousData,
+      staleTime: 0,
+      gcTime: 0,
+      retry: 0,
+      enabled: true,
+    },
+    500,
+  );
+
+  const { result: resultQueryBalanceGet, isLoading: isLoadingQueryBalanceGet } = useImmediateThrottledQuery(
+    {
+      queryKey: ['queryBalanceGet', 'Rent'],
+      queryFn: () => queryBalanceGet({ type: 'Rent' }),
       placeholderData: keepPreviousData,
       staleTime: 0,
       gcTime: 0,
@@ -116,7 +129,11 @@ export const Rent: React.FC<Props> = ({}) => {
     });
   };
 
-  const hasData = Boolean(resultQueryRentTable?.data);
+  const hasResultQueryRentTable = Boolean(resultQueryRentTable?.data);
+  const hasResultQueryBalanceGet = Boolean(resultQueryBalanceGet?.data);
+
+  const isInitialLoading =
+    (isLoadingQueryRentTable && !hasResultQueryRentTable) || (isLoadingQueryBalanceGet && !hasResultQueryBalanceGet);
 
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
@@ -126,173 +143,188 @@ export const Rent: React.FC<Props> = ({}) => {
         </Typography>
       </Grid>
 
-      {isLoadingQueryRentTable && !hasData && <LoaderDots />}
+      {isInitialLoading && <LoaderDots />}
 
-      {!isLoadingQueryRentTable && isErrorQueryRentTable && (
-        <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
-          No results
-        </TextBox>
-      )}
-
-      {hasData && (
-        <Grid layout="container" widthMax={'100%'}>
-          <Grid
-            layout="flex"
-            justifyContent="flex-start"
-            flexWrap="wrap"
-            gap={{ col: '20px', row: '20px' }}
-            margin={'0px 0 20px'}
-          >
-            <Button
-              height="40px"
-              width="120px"
-              backgroundColor="orangered"
-              onClick={() => setIsOpenDialogInvoiceAdd(true)}
-            >
-              <TextBox mobileSize={18} desktopSize={18} color="white">
-                Add Invoice
-              </TextBox>
-            </Button>
-
-            <Dialog
-              widthMax={'900px'}
-              open={isOpenDialogInvoiceAdd}
-              onCancel={() => {
-                setIsOpenDialogInvoiceAdd(false);
-                resetQueryInvoiceAdd();
-                if (hasAddedInvoiceRef.current) {
-                  hasAddedInvoiceRef.current = false;
-                  queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
-                }
-              }}
-            >
-              <Grid
-                layout="container"
-                widthMin="min(800px, calc(100vw - 25px))"
-                padding="0px 30px 30px 30px"
-                margin="auto"
-              >
-                <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
-                  Add Invoice
-                </Typography>
-
-                <Form
-                  key={dialogInvoiceAddKey}
-                  onSubmit={handleOnSubmitInvoiceAdd}
-                  isError={isErrorQueryInvoiceAdd}
-                  isPending={isPendingQueryInvoiceAdd}
-                  isSuccess={dataQueryInvoiceAdd?.code === 'OK'}
-                  errorMsg={errorQueryInvoiceAdd?.message}
-                  successMsg={dataQueryInvoiceAdd?.message}
-                >
-                  <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
-                    {resultQueryRentTable?.data?.cols
-                      ?.filter((col) => col.disabledAdd !== true)
-                      ?.map((col) => {
-                        if (col.cellType === 'date') {
-                          return (
-                            <Calendar
-                              key={col.cellName}
-                              label={col.cellText}
-                              name={col.cellName}
-                              initialValue={col.initialValue}
-                              placeholder={col.cellText}
-                              disabled={col.disabledAdd}
-                            />
-                          );
-                        }
-
-                        if (col.cellType === 'select') {
-                          return (
-                            <Select
-                              key={col.cellName}
-                              name={col.cellName}
-                              options={col.options}
-                              initialValue={col.initialValue}
-                              disabled={col.disabledAdd}
-                            />
-                          );
-                        }
-
-                        return (
-                          <Input
-                            key={col.cellName}
-                            label={col.cellText}
-                            name={col.cellName}
-                            type={col.cellType}
-                            step={col.cellType === 'number' ? 0.01 : undefined}
-                            placeholder={col.cellText}
-                            disabled={col.disabledAdd}
-                          />
-                        );
-                      })}
-                  </Grid>
-
-                  <Grid
-                    layout="flex"
-                    widthMax="100%"
-                    padding="0"
-                    justifyContent={'flex-end'}
-                    alignItems="right"
-                    margin="20px 0 0 0"
-                  >
-                    <Button
-                      type="submit"
-                      height="40px"
-                      width="auto"
-                      padding={'0 10px'}
-                      backgroundColor="#4BB543"
-                      backgroundColorDisabled="grey"
-                    >
-                      <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
-                        Save changes
-                      </TextBox>
-                    </Button>
-                  </Grid>
-                </Form>
-              </Grid>
-            </Dialog>
+      {!isInitialLoading && (
+        <>
+          <Grid layout="container" widthMax="900px" margin="0 0 30px 0">
+            <TextBox tag="p" desktopSize={18} mobileSize={18} fontWeight={500}>
+              Balance:{' '}
+              {new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(
+                resultQueryBalanceGet?.data?.credits ?? 0,
+              )}
+            </TextBox>
           </Grid>
 
-          <Table
-            jsonSchema={{
-              cols: resultQueryRentTable?.data?.cols ?? [],
-            }}
-            jsonData={{
-              rows: resultQueryRentTable?.data?.rows ?? [],
-            }}
-            isLoading={isLoadingQueryRentTable}
-            tableLoadingHeight={43.88 + 'px'}
-            cellEdit={{
-              isCellEditError: isErrorQueryInvoiceUpdate,
-              isCellEditPending: isPendingQueryInvoiceUpdate,
-              isCellEditSuccess: dataQueryInvoiceUpdate?.code === 'OK',
-              cellEditErrorMsg: errorQueryInvoiceUpdate?.message,
-              cellEditSuccessMsg: dataQueryInvoiceUpdate?.message,
-              onCellEdit: (form) => {
-                handleCellEdit(form);
-              },
-            }}
-            cellDelete={{
-              onCellDelete: (id) => {
-                handleCellDel(id);
-              },
-              isCellDeleteError: isErrorQueryInvoiceDel,
-              isCellDeletePending: isPendingQueryInvoiceDel,
-              isCellDeleteSuccess: dataQueryInvoiceDel?.code === 'OK',
-              cellDeleteErrorMsg: errorQueryInvoiceDel?.message,
-              cellDeleteSuccessMsg: dataQueryInvoiceDel?.message,
-            }}
-            onCellReset={() => {
-              resetQueryInvoiceDel();
-              resetQueryInvoiceUpdate();
-              if (hasChangedRowRef.current) {
-                hasChangedRowRef.current = false;
-                queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
-              }
-            }}
-          />
-        </Grid>
+          {isErrorQueryRentTable && (
+            <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
+              No results
+            </TextBox>
+          )}
+
+          {hasResultQueryRentTable && (
+            <Grid layout="container" widthMax={'100%'}>
+              <Grid
+                layout="flex"
+                justifyContent="flex-start"
+                flexWrap="wrap"
+                gap={{ col: '20px', row: '20px' }}
+                margin={'0px 0 20px'}
+              >
+                <Button
+                  height="40px"
+                  width="120px"
+                  backgroundColor="orangered"
+                  onClick={() => setIsOpenDialogInvoiceAdd(true)}
+                >
+                  <TextBox mobileSize={18} desktopSize={18} color="white">
+                    Add Invoice
+                  </TextBox>
+                </Button>
+
+                <Dialog
+                  widthMax={'900px'}
+                  open={isOpenDialogInvoiceAdd}
+                  onCancel={() => {
+                    setIsOpenDialogInvoiceAdd(false);
+                    resetQueryInvoiceAdd();
+                    if (hasAddedInvoiceRef.current) {
+                      hasAddedInvoiceRef.current = false;
+                      queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
+                      queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
+                    }
+                  }}
+                >
+                  <Grid
+                    layout="container"
+                    widthMin="min(800px, calc(100vw - 25px))"
+                    padding="0px 30px 30px 30px"
+                    margin="auto"
+                  >
+                    <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
+                      Add Invoice
+                    </Typography>
+
+                    <Form
+                      key={dialogInvoiceAddKey}
+                      onSubmit={handleOnSubmitInvoiceAdd}
+                      isError={isErrorQueryInvoiceAdd}
+                      isPending={isPendingQueryInvoiceAdd}
+                      isSuccess={dataQueryInvoiceAdd?.code === 'OK'}
+                      errorMsg={errorQueryInvoiceAdd?.message}
+                      successMsg={dataQueryInvoiceAdd?.message}
+                    >
+                      <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
+                        {resultQueryRentTable?.data?.cols
+                          ?.filter((col) => col.disabledAdd !== true)
+                          ?.map((col) => {
+                            if (col.cellType === 'date') {
+                              return (
+                                <Calendar
+                                  key={col.cellName}
+                                  label={col.cellText}
+                                  name={col.cellName}
+                                  initialValue={col.initialValue}
+                                  placeholder={col.cellText}
+                                  disabled={col.disabledAdd}
+                                />
+                              );
+                            }
+
+                            if (col.cellType === 'select') {
+                              return (
+                                <Select
+                                  key={col.cellName}
+                                  name={col.cellName}
+                                  options={col.options}
+                                  initialValue={col.initialValue}
+                                  disabled={col.disabledAdd}
+                                />
+                              );
+                            }
+
+                            return (
+                              <Input
+                                key={col.cellName}
+                                label={col.cellText}
+                                name={col.cellName}
+                                type={col.cellType}
+                                step={col.cellType === 'number' ? 0.01 : undefined}
+                                placeholder={col.cellText}
+                                disabled={col.disabledAdd}
+                              />
+                            );
+                          })}
+                      </Grid>
+
+                      <Grid
+                        layout="flex"
+                        widthMax="100%"
+                        padding="0"
+                        justifyContent={'flex-end'}
+                        alignItems="right"
+                        margin="20px 0 0 0"
+                      >
+                        <Button
+                          type="submit"
+                          height="40px"
+                          width="auto"
+                          padding={'0 10px'}
+                          backgroundColor="#4BB543"
+                          backgroundColorDisabled="grey"
+                        >
+                          <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                            Save changes
+                          </TextBox>
+                        </Button>
+                      </Grid>
+                    </Form>
+                  </Grid>
+                </Dialog>
+              </Grid>
+
+              <Table
+                jsonSchema={{
+                  cols: resultQueryRentTable?.data?.cols ?? [],
+                }}
+                jsonData={{
+                  rows: resultQueryRentTable?.data?.rows ?? [],
+                }}
+                isLoading={isLoadingQueryRentTable}
+                tableLoadingHeight={43.88 + 'px'}
+                cellEdit={{
+                  isCellEditError: isErrorQueryInvoiceUpdate,
+                  isCellEditPending: isPendingQueryInvoiceUpdate,
+                  isCellEditSuccess: dataQueryInvoiceUpdate?.code === 'OK',
+                  cellEditErrorMsg: errorQueryInvoiceUpdate?.message,
+                  cellEditSuccessMsg: dataQueryInvoiceUpdate?.message,
+                  onCellEdit: (form) => {
+                    handleCellEdit(form);
+                  },
+                }}
+                cellDelete={{
+                  onCellDelete: (id) => {
+                    handleCellDel(id);
+                  },
+                  isCellDeleteError: isErrorQueryInvoiceDel,
+                  isCellDeletePending: isPendingQueryInvoiceDel,
+                  isCellDeleteSuccess: dataQueryInvoiceDel?.code === 'OK',
+                  cellDeleteErrorMsg: errorQueryInvoiceDel?.message,
+                  cellDeleteSuccessMsg: dataQueryInvoiceDel?.message,
+                }}
+                onCellReset={() => {
+                  resetQueryInvoiceDel();
+                  resetQueryInvoiceUpdate();
+                  if (hasChangedRowRef.current) {
+                    hasChangedRowRef.current = false;
+                    queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
+                    queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
+                  }
+                }}
+              />
+            </Grid>
+          )}
+        </>
       )}
     </Grid>
   );

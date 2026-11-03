@@ -5,6 +5,8 @@ export interface FetchClientBaseResponse {
   statusCode: number;
 }
 
+export type FetchClientBasePayload = Record<string, string> & {};
+
 export interface FetchClientConfigOptions<TBody> {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
   body?: TBody;
