@@ -3,39 +3,45 @@ import { Table, type TableColumn, type TableRow } from 'najwer23morsels/lib/Tabl
 import { useRef } from 'react';
 import { queryInvoiceDel, queryInvoiceUpdate } from './Rent.query';
 
-interface Props {
+export const RentTable: React.FC<{
   cols: TableColumn[];
   rows: TableRow[];
   isLoading: boolean;
-}
-
-export const RentTable: React.FC<Props> = ({ cols, rows, isLoading }) => {
+  type: string;
+}> = ({ cols, rows, isLoading, type }) => {
   const queryClient = useQueryClient();
 
   const hasChangedRowRef = useRef(false);
 
   const {
-    mutate: mutateUpdate,
-    isPending: isPendingUpdate,
-    isError: isErrorUpdate,
-    data: dataUpdate,
-    error: errorUpdate,
-    reset: resetUpdate,
+    mutate: mutateQueryInvoiceUpdate,
+    isPending: isPendingQueryInvoiceUpdate,
+    isError: isErrorQueryInvoiceUpdate,
+    data: dataQueryInvoiceUpdate,
+    error: errorQueryInvoiceUpdate,
+    reset: resetQueryInvoiceUpdate,
   } = useMutation({
-    mutationKey: ['QueryInvoiceUpdate', 'QueryInvoiceUpdate'],
+    mutationKey: ['queryInvoiceUpdate', 'queryInvoiceUpdate'],
     mutationFn: queryInvoiceUpdate,
     onSuccess: (data) => {
       if (data?.code === 'OK') hasChangedRowRef.current = true;
     },
   });
 
+  const handleCellEdit = (form: Record<string, string>) => {
+    mutateQueryInvoiceUpdate({
+      ...form,
+      type,
+    });
+  };
+
   const {
-    mutate: mutateDel,
-    isPending: isPendingDel,
-    isError: isErrorDel,
-    data: dataDel,
-    error: errorDel,
-    reset: resetDel,
+    mutate: mutateQueryInvoiceDel,
+    isPending: isPendingQueryInvoiceDel,
+    isError: isErrorQueryInvoiceDel,
+    data: dataQueryInvoiceDel,
+    error: errorQueryInvoiceDel,
+    reset: resetQueryInvoiceDel,
   } = useMutation({
     mutationKey: ['queryInvoiceDel', 'queryInvoiceDel'],
     mutationFn: queryInvoiceDel,
@@ -44,9 +50,16 @@ export const RentTable: React.FC<Props> = ({ cols, rows, isLoading }) => {
     },
   });
 
+  const handleCellDel = (id: number | string) => {
+    mutateQueryInvoiceDel({
+      id: String(id),
+      type,
+    });
+  };
+
   const handleCellReset = () => {
-    resetDel();
-    resetUpdate();
+    resetQueryInvoiceDel();
+    resetQueryInvoiceUpdate();
     if (hasChangedRowRef.current) {
       hasChangedRowRef.current = false;
       queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
@@ -61,20 +74,24 @@ export const RentTable: React.FC<Props> = ({ cols, rows, isLoading }) => {
       isLoading={isLoading}
       tableLoadingHeight={43.88 + 'px'}
       cellEdit={{
-        isCellEditError: isErrorUpdate,
-        isCellEditPending: isPendingUpdate,
-        isCellEditSuccess: dataUpdate?.code === 'OK',
-        cellEditErrorMsg: errorUpdate?.message,
-        cellEditSuccessMsg: dataUpdate?.message,
-        onCellEdit: (form) => mutateUpdate({ ...form }),
+        isCellEditError: isErrorQueryInvoiceUpdate,
+        isCellEditPending: isPendingQueryInvoiceUpdate,
+        isCellEditSuccess: dataQueryInvoiceUpdate?.code === 'OK',
+        cellEditErrorMsg: errorQueryInvoiceUpdate?.message,
+        cellEditSuccessMsg: dataQueryInvoiceUpdate?.message,
+        onCellEdit: (form) => {
+          handleCellEdit(form);
+        },
       }}
       cellDelete={{
-        onCellDelete: (id) => mutateDel({ id: String(id) }),
-        isCellDeleteError: isErrorDel,
-        isCellDeletePending: isPendingDel,
-        isCellDeleteSuccess: dataDel?.code === 'OK',
-        cellDeleteErrorMsg: errorDel?.message,
-        cellDeleteSuccessMsg: dataDel?.message,
+        onCellDelete: (id) => {
+          handleCellDel(id);
+        },
+        isCellDeleteError: isErrorQueryInvoiceDel,
+        isCellDeletePending: isPendingQueryInvoiceDel,
+        isCellDeleteSuccess: dataQueryInvoiceDel?.code === 'OK',
+        cellDeleteErrorMsg: errorQueryInvoiceDel?.message,
+        cellDeleteSuccessMsg: dataQueryInvoiceDel?.message,
       }}
       onCellReset={handleCellReset}
     />

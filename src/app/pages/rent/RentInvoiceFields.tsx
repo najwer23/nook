@@ -4,11 +4,9 @@ import { Input } from 'najwer23morsels/lib/Input';
 import { Select } from 'najwer23morsels/lib/Select';
 import type { TableColumn } from 'najwer23morsels/lib/Table';
 
-interface Props {
+export const RentInvoiceFields: React.FC<{
   cols: TableColumn[];
-}
-
-export const RentInvoiceFields: React.FC<Props> = ({ cols }) => {
+}> = ({ cols }) => {
   return (
     <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
       {cols

@@ -10,43 +10,50 @@ import { useRef, useState } from 'react';
 import { queryInvoiceAdd } from './Rent.query';
 import { RentInvoiceFields } from './RentInvoiceFields';
 
-interface Props {
+export const RentInvoiceAddDialog: React.FC<{
   cols: TableColumn[];
-}
-
-export const RentInvoiceAddDialog: React.FC<Props> = ({ cols }) => {
+  type: string;
+}> = ({ cols, type }) => {
   const queryClient = useQueryClient();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [formKey, setFormKey] = useState(0);
+  const [isOpenDialogInvoiceAdd, openDialogInvoiceAdd] = useState(false);
+  const [invoiceAddFormKey, setInvoiceAddFormKey] = useState(0);
 
-  const hasAddedInvoiceRef = useRef(false);
+  const hasChangedInvoiceRef = useRef(false);
 
-  const { mutate, isPending, isError, data, error, reset } = useMutation({
-    mutationKey: ['QueryInvoiceAdd', 'QueryInvoiceAdd'],
+  const {
+    mutate: mutateQueryInvoiceAdd,
+    isPending: isPendingQueryInvoiceAdd,
+    isError: isErrorQueryInvoiceAdd,
+    data: dataQueryInvoiceAdd,
+    error: errorQueryInvoiceAdd,
+    reset: resetQueryInvoiceAdd,
+  } = useMutation({
+    mutationKey: ['queryInvoiceAdd', 'queryInvoiceAdd'],
     mutationFn: queryInvoiceAdd,
-    onSuccess: (response) => {
-      if (response?.code === 'OK') {
-        hasAddedInvoiceRef.current = true;
+    onSuccess: (data) => {
+      if (data?.code === 'OK') {
+        hasChangedInvoiceRef.current = true;
       }
-      setFormKey((prev) => prev + 1);
+      setInvoiceAddFormKey((prev) => prev + 1);
     },
   });
 
-  const handleSubmit = (form: FormType) => {
-    if (Object.values(form).some(({ error: fieldError }) => fieldError)) return;
+  const handleOnSubmitInvoiceAdd = (form: FormType) => {
+    if (Object.values(form).some(({ error }) => error)) return;
     const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
 
-    mutate({
+    mutateQueryInvoiceAdd({
       ...dataForm,
+      type,
     });
   };
 
-  const handleCancel = () => {
-    setIsOpen(false);
-    reset();
-    if (hasAddedInvoiceRef.current) {
-      hasAddedInvoiceRef.current = false;
+  const handleOnCancelDialogInvoiceAdd = () => {
+    openDialogInvoiceAdd(false);
+    resetQueryInvoiceAdd();
+    if (hasChangedInvoiceRef.current) {
+      hasChangedInvoiceRef.current = false;
       queryClient.invalidateQueries({ queryKey: ['queryRentTable'] });
       queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
     }
@@ -54,26 +61,26 @@ export const RentInvoiceAddDialog: React.FC<Props> = ({ cols }) => {
 
   return (
     <>
-      <Button height="40px" width="120px" backgroundColor="orangered" onClick={() => setIsOpen(true)}>
+      <Button height="40px" width="120px" backgroundColor="orangered" onClick={() => openDialogInvoiceAdd(true)}>
         <TextBox mobileSize={18} desktopSize={18} color="white">
           Add Invoice
         </TextBox>
       </Button>
 
-      <Dialog widthMax={'900px'} open={isOpen} onCancel={handleCancel}>
+      <Dialog widthMax={'900px'} open={isOpenDialogInvoiceAdd} onCancel={handleOnCancelDialogInvoiceAdd}>
         <Grid layout="container" widthMin="min(800px, calc(100vw - 25px))" padding="0px 30px 30px 30px" margin="auto">
           <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
             Add Invoice
           </Typography>
 
           <Form
-            key={formKey}
-            onSubmit={handleSubmit}
-            isError={isError}
-            isPending={isPending}
-            isSuccess={data?.code === 'OK'}
-            errorMsg={error?.message}
-            successMsg={data?.message}
+            key={invoiceAddFormKey}
+            onSubmit={handleOnSubmitInvoiceAdd}
+            isError={isErrorQueryInvoiceAdd}
+            isPending={isPendingQueryInvoiceAdd}
+            isSuccess={dataQueryInvoiceAdd?.code === 'OK'}
+            errorMsg={errorQueryInvoiceAdd?.message}
+            successMsg={dataQueryInvoiceAdd?.message}
           >
             <RentInvoiceFields cols={cols} />
 

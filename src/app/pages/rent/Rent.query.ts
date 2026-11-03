@@ -18,18 +18,18 @@ export const queryRentTable = async (): Promise<QueryRentTableResponse> => {
   return response;
 };
 
-export const queryInvoiceAdd = (payload: FetchClientBasePayload): Promise<FetchClientBaseResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/invoices/Rent/add`);
+export const queryInvoiceAdd = ({ type, ...payload }: FetchClientBasePayload): Promise<FetchClientBaseResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/invoices/${encodeURIComponent(type)}/add`);
   return fetchClientExecute<FetchClientBaseResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
 };
 
-export const queryInvoiceUpdate = (payload: FetchClientBasePayload): Promise<FetchClientBaseResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/invoices/Rent/update`);
+export const queryInvoiceUpdate = ({ type, ...payload }: FetchClientBasePayload): Promise<FetchClientBaseResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/invoices/${encodeURIComponent(type)}/update`);
   return fetchClientExecute<FetchClientBaseResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
 };
 
-export const queryInvoiceDel = (payload: FetchClientBasePayload): Promise<FetchClientBaseResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/invoices/Rent/del`);
+export const queryInvoiceDel = ({ type, ...payload }: FetchClientBasePayload): Promise<FetchClientBaseResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/invoices/${encodeURIComponent(type)}/del`);
   return fetchClientExecute<FetchClientBaseResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
 };
 
@@ -41,7 +41,10 @@ export interface QueryBalanceGetResponse extends FetchClientBaseResponse {
 
 export const queryBalanceGet = async ({ type }: FetchClientBasePayload): Promise<QueryBalanceGetResponse> => {
   const endpointUrl = new URL(`${apiOrigin()}/balance/${encodeURIComponent(type)}`);
-  const response = await fetchClientExecute<QueryBalanceGetResponse>(endpointUrl, fetchClientConfig({ method: 'GET' }));
+  return await fetchClientExecute<QueryBalanceGetResponse>(endpointUrl, fetchClientConfig({ method: 'GET' }));
+};
 
-  return response;
+export const queryBalanceAdd = ({ type, ...payload }: FetchClientBasePayload): Promise<FetchClientBaseResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/balance/${encodeURIComponent(type)}/add`);
+  return fetchClientExecute<FetchClientBaseResponse>(endpointUrl, fetchClientConfig({ method: 'POST', body: payload }));
 };

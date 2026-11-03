@@ -121,7 +121,7 @@ export const Weight = () => {
           >
             <Grid
               layout="container"
-              widthMin={'min(400px, calc(100vw - 25px))'}
+              widthMin={'min(500px, calc(100vw - 25px))'}
               padding="0px 30px 30px 30px"
               margin="auto"
             >

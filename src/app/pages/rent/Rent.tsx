@@ -7,12 +7,13 @@ import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { queryBalanceGet, queryRentTable } from './Rent.query';
 import { RentBalance } from './RentBalance';
+import { RentBalanceAddDialog } from './RentBalanceAddDialog';
 import { RentInvoiceAddDialog } from './RentInvoiceAddDialog';
 import { RentTable } from './RentTable';
 
-interface Props {}
-
-export const Rent: React.FC<Props> = ({}) => {
+export const Rent: React.FC<{
+  type: string;
+}> = ({ type = 'Rent' }) => {
   useDocumentTitle(`Rent | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
 
   const {
@@ -81,13 +82,14 @@ export const Rent: React.FC<Props> = ({}) => {
                 layout="flex"
                 justifyContent="flex-start"
                 flexWrap="wrap"
-                gap={{ col: '20px', row: '20px' }}
+                gap={{ col: '10px', row: '10px' }}
                 margin={'0px 0 20px'}
               >
-                <RentInvoiceAddDialog cols={cols} />
+                <RentInvoiceAddDialog cols={cols} type={type} />
+                <RentBalanceAddDialog type={type} />
               </Grid>
 
-              <RentTable cols={cols} rows={rows} isLoading={isLoadingQueryRentTable} />
+              <RentTable cols={cols} rows={rows} isLoading={isLoadingQueryRentTable} type={type} />
             </Grid>
           )}
         </>
