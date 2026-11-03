@@ -35,6 +35,7 @@ export interface QueryBalanceGetResponse extends FetchClientBaseResponse {
   data?: {
     credits: number;
     templateText: string;
+    bankAccountNumber: string;
     templateParams: {
       [key: string]: string;
     };

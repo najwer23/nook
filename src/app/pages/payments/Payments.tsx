@@ -60,6 +60,7 @@ export const Payments: React.FC<{
   const cols = resultQueryPaymentsTable?.data?.cols ?? [];
   const rows = resultQueryPaymentsTable?.data?.rows ?? [];
   const credits = resultQueryBalanceGet?.data?.credits;
+  const bankAccountNumber = resultQueryBalanceGet?.data?.bankAccountNumber ?? '';
   const templateParams = resultQueryBalanceGet?.data?.templateParams;
   const templateText = resultQueryBalanceGet?.data?.templateText ?? '';
 
@@ -84,11 +85,15 @@ export const Payments: React.FC<{
 
       {!isInitialLoading && (
         <>
-          <Grid layout="container" widthMax="900px" margin="0 0 30px 0">
+          <PaymentsBalance
+            bankAccountNumber={bankAccountNumber}
+            credits={credits}
+            isLoading={isLoadingQueryBalanceGet}
+          />
+
+          <Grid layout="container" widthMax="900px" margin="30px 0 30px 0">
             <Input key={generatedText} kind="textarea" name="templateText" defaultValue={generatedText} />
           </Grid>
-
-          <PaymentsBalance credits={credits} isLoading={isLoadingQueryBalanceGet} />
 
           {isErrorQueryPaymentsTable && (
             <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>

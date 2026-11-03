@@ -67,7 +67,7 @@ export const PaymentsBalanceAddDialog: React.FC<{
       </Button>
 
       <Dialog widthMax={'900px'} open={isOpenDialogBalanceAdd} onCancel={handleOnCancelDialogBalanceAdd}>
-        <Grid layout="container" widthMin={'min(500px, calc(100vw - 25px))'} padding="0px 30px 30px 30px" margin="auto">
+        <Grid layout="container" widthMin={'min(800px, calc(100vw - 25px))'} padding="0px 30px 30px 30px" margin="auto">
           <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
             Add Credits
           </Typography>
@@ -81,14 +81,23 @@ export const PaymentsBalanceAddDialog: React.FC<{
             errorMsg={errorQueryBalanceAdd?.message}
             successMsg={dataQueryBalanceAdd?.message}
           >
-            <Input
-              label="Credits"
-              name="credits"
-              type="number"
-              step={0.01}
-              placeholder="Credits"
-              validatorOptions={[{ type: 'empty' }, { type: 'decimalDigits', options: { digits: 2 } }]}
-            />
+            <Grid layout="columns" col={{ smallDesktop: 2 }} gap={{ col: '20px', row: '0px' }}>
+              <Input
+                label="Credits"
+                name="credits"
+                type="number"
+                step={0.01}
+                placeholder="Credits"
+                validatorOptions={[{ type: 'empty' }, { type: 'decimalDigits', options: { digits: 2 } }]}
+              />
+
+              <Input
+                label="Bank Account Number"
+                name="bankAccountNumber"
+                type="text"
+                placeholder="Bank Account Number"
+              />
+            </Grid>
 
             <Grid
               layout="flex"
