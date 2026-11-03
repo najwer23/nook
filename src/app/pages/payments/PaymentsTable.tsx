@@ -72,7 +72,7 @@ export const PaymentsTable: React.FC<{
       jsonSchema={{ cols }}
       jsonData={{ rows }}
       isLoading={isLoading}
-      tableLoadingHeight={43.85 + 'px'}
+      tableLoadingHeight={43 + 'px'}
       cellEdit={{
         isCellEditError: isErrorQueryInvoiceUpdate,
         isCellEditPending: isPendingQueryInvoiceUpdate,
