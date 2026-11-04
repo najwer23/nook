@@ -1,7 +1,7 @@
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { isExternalLink } from '../Naviagtion.utils';
+import { getNavigationLinkProps, getNavigationLinkType } from '../Naviagtion.utils';
 import { navigationInLinkSections } from './NavigationInLinks.const';
 
 export const NavigationInAside: React.FC = () => {
@@ -20,9 +20,10 @@ export const NavigationInAside: React.FC = () => {
             </TextBox>
           </Grid>
 
-          {links.map(({ to, label }) => {
-            const external = isExternalLink(to);
-            const active = !external && isActive(to);
+          {links.map((link) => {
+            const { to, label } = link;
+            const type = getNavigationLinkType(link);
+            const active = type === 'internal' && isActive(to);
 
             return (
               <Grid key={to} layout="container" margin="0 0 5px 0">
@@ -34,14 +35,7 @@ export const NavigationInAside: React.FC = () => {
                   fontWeight={active ? 600 : 400}
                   color={active ? 'grey' : 'var(--n23mTextBoxColor)'}
                   colorHover={active ? 'grey' : 'var(--n23mTextBoxColor)'}
-                  {...(external
-                    ? { target: '_blank', rel: 'noreferrer' }
-                    : {
-                        onClick: (e: React.MouseEvent) => {
-                          e.preventDefault();
-                          navigate(to);
-                        },
-                      })}
+                  {...getNavigationLinkProps(type, to, navigate)}
                 >
                   {label}
                 </TextBox>

@@ -1,6 +1,26 @@
-import type { NavigationLink, NavigationLinkSection } from './Naviagtion.types';
+import type { NavigationLink, NavigationLinkSection, NavigationLinkType } from './Naviagtion.types';
 
 export const isExternalLink = (to: string) => /^https?:\/\//i.test(to);
+
+export const getNavigationLinkType = ({ type, to }: NavigationLink): NavigationLinkType =>
+  type ?? (isExternalLink(to) ? 'externalBlank' : 'internal');
+
+export const getNavigationLinkProps = (type: NavigationLinkType, to: string, navigate: (to: string) => void) => {
+  if (type === 'internal') {
+    return {
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        navigate(to);
+      },
+    };
+  }
+
+  if (type === 'externalBlank') {
+    return { target: '_blank', rel: 'noopener noreferrer' };
+  }
+
+  return {};
+};
 
 export const byLabel = (a: NavigationLink, b: NavigationLink) => a.label.localeCompare(b.label);
 
