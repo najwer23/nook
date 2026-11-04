@@ -2,7 +2,6 @@ import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQuery } from '@app/hooks/useImmediateThrottledQuery';
 import { keepPreviousData } from '@tanstack/react-query';
 import { Grid } from 'najwer23morsels/lib/Grid';
-import { Input } from 'najwer23morsels/lib/Input';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
@@ -15,6 +14,7 @@ import { PaymentsBalanceAddDialog } from './PaymentsBalanceAddDialog';
 import { PaymentsBalanceLoader } from './PaymentsBalanceLoader';
 import { PaymentsInvoiceAddDialog } from './PaymentsInvoiceAddDialog';
 import { PaymentsTable } from './PaymentsTable';
+import { PaymentsTransferTitle } from './PaymentsTransferTitle';
 
 export const Payments: React.FC<{
   type: string;
@@ -100,15 +100,7 @@ export const Payments: React.FC<{
             Bank account number: <b>{bankAccountNumber || 'unknown'}</b>
           </PaymentsBalanceLoader>
 
-          <Grid layout="container" widthMax="900px" margin="30px 0 30px 0">
-            <Input
-              key={generatedText}
-              kind="textarea"
-              name="templateText"
-              defaultValue={generatedText}
-              label="Transfer title"
-            />
-          </Grid>
+          <PaymentsTransferTitle generatedText={generatedText} />
 
           {isErrorQueryPaymentsTable && (
             <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
