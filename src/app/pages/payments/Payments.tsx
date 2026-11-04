@@ -115,7 +115,7 @@ export const Payments: React.FC<{
                 justifyContent="flex-start"
                 flexWrap="wrap"
                 gap={{ col: '10px', row: '10px' }}
-                margin={'0px 0 20px'}
+                margin={'0px 0 10px'}
               >
                 <PaymentsInvoiceAddDialog cols={cols} type={type} onRefreshChange={setBalanceRefresh} />
                 <PaymentsBalanceAddDialog type={type} onRefreshChange={setBalanceRefresh} />
