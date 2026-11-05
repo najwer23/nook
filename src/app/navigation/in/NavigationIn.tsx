@@ -21,11 +21,11 @@ export const NavigationIn: React.FC<Props> = ({ outlet }) => {
             mobileSize={25}
             fontWeight={500}
             tag="a"
-            href="/"
+            href="/in/dashboard"
             variant="link"
             onClick={(e) => {
               e.preventDefault();
-              navigate('/');
+              navigate('/in/dashboard');
             }}
           >
             Nook
