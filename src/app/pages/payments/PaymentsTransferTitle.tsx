@@ -1,4 +1,4 @@
-import { ButtonCopy } from 'najwer23morsels/lib/ButtonCopy';
+import { Button } from 'najwer23morsels/lib/Button';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
@@ -23,11 +23,11 @@ export const PaymentsTransferTitle: React.FC<{
         onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setTransferTitle(e.target.value)}
       />
 
-      <ButtonCopy textToCopy={transferTitle} height={'42px'} padding={'0 12px'}>
+      <Button variant="copy" textToCopy={transferTitle}>
         <TextBox mobileSize={16} desktopSize={16} color="inherit">
           Copy
         </TextBox>
-      </ButtonCopy>
+      </Button>
     </Grid>
   );
 };

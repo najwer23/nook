@@ -1,5 +1,4 @@
 import { Button } from 'najwer23morsels/lib/Button';
-import { ButtonCopy } from 'najwer23morsels/lib/ButtonCopy';
 import { Dialog } from 'najwer23morsels/lib/Dialog';
 import type { FormType } from 'najwer23morsels/lib/Form';
 import { Form } from 'najwer23morsels/lib/Form';
@@ -85,11 +84,11 @@ export const PostDialogImport: React.FC<{}> = () => {
                 </TextBox>
               </Button>
 
-              <ButtonCopy textToCopy={jsonText} height={'42px'} padding={'0 12px'}>
+              <Button variant="copy" textToCopy={jsonText}>
                 <TextBox desktopSize={16} mobileSize={16} color="inherit">
                   Copy
                 </TextBox>
-              </ButtonCopy>
+              </Button>
             </Grid>
 
             <Button type="submit" variant="primary">
