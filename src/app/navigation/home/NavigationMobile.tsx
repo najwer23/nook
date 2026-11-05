@@ -16,24 +16,9 @@ export const NavigationMobile: React.FC = () => {
       <Grid layout="container" margin="0 0 24px 0">
         <Grid layout="container" margin="0 0 8px 0">
           <Typography variant="subheading" tag="p" fontWeight={600} color="grey">
-            Account
+            Nook
           </Typography>
         </Grid>
-
-        <Typography
-          variant="link"
-          href="/auth/login"
-          desktopSize={28}
-          mobileSize={28}
-          fontWeight={isActive('/auth/login') ? 600 : 400}
-          color={isActive('/auth/login') ? 'grey' : undefined}
-          onClick={(e: React.MouseEvent) => {
-            e.preventDefault();
-            navigate('/auth/login');
-          }}
-        >
-          Login
-        </Typography>
       </Grid>
 
       {navigationHomeLinkSections.map(({ title, links }) => (

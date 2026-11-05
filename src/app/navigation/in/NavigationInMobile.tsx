@@ -15,23 +15,9 @@ export const NavigationInMobile: React.FC = () => {
       <Grid layout="container" margin="0 0 24px 0">
         <Grid layout="container" margin="0 0 8px 0">
           <Typography variant="subheading" color="grey">
-            Account
+            Your Nook
           </Typography>
         </Grid>
-
-        <Typography
-          variant="link"
-          href="/logout"
-          desktopSize={28}
-          mobileSize={28}
-          fontWeight={isActive('/logout') ? 600 : 400}
-          onClick={(e: React.MouseEvent) => {
-            e.preventDefault();
-            navigate('/logout');
-          }}
-        >
-          Logout
-        </Typography>
       </Grid>
 
       {navigationInLinkSections.map(({ title, links }) => (
