@@ -1,9 +1,5 @@
 :root {
   --surface: #eee;
-  --linkColor: orangered;
-  --linkColorHover: orangered;
-
-  --n23mTextBoxColor: black;
 }
 
 body {
@@ -24,24 +20,4 @@ html {
   body {
     overscroll-behavior-y: none;
   }
-}
-
-.n23mTextBoxLink {
-  --n23mTextBoxColor: var(--linkColor);
-  --n23mTextBoxColorHover: var(--linkColorHover);
-}
-
-@media (max-width: 575.98px) {
-}
-
-@media (max-width: 576px) and (max-width: 767.98px) {
-}
-
-@media (max-width: 768px) and (max-width: 991.98px) {
-}
-
-@media (max-width: 992px) and (max-width: 1199.98px) {
-}
-
-@media (min-width: 1200px) and (max-width: 1399.98px) {
 }

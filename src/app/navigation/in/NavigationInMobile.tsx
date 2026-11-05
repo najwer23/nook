@@ -1,12 +1,12 @@
 import { Grid } from 'najwer23morsels/lib/Grid';
-import { TextBox } from 'najwer23morsels/lib/TextBox';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Typography } from 'najwer23morsels/lib/Typography';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getNavigationLinkProps, getNavigationLinkType } from '../Naviagtion.utils';
 import { navigationInLinkSections } from './NavigationInLinks.const';
 
 export const NavigationInMobile: React.FC = () => {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (to: string) => location.pathname === to;
 
@@ -14,33 +14,28 @@ export const NavigationInMobile: React.FC = () => {
     <Grid layout="container" margin={0}>
       <Grid layout="container" margin="0 0 24px 0">
         <Grid layout="container" margin="0 0 8px 0">
-          <TextBox tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
+          <Typography variant="subheading" color="grey">
             Account
-          </TextBox>
+          </Typography>
         </Grid>
-        <TextBox
-          tag="a"
+
+        <Typography
+          variant="link"
+          tag={Link}
           href="/logout"
-          desktopSize={28}
-          mobileSize={28}
           fontWeight={isActive('/logout') ? 600 : 400}
-          color={isActive('/logout') ? 'grey' : 'var(--n23mTextBoxColor)'}
-          colorHover={isActive('/logout') ? 'grey' : 'var(--n23mTextBoxColor)'}
-          onClick={(e: React.MouseEvent) => {
-            e.preventDefault();
-            navigate('/logout');
-          }}
+          color={isActive('/logout') ? 'grey' : undefined}
         >
           Logout
-        </TextBox>
+        </Typography>
       </Grid>
 
       {navigationInLinkSections.map(({ title, links }) => (
         <Grid key={title} layout="container" margin="0 0 24px 0">
           <Grid layout="container" margin="0 0 8px 0">
-            <TextBox tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
+            <Typography variant="subheading" color="grey">
               {title}
-            </TextBox>
+            </Typography>
           </Grid>
 
           {links.map((link) => {
@@ -48,29 +43,36 @@ export const NavigationInMobile: React.FC = () => {
             const type = getNavigationLinkType(link);
             const active = type === 'internal' && isActive(to);
 
+            if (type === 'internal') {
+              return (
+                <Grid key={to} layout="container" margin="0 0 8px 0">
+                  <Typography
+                    variant="link"
+                    tag={Link}
+                    href={to}
+                    fontWeight={active ? 600 : 400}
+                    color={active ? 'grey' : undefined}
+                  >
+                    {label}
+                  </Typography>
+                </Grid>
+              );
+            }
+
             return (
               <Grid key={to} layout="container" margin="0 0 8px 0">
-                <TextBox
-                  tag="a"
-                  href={to}
-                  desktopSize={28}
-                  mobileSize={28}
-                  fontWeight={active ? 600 : 400}
-                  color={active ? 'grey' : 'var(--n23mTextBoxColor)'}
-                  colorHover={active ? 'grey' : 'var(--n23mTextBoxColor)'}
-                  {...getNavigationLinkProps(type, to, navigate)}
-                >
+                <Typography variant="link" tag="a" href={to} {...getNavigationLinkProps(type, to, navigate)}>
                   {label}
-                </TextBox>
+                </Typography>
               </Grid>
             );
           })}
         </Grid>
       ))}
 
-      <TextBox tag="p" desktopSize={14} mobileSize={14} color="grey">
+      <Typography variant="caption" color="grey">
         © Nook
-      </TextBox>
+      </Typography>
     </Grid>
   );
 };

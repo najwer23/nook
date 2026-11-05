@@ -1,5 +1,6 @@
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { Typography } from 'najwer23morsels/lib/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getNavigationLinkProps, getNavigationLinkType } from '../Naviagtion.utils';
 import { navigationInLinkSections } from './NavigationInLinks.const';
@@ -27,18 +28,17 @@ export const NavigationInAside: React.FC = () => {
 
             return (
               <Grid key={to} layout="container" margin="0 0 5px 0">
-                <TextBox
+                <Typography
                   tag="a"
+                  variant="link"
                   href={to}
                   desktopSize={20}
                   mobileSize={20}
                   fontWeight={active ? 600 : 400}
-                  color={active ? 'grey' : 'var(--n23mTextBoxColor)'}
-                  colorHover={active ? 'grey' : 'var(--n23mTextBoxColor)'}
                   {...getNavigationLinkProps(type, to, navigate)}
                 >
                   {label}
-                </TextBox>
+                </Typography>
               </Grid>
             );
           })}

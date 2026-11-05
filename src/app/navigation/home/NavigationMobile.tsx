@@ -1,5 +1,6 @@
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { Typography } from 'najwer23morsels/lib/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getNavigationLinkProps, getNavigationLinkType } from '../Naviagtion.utils';
 import { navigationHomeLinkSections } from './NavigationLinks.const';
@@ -14,25 +15,25 @@ export const NavigationMobile: React.FC = () => {
     <Grid layout="container" margin={0}>
       <Grid layout="container" margin="0 0 24px 0">
         <Grid layout="container" margin="0 0 8px 0">
-          <TextBox tag="p" desktopSize={20} mobileSize={20} fontWeight={600} color="grey">
+          <Typography variant="subheading" tag="p" fontWeight={600} color="grey">
             Account
-          </TextBox>
+          </Typography>
         </Grid>
-        <TextBox
-          tag="a"
+
+        <Typography
+          variant="link"
           href="/auth/login"
           desktopSize={28}
           mobileSize={28}
           fontWeight={isActive('/auth/login') ? 600 : 400}
-          color={isActive('/auth/login') ? 'grey' : 'var(--n23mTextBoxColor)'}
-          colorHover={isActive('/auth/login') ? 'grey' : 'var(--n23mTextBoxColor)'}
+          color={isActive('/auth/login') ? 'grey' : undefined}
           onClick={(e: React.MouseEvent) => {
             e.preventDefault();
             navigate('/auth/login');
           }}
         >
           Login
-        </TextBox>
+        </Typography>
       </Grid>
 
       {navigationHomeLinkSections.map(({ title, links }) => (
@@ -50,27 +51,26 @@ export const NavigationMobile: React.FC = () => {
 
             return (
               <Grid key={to} layout="container" margin="0 0 8px 0">
-                <TextBox
-                  tag="a"
+                <Typography
+                  variant="link"
                   href={to}
                   desktopSize={28}
                   mobileSize={28}
                   fontWeight={active ? 600 : 400}
-                  color={active ? 'grey' : 'var(--n23mTextBoxColor)'}
-                  colorHover={active ? 'grey' : 'var(--n23mTextBoxColor)'}
+                  color={active ? 'grey' : undefined}
                   {...getNavigationLinkProps(type, to, navigate)}
                 >
                   {label}
-                </TextBox>
+                </Typography>
               </Grid>
             );
           })}
         </Grid>
       ))}
 
-      <TextBox tag="p" desktopSize={14} mobileSize={14} color="grey">
+      <Typography variant="caption" tag="p" color="grey">
         © Nook
-      </TextBox>
+      </Typography>
     </Grid>
   );
 };

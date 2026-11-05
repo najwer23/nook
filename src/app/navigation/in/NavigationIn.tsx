@@ -1,6 +1,6 @@
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { NavigationDashboard } from 'najwer23morsels/lib/NavigationDashboard';
-import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { Typography } from 'najwer23morsels/lib/Typography';
 import { useNavigate } from 'react-router-dom';
 import { NavigationInAside } from './NavigationInAside';
 import { NavigationInMobile } from './NavigationInMobile';
@@ -16,26 +16,27 @@ export const NavigationIn: React.FC<Props> = ({ outlet }) => {
     <NavigationDashboard
       menuTopLeftColumn={
         <Grid layout="flex" justifyContent="flex-start" alignItems="center" minHeight={'100%'}>
-          <TextBox
+          <Typography
             desktopSize={25}
             mobileSize={25}
             fontWeight={500}
             tag="a"
             href="/"
-            color="black"
+            variant="link"
             onClick={(e) => {
               e.preventDefault();
               navigate('/');
             }}
           >
             Nook
-          </TextBox>
+          </Typography>
         </Grid>
       }
       menuTopRightColumn={
         <Grid layout="flex" justifyContent="flex-end" alignItems="center" minHeight={'100%'}>
-          <TextBox
+          <Typography
             tag="a"
+            variant="link"
             href="/logout"
             onClick={(e) => {
               e.preventDefault();
@@ -46,7 +47,7 @@ export const NavigationIn: React.FC<Props> = ({ outlet }) => {
             fontWeight={500}
           >
             Logout
-          </TextBox>
+          </Typography>
         </Grid>
       }
       menuMobile={<NavigationInMobile />}
