@@ -1,6 +1,7 @@
 import { Button } from 'najwer23morsels/lib/Button';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { VALIDATOR_MESSAGE_COLORS } from 'najwer23morsels/lib/validator';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Song } from './Music.query';
 
@@ -222,11 +223,9 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
           >
             <Button
               type="button"
-              height={'40px'}
-              width={'60px'}
-              padding={0}
+              variant="secondary"
               backgroundColor="purple"
-              backgroundColorDisabled="grey"
+              borderColor="purple"
               onClick={handlePrev}
               margin={'20px 0 3px'}
             >
@@ -237,11 +236,9 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
 
             <Button
               type="button"
-              height={'40px'}
-              width={'60px'}
-              padding={0}
-              backgroundColor={isPlaying ? 'red' : 'green'}
-              backgroundColorDisabled="grey"
+              variant="secondary"
+              backgroundColor={isPlaying ? VALIDATOR_MESSAGE_COLORS.error : VALIDATOR_MESSAGE_COLORS.success}
+              borderColor={isPlaying ? VALIDATOR_MESSAGE_COLORS.error : VALIDATOR_MESSAGE_COLORS.success}
               onClick={togglePlay}
               margin={'20px 0 3px'}
             >
@@ -252,11 +249,9 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
 
             <Button
               type="button"
-              height={'40px'}
-              width={'60px'}
-              padding={0}
+              variant="secondary"
               backgroundColor="purple"
-              backgroundColorDisabled="grey"
+              borderColor="purple"
               onClick={handleNext}
               margin={'20px 0 3px'}
             >

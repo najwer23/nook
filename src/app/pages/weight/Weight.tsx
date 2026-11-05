@@ -95,14 +95,8 @@ export const Weight = () => {
           gap={{ col: '20px', row: '20px' }}
           margin={'20px 0 0'}
         >
-          <Button
-            height="40px"
-            width={'auto'}
-            padding={'0 10px'}
-            backgroundColor="orangered"
-            onClick={() => openDialogWeightAdd(true)}
-          >
-            <TextBox mobileSize={18} desktopSize={18} color="white">
+          <Button variant="primary" onClick={() => openDialogWeightAdd(true)}>
+            <TextBox mobileSize={16} desktopSize={16} color="white">
               Add Weight
             </TextBox>
           </Button>
@@ -112,11 +106,13 @@ export const Weight = () => {
             open={isOpenDialogWeightAdd}
             onCancel={() => {
               openDialogWeightAdd(false);
-              resetQueryWeightAdd();
-              if (hasChangedWeightRef.current) {
-                hasChangedWeightRef.current = false;
-                queryClient.invalidateQueries({ queryKey: ['queryWeightGetByYear'] });
-              }
+              setTimeout(() => {
+                resetQueryWeightAdd();
+                if (hasChangedWeightRef.current) {
+                  hasChangedWeightRef.current = false;
+                  queryClient.invalidateQueries({ queryKey: ['queryWeightGetByYear'] });
+                }
+              }, 300);
             }}
           >
             <Grid
@@ -125,7 +121,7 @@ export const Weight = () => {
               padding="0px 30px 30px 30px"
               margin="auto"
             >
-              <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
+              <Typography appearance="light" variant="subheading" tag={'h2'} style={{ margin: '0 0 20px 0' }}>
                 Add Weight
               </Typography>
 
@@ -168,16 +164,8 @@ export const Weight = () => {
                       alignItems="right"
                       margin={'20px 0 0 0'}
                     >
-                      <Button
-                        type="submit"
-                        height={'40px'}
-                        width={'auto'}
-                        padding={'0 10px'}
-                        disabled={isPendingQueryWeightAdd}
-                        backgroundColor="#4BB543"
-                        backgroundColorDisabled="grey"
-                      >
-                        <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                      <Button type="submit" variant="success" disabled={isPendingQueryWeightAdd}>
+                        <TextBox tag="span" desktopSize={16} mobileSize={16}>
                           Save changes
                         </TextBox>
                       </Button>
