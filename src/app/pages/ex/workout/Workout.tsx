@@ -178,29 +178,18 @@ export const Workout: React.FC<{
                         setRepCurrent(index);
                         setRepCurrentChange('stop' + index);
                       }}
-                      height="40px"
-                      width="70px"
-                      backgroundColor="orangered"
-                      backgroundColorDisabled="grey"
+                      variant="secondary"
                       margin="10px 0 0 0"
                     >
-                      <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                      <TextBox desktopSize={16} mobileSize={16} color="inherit">
                         Unlock
                       </TextBox>
                     </Button>
                   </div>
                 ))}
 
-                <Button
-                  type="submit"
-                  disabled={isPendingQueryWorkoutCreate}
-                  height="40px"
-                  width={'auto'}
-                  padding={'0 10px'}
-                  backgroundColor="orangered"
-                  backgroundColorDisabled="grey"
-                >
-                  <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+                <Button type="submit" disabled={isPendingQueryWorkoutCreate} variant="success">
+                  <TextBox desktopSize={16} mobileSize={16} color="inherit">
                     Submit
                   </TextBox>
                 </Button>
@@ -223,12 +212,10 @@ export const Workout: React.FC<{
                     setRepCurrentChange('play' + (repCurrent + 1));
                   }}
                   type="button"
-                  height="100px"
+                  variant="success"
                   width="100%"
-                  backgroundColor="#9dae11"
-                  backgroundColorDisabled="grey"
                 >
-                  <TextBox tag="span" desktopSize={30} mobileSize={30} fontWeight={600} color="white">
+                  <TextBox tag="span" desktopSize={30} mobileSize={30} fontWeight={600}>
                     Done!
                   </TextBox>
                 </Button>

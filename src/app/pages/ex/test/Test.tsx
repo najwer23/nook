@@ -89,16 +89,8 @@ export const Test: React.FC<{
               ]}
             />
 
-            <Button
-              type="submit"
-              disabled={isPendingQueryTest}
-              height="40px"
-              width={'auto'}
-              padding={'0 10px'}
-              backgroundColor="orangered"
-              backgroundColorDisabled="grey"
-            >
-              <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+            <Button type="submit" disabled={isPendingQueryTest} variant="success">
+              <TextBox tag="span" desktopSize={16} mobileSize={16}>
                 Submit
               </TextBox>
             </Button>

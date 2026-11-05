@@ -23,47 +23,23 @@ export const Ex: React.FC<{
           layout="flex"
           justifyContent="flex-start"
           flexWrap="wrap"
-          gap={{ col: '20px', row: '20px' }}
+          gap={{ col: '15px', row: '15px' }}
           margin="20px 0 0"
         >
-          <Button
-            height="40px"
-            width={'auto'}
-            padding={'0 10px'}
-            backgroundColor="orange"
-            onClick={() => setSelectedTab('stats')}
-            backgroundColorDisabled="darkgrey"
-            disabled={selectedTab === 'stats'}
-          >
-            <TextBox mobileSize={18} desktopSize={18}>
+          <Button variant="secondary" onClick={() => setSelectedTab('stats')} disabled={selectedTab === 'stats'}>
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Stats
             </TextBox>
           </Button>
 
-          <Button
-            height="40px"
-            width={'auto'}
-            padding={'0 10px'}
-            backgroundColor="orange"
-            onClick={() => setSelectedTab('workout')}
-            backgroundColorDisabled="darkgrey"
-            disabled={selectedTab === 'workout'}
-          >
-            <TextBox mobileSize={18} desktopSize={18}>
+          <Button variant="secondary" onClick={() => setSelectedTab('workout')} disabled={selectedTab === 'workout'}>
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Workout
             </TextBox>
           </Button>
 
-          <Button
-            height="40px"
-            width={'auto'}
-            padding={'0 10px'}
-            backgroundColor="orange"
-            onClick={() => setSelectedTab('test')}
-            backgroundColorDisabled="darkgrey"
-            disabled={selectedTab === 'test'}
-          >
-            <TextBox mobileSize={18} desktopSize={18}>
+          <Button variant="secondary" onClick={() => setSelectedTab('test')} disabled={selectedTab === 'test'}>
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Test
             </TextBox>
           </Button>

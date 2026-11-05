@@ -1,5 +1,6 @@
 import { Button } from 'najwer23morsels/lib/Button';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
+import { VALIDATOR_MESSAGE_COLORS } from 'najwer23morsels/lib/validator';
 import { useEffect, useState } from 'react';
 import styles from './Timer.module.css';
 
@@ -61,27 +62,17 @@ export const Timer: React.FC<{
         </TextBox>
       </div>
       <div className={styles.timerControls}>
-        <Button
-          type="button"
-          height={'60px'}
-          width={'100%'}
-          padding={0}
-          backgroundColor="orangered"
-          backgroundColorDisabled="grey"
-          onClick={handleRefreshTimer}
-        >
-          <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+        <Button type="button" variant="secondary" onClick={handleRefreshTimer}>
+          <TextBox desktopSize={16} mobileSize={16} color="inherit">
             Refresh
           </TextBox>
         </Button>
 
         <Button
           type="button"
-          height={'60px'}
-          width={'100%'}
-          padding={0}
-          backgroundColor="orangered"
-          backgroundColorDisabled="grey"
+          variant="secondary"
+          backgroundColor={timeEvent === 'play' ? VALIDATOR_MESSAGE_COLORS.error : undefined}
+          borderColor={timeEvent === 'play' ? VALIDATOR_MESSAGE_COLORS.error : undefined}
           disabled={timeEvent === 'pause'}
           onClick={handlePauseTimer}
         >
@@ -90,11 +81,9 @@ export const Timer: React.FC<{
 
         <Button
           type="button"
-          height={'60px'}
-          width={'100%'}
-          padding={0}
-          backgroundColor="orangered"
-          backgroundColorDisabled="grey"
+          variant="secondary"
+          backgroundColor={timeEvent === 'pause' ? VALIDATOR_MESSAGE_COLORS.success : undefined}
+          borderColor={timeEvent === 'pause' ? VALIDATOR_MESSAGE_COLORS.success : undefined}
           disabled={timeEvent === 'play'}
           onClick={handlePlayTimer}
         >
