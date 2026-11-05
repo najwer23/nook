@@ -57,7 +57,6 @@ export const NavigationMobile: React.FC = () => {
                   desktopSize={28}
                   mobileSize={28}
                   fontWeight={active ? 600 : 400}
-                  color={active ? 'grey' : undefined}
                   {...getNavigationLinkProps(type, to, navigate)}
                 >
                   {label}

@@ -1,6 +1,6 @@
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getNavigationLinkProps, getNavigationLinkType } from '../Naviagtion.utils';
 import { navigationInLinkSections } from './NavigationInLinks.const';
 
@@ -21,10 +21,14 @@ export const NavigationInMobile: React.FC = () => {
 
         <Typography
           variant="link"
-          tag={Link}
           href="/logout"
+          desktopSize={28}
+          mobileSize={28}
           fontWeight={isActive('/logout') ? 600 : 400}
-          color={isActive('/logout') ? 'grey' : undefined}
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault();
+            navigate('/logout');
+          }}
         >
           Logout
         </Typography>
@@ -48,10 +52,11 @@ export const NavigationInMobile: React.FC = () => {
                 <Grid key={to} layout="container" margin="0 0 8px 0">
                   <Typography
                     variant="link"
-                    tag={Link}
                     href={to}
+                    desktopSize={28}
+                    mobileSize={28}
                     fontWeight={active ? 600 : 400}
-                    color={active ? 'grey' : undefined}
+                    {...getNavigationLinkProps(type, to, navigate)}
                   >
                     {label}
                   </Typography>
@@ -61,7 +66,14 @@ export const NavigationInMobile: React.FC = () => {
 
             return (
               <Grid key={to} layout="container" margin="0 0 8px 0">
-                <Typography variant="link" tag="a" href={to} {...getNavigationLinkProps(type, to, navigate)}>
+                <Typography
+                  variant="link"
+                  desktopSize={28}
+                  mobileSize={28}
+                  tag="a"
+                  href={to}
+                  {...getNavigationLinkProps(type, to, navigate)}
+                >
                   {label}
                 </Typography>
               </Grid>
