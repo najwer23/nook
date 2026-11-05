@@ -91,6 +91,16 @@ export const Payments: React.FC<{
 
       {!isInitialLoading && (
         <>
+          <Grid
+            layout="flex"
+            justifyContent="flex-start"
+            flexWrap="wrap"
+            gap={{ col: '15px', row: '15px' }}
+            margin="0 0 30px"
+          >
+            <PaymentsBalanceAddDialog type={type} onRefreshChange={setBalanceRefresh} />
+          </Grid>
+
           <PaymentsBalanceLoader isRefreshing={balanceRefresh.credits}>
             Balance:{' '}
             <b>{new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(credits ?? 0)}</b>
@@ -110,15 +120,10 @@ export const Payments: React.FC<{
 
           {hasResultQueryPaymentsTable && (
             <Grid layout="container" widthMax={'100%'}>
-              <Grid
-                layout="flex"
-                justifyContent="flex-start"
-                flexWrap="wrap"
-                gap={{ col: '10px', row: '10px' }}
-                margin={'0px 0 10px'}
-              >
-                <PaymentsInvoiceAddDialog cols={cols} type={type} onRefreshChange={setBalanceRefresh} />
-                <PaymentsBalanceAddDialog type={type} onRefreshChange={setBalanceRefresh} />
+              <Grid layout="container" margin={'0px 0 10px'}>
+                <div>
+                  <PaymentsInvoiceAddDialog cols={cols} type={type} onRefreshChange={setBalanceRefresh} />
+                </div>
               </Grid>
 
               <PaymentsTable

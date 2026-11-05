@@ -188,9 +188,9 @@ export const Workout: React.FC<{
                   </div>
                 ))}
 
-                <Button type="submit" disabled={isPendingQueryWorkoutCreate} variant="success">
+                <Button type="submit" disabled={isPendingQueryWorkoutCreate} variant="primary">
                   <TextBox desktopSize={16} mobileSize={16} color="inherit">
-                    Submit
+                    Save changes
                   </TextBox>
                 </Button>
               </Form>

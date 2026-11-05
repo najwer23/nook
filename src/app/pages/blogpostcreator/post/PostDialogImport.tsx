@@ -92,8 +92,8 @@ export const PostDialogImport: React.FC<{}> = () => {
               </ButtonCopy>
             </Grid>
 
-            <Button type="submit" variant="success">
-              <TextBox tag="span" desktopSize={16} mobileSize={16} color="white">
+            <Button type="submit" variant="primary">
+              <TextBox tag="span" desktopSize={16} mobileSize={16} color="inherit">
                 Save changes
               </TextBox>
             </Button>

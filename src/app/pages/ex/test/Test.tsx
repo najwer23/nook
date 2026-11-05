@@ -89,9 +89,9 @@ export const Test: React.FC<{
               ]}
             />
 
-            <Button type="submit" disabled={isPendingQueryTest} variant="success">
-              <TextBox tag="span" desktopSize={16} mobileSize={16}>
-                Submit
+            <Button type="submit" disabled={isPendingQueryTest} variant="primary">
+              <TextBox desktopSize={16} mobileSize={16}>
+                Save changes
               </TextBox>
             </Button>
           </div>

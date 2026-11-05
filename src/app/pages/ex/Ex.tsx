@@ -24,7 +24,7 @@ export const Ex: React.FC<{
           justifyContent="flex-start"
           flexWrap="wrap"
           gap={{ col: '15px', row: '15px' }}
-          margin="20px 0 0"
+          margin="30px 0 0"
         >
           <Button variant="secondary" onClick={() => setSelectedTab('stats')} disabled={selectedTab === 'stats'}>
             <TextBox mobileSize={16} desktopSize={16} color="inherit">

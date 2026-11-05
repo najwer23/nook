@@ -159,7 +159,7 @@ export const PostDialogEdit: React.FC<{}> = () => {
               alignItems="right"
               margin={'20px 0 0 0'}
             >
-              <Button type="submit" variant="success">
+              <Button type="submit" variant="primary">
                 <TextBox desktopSize={16} mobileSize={16} color="inherit">
                   Save changes
                 </TextBox>

@@ -23,8 +23,8 @@ export const PaymentsTransferTitle: React.FC<{
         onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setTransferTitle(e.target.value)}
       />
 
-      <ButtonCopy textToCopy={transferTitle} height="40px" width="80px" backgroundColor="indigo">
-        <TextBox mobileSize={18} desktopSize={18} color="white">
+      <ButtonCopy textToCopy={transferTitle} height={'42px'} padding={'0 12px'}>
+        <TextBox mobileSize={16} desktopSize={16} color="inherit">
           Copy
         </TextBox>
       </ButtonCopy>

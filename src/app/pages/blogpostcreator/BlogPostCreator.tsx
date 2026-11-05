@@ -70,16 +70,16 @@ export const BlogPostCreator = () => {
           justifyContent="flex-start"
           flexWrap="wrap"
           gap={{ col: '15px', row: '15px' }}
-          margin={'20px 0 0'}
+          margin={'30px 0 0'}
         >
-          <Button variant="primary" onClick={openImportDialog}>
+          <Button variant="secondary" onClick={openImportDialog}>
             <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Edit JSON
             </TextBox>
           </Button>
 
           <Button
-            variant="primary"
+            variant="secondary"
             onClick={() => startAddSection('post-title')}
             disabled={postJson?.sections?.filter((x) => x.name == 'post-title').length > 0}
           >
@@ -88,19 +88,19 @@ export const BlogPostCreator = () => {
             </TextBox>
           </Button>
 
-          <Button variant="primary" onClick={() => startAddSection('post-p')}>
+          <Button variant="secondary" onClick={() => startAddSection('post-p')}>
             <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Paragraph
             </TextBox>
           </Button>
 
-          <Button variant="primary" onClick={() => startAddSection('post-code')}>
+          <Button variant="secondary" onClick={() => startAddSection('post-code')}>
             <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Code
             </TextBox>
           </Button>
 
-          <Button variant="primary" onClick={() => startAddSection('post-subheading')}>
+          <Button variant="secondary" onClick={() => startAddSection('post-subheading')}>
             <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Subheading
             </TextBox>

@@ -93,10 +93,10 @@ export const Weight = () => {
           justifyContent="flex-start"
           flexWrap="wrap"
           gap={{ col: '20px', row: '20px' }}
-          margin={'20px 0 0'}
+          margin={'30px 0 0px'}
         >
-          <Button variant="primary" onClick={() => openDialogWeightAdd(true)}>
-            <TextBox mobileSize={16} desktopSize={16} color="white">
+          <Button variant="secondary" onClick={() => openDialogWeightAdd(true)}>
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Add Weight
             </TextBox>
           </Button>
@@ -164,8 +164,8 @@ export const Weight = () => {
                       alignItems="right"
                       margin={'20px 0 0 0'}
                     >
-                      <Button type="submit" variant="success" disabled={isPendingQueryWeightAdd}>
-                        <TextBox tag="span" desktopSize={16} mobileSize={16}>
+                      <Button type="submit" variant="primary" disabled={isPendingQueryWeightAdd}>
+                        <TextBox color="inherit" desktopSize={16} mobileSize={16}>
                           Save changes
                         </TextBox>
                       </Button>

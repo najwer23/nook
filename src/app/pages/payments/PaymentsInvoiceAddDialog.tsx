@@ -72,8 +72,8 @@ export const PaymentsInvoiceAddDialog: React.FC<{
 
   return (
     <>
-      <Button height="40px" width="120px" backgroundColor="orangered" onClick={() => openDialogInvoiceAdd(true)}>
-        <TextBox mobileSize={18} desktopSize={18} color="white">
+      <Button variant="secondary" onClick={() => openDialogInvoiceAdd(true)}>
+        <TextBox mobileSize={16} desktopSize={16} color="inherit">
           Add Invoice
         </TextBox>
       </Button>
@@ -103,15 +103,8 @@ export const PaymentsInvoiceAddDialog: React.FC<{
               alignItems="right"
               margin="20px 0 0 0"
             >
-              <Button
-                type="submit"
-                height="40px"
-                width="auto"
-                padding={'0 10px'}
-                backgroundColor="#4BB543"
-                backgroundColorDisabled="grey"
-              >
-                <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+              <Button type="submit" variant="primary">
+                <TextBox tag="span" desktopSize={16} mobileSize={16} color="inherit">
                   Save changes
                 </TextBox>
               </Button>
