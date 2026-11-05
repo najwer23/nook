@@ -69,67 +69,39 @@ export const BlogPostCreator = () => {
           layout="flex"
           justifyContent="flex-start"
           flexWrap="wrap"
-          gap={{ col: '20px', row: '20px' }}
+          gap={{ col: '15px', row: '15px' }}
           margin={'20px 0 0'}
         >
-          <Button
-            height="40px"
-            width={'auto'}
-            padding={'0 10px'}
-            backgroundColor="orangered"
-            onClick={openImportDialog}
-          >
-            <TextBox mobileSize={18} desktopSize={18} color="white">
+          <Button variant="primary" onClick={openImportDialog}>
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Edit JSON
             </TextBox>
           </Button>
 
           <Button
-            height="40px"
-            width={'auto'}
-            padding={'0 10px'}
-            backgroundColor="orange"
+            variant="primary"
             onClick={() => startAddSection('post-title')}
-            backgroundColorDisabled="darkgrey"
             disabled={postJson?.sections?.filter((x) => x.name == 'post-title').length > 0}
           >
-            <TextBox mobileSize={18} desktopSize={18}>
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Post Title
             </TextBox>
           </Button>
 
-          <Button
-            height="40px"
-            width={'auto'}
-            padding={'0 10px'}
-            backgroundColor="orange"
-            onClick={() => startAddSection('post-p')}
-          >
-            <TextBox mobileSize={18} desktopSize={18}>
+          <Button variant="primary" onClick={() => startAddSection('post-p')}>
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Paragraph
             </TextBox>
           </Button>
 
-          <Button
-            height="40px"
-            width={'auto'}
-            padding={'0 10px'}
-            backgroundColor="orange"
-            onClick={() => startAddSection('post-code')}
-          >
-            <TextBox mobileSize={18} desktopSize={18}>
+          <Button variant="primary" onClick={() => startAddSection('post-code')}>
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Code
             </TextBox>
           </Button>
 
-          <Button
-            height="40px"
-            width={'auto'}
-            padding={'0 10px'}
-            backgroundColor="orange"
-            onClick={() => startAddSection('post-subheading')}
-          >
-            <TextBox mobileSize={18} desktopSize={18}>
+          <Button variant="primary" onClick={() => startAddSection('post-subheading')}>
+            <TextBox mobileSize={16} desktopSize={16} color="inherit">
               Subheading
             </TextBox>
           </Button>
@@ -158,6 +130,7 @@ export const BlogPostCreator = () => {
                     padding={'0 10px'}
                     height="20px"
                     backgroundColor="#4BB543"
+                    borderColor="#4BB543"
                     onClick={() => openSectionIdDialog(index)}
                   >
                     <TextBox mobileSize={10} desktopSize={10} color="white">
@@ -169,6 +142,7 @@ export const BlogPostCreator = () => {
                     padding={'0 10px'}
                     height="20px"
                     backgroundColor="#ff3333"
+                    borderColor="#ff3333"
                     onClick={() => removeSection(index)}
                   >
                     <TextBox mobileSize={10} desktopSize={10} color="white">
@@ -180,6 +154,7 @@ export const BlogPostCreator = () => {
                     padding={'0 10px'}
                     height="20px"
                     backgroundColor="purple"
+                    borderColor="purple"
                     draggable
                     onDragStart={() => handleDragStart(index)}
                     onDragEnter={() => handleDragEnter(index)}

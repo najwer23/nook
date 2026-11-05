@@ -40,7 +40,7 @@ export const PostDialogImport: React.FC<{}> = () => {
   return (
     <Dialog widthMax={'900px'} open={importDialogOpen} onCancel={() => closeImportDialog()}>
       <Grid layout="container" padding="0px 30px 30px 30px" margin="auto" widthMin={'min(800px, calc(100vw - 25px))'}>
-        <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
+        <Typography appearance="light" variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
           Edit JSON
         </Typography>
 
@@ -79,36 +79,21 @@ export const PostDialogImport: React.FC<{}> = () => {
               justifyContent="flex-start"
               gap={{ col: '10px', row: '10px' }}
             >
-              <Button
-                type="button"
-                height={'40px'}
-                width={'auto'}
-                padding={'0 10px'}
-                backgroundColor="indigo"
-                backgroundColorDisabled="grey"
-                onClick={handleFreshStart}
-              >
-                <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+              <Button type="button" variant="secondary" onClick={handleFreshStart}>
+                <TextBox desktopSize={16} mobileSize={16} color="inherit">
                   Fresh Start
                 </TextBox>
               </Button>
 
-              <ButtonCopy height={'40px'} width={'auto'} padding={'0 10px'} textToCopy={jsonText}>
-                <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+              <ButtonCopy textToCopy={jsonText} height={'42px'} padding={'0 12px'}>
+                <TextBox desktopSize={16} mobileSize={16} color="inherit">
                   Copy
                 </TextBox>
               </ButtonCopy>
             </Grid>
 
-            <Button
-              type="submit"
-              height={'40px'}
-              width={'auto'}
-              padding={'0 10px'}
-              backgroundColor="#4BB543"
-              backgroundColorDisabled="grey"
-            >
-              <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
+            <Button type="submit" variant="success">
+              <TextBox tag="span" desktopSize={16} mobileSize={16} color="white">
                 Save changes
               </TextBox>
             </Button>
