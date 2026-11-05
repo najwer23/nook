@@ -22,11 +22,11 @@ export const Vacations: React.FC<Props> = ({}) => {
   return (
     <Grid layout="container" widthMax="100%" padding="0">
       <Grid layout="container" widthMax="100%" margin="0 0 30px 0">
-        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+        <Typography variant="display" style={{ margin: 0 }}>
           Vacations
         </Typography>
 
-        <Typography appearance="light" variant="caption">
+        <Typography variant="caption">
           A curated collection of European evenings, city corners, and golden light.
         </Typography>
       </Grid>

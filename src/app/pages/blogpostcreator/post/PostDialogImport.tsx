@@ -39,7 +39,7 @@ export const PostDialogImport: React.FC<{}> = () => {
   return (
     <Dialog widthMax={'900px'} open={importDialogOpen} onCancel={() => closeImportDialog()}>
       <Grid layout="container" padding="0px 30px 30px 30px" margin="auto" widthMin={'min(800px, calc(100vw - 25px))'}>
-        <Typography appearance="light" variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
+        <Typography variant="subheading" tag="h2" style={{ margin: '0 0 20px 0' }}>
           Edit JSON
         </Typography>
 

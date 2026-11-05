@@ -35,13 +35,11 @@ export const Music: React.FC<Props> = ({ navigationType = 'home' }) => {
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
       <Grid layout="container" widthMax="900px" margin="0 0 30px 0">
-        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+        <Typography variant="display" style={{ margin: 0 }}>
           Music
         </Typography>
 
-        <Typography appearance="light" variant="caption">
-          Free Music Archive
-        </Typography>
+        <Typography variant="caption">Free Music Archive</Typography>
       </Grid>
 
       {isLoadingQueryPlaylist && <LoaderDots />}

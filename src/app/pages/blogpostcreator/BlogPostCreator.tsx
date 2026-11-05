@@ -61,7 +61,7 @@ export const BlogPostCreator = () => {
       <PostDialogEdit />
 
       <Grid layout="container" widthMin="100%" widthMax={'100%'} margin="0 0 30px">
-        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+        <Typography variant="display" style={{ margin: 0 }}>
           Blog Post Creator
         </Typography>
 
@@ -129,8 +129,7 @@ export const BlogPostCreator = () => {
                     width={'auto'}
                     padding={'0 10px'}
                     height="20px"
-                    backgroundColor="#4BB543"
-                    borderColor="#4BB543"
+                    variant="success"
                     onClick={() => openSectionIdDialog(index)}
                   >
                     <TextBox mobileSize={10} desktopSize={10} color="white">
@@ -141,8 +140,7 @@ export const BlogPostCreator = () => {
                     width={'auto'}
                     padding={'0 10px'}
                     height="20px"
-                    backgroundColor="#ff3333"
-                    borderColor="#ff3333"
+                    variant="danger"
                     onClick={() => removeSection(index)}
                   >
                     <TextBox mobileSize={10} desktopSize={10} color="white">
@@ -153,8 +151,7 @@ export const BlogPostCreator = () => {
                     width={'auto'}
                     padding={'0 10px'}
                     height="20px"
-                    backgroundColor="purple"
-                    borderColor="purple"
+                    variant="subtle"
                     draggable
                     onDragStart={() => handleDragStart(index)}
                     onDragEnter={() => handleDragEnter(index)}
@@ -165,7 +162,7 @@ export const BlogPostCreator = () => {
                       cursor: 'move',
                     }}
                   >
-                    <TextBox mobileSize={10} desktopSize={10} color="white">
+                    <TextBox mobileSize={10} desktopSize={10} color="black">
                       Drag
                     </TextBox>
                   </Button>

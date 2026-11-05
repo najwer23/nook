@@ -1,6 +1,5 @@
 import { Button } from 'najwer23morsels/lib/Button';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
-import { VALIDATOR_MESSAGE_COLORS } from 'najwer23morsels/lib/validator';
 import { useEffect, useState } from 'react';
 import styles from './Timer.module.css';
 
@@ -70,9 +69,7 @@ export const Timer: React.FC<{
 
         <Button
           type="button"
-          variant="secondary"
-          backgroundColor={timeEvent === 'play' ? VALIDATOR_MESSAGE_COLORS.error : undefined}
-          borderColor={timeEvent === 'play' ? VALIDATOR_MESSAGE_COLORS.error : undefined}
+          variant={timeEvent === 'play' ? 'danger' : 'secondary'}
           disabled={timeEvent === 'pause'}
           onClick={handlePauseTimer}
         >
@@ -81,9 +78,7 @@ export const Timer: React.FC<{
 
         <Button
           type="button"
-          variant="secondary"
-          backgroundColor={timeEvent === 'pause' ? VALIDATOR_MESSAGE_COLORS.success : undefined}
-          borderColor={timeEvent === 'pause' ? VALIDATOR_MESSAGE_COLORS.success : undefined}
+          variant={timeEvent === 'pause' ? 'success' : 'secondary'}
           disabled={timeEvent === 'play'}
           onClick={handlePlayTimer}
         >

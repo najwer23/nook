@@ -7,7 +7,7 @@ export const ErrorNotFound = () => {
 
   return (
     <Grid layout="container" widthMax="900px" margin={'0 0 30px 0'}>
-      <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+      <Typography variant="display" style={{ margin: 0 }}>
         404 Not Found
       </Typography>
     </Grid>

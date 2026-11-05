@@ -84,7 +84,7 @@ export const Weight = () => {
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
       <Grid layout="container" widthMax={'100%'} margin={'0 0 30px 0'}>
-        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+        <Typography variant="display" style={{ margin: 0 }}>
           Weight
         </Typography>
 
@@ -121,7 +121,7 @@ export const Weight = () => {
               padding="0px 30px 30px 30px"
               margin="auto"
             >
-              <Typography appearance="light" variant="subheading" tag={'h2'} style={{ margin: '0 0 20px 0' }}>
+              <Typography variant="subheading" tag={'h2'} style={{ margin: '0 0 20px 0' }}>
                 Add Weight
               </Typography>
 

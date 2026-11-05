@@ -134,7 +134,7 @@ export const Workout: React.FC<{
       {!isLoadingQueryWorkout && !isErrorQueryWorkout && !needsTest && (
         <>
           <Grid margin="0 0 30px" layout="container" widthMax="100%">
-            <Typography appearance="light" variant="subheading" style={{ margin: 0 }}>
+            <Typography variant="subheading" style={{ margin: 0 }}>
               Level: <b>{workoutLevel}</b>
             </Typography>
           </Grid>

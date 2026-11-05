@@ -1,7 +1,6 @@
 import { Button } from 'najwer23morsels/lib/Button';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
-import { VALIDATOR_MESSAGE_COLORS } from 'najwer23morsels/lib/validator';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Song } from './Music.query';
 
@@ -221,40 +220,19 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ song, setCounterSong,
             widthMax="100%"
             gap={{ col: '10px', row: '0px' }}
           >
-            <Button
-              type="button"
-              variant="secondary"
-              backgroundColor="purple"
-              borderColor="purple"
-              onClick={handlePrev}
-              margin={'20px 0 3px'}
-            >
+            <Button type="button" variant="secondary" onClick={handlePrev} margin={'20px 0 3px'}>
               <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
                 Prev
               </TextBox>
             </Button>
 
-            <Button
-              type="button"
-              variant="secondary"
-              backgroundColor={isPlaying ? VALIDATOR_MESSAGE_COLORS.error : VALIDATOR_MESSAGE_COLORS.success}
-              borderColor={isPlaying ? VALIDATOR_MESSAGE_COLORS.error : VALIDATOR_MESSAGE_COLORS.success}
-              onClick={togglePlay}
-              margin={'20px 0 3px'}
-            >
+            <Button type="button" variant={isPlaying ? 'danger' : 'success'} onClick={togglePlay} margin={'20px 0 3px'}>
               <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
                 {isPlaying ? 'Stop' : 'Play'}
               </TextBox>
             </Button>
 
-            <Button
-              type="button"
-              variant="secondary"
-              backgroundColor="purple"
-              borderColor="purple"
-              onClick={handleNext}
-              margin={'20px 0 3px'}
-            >
+            <Button type="button" variant="secondary" onClick={handleNext} margin={'20px 0 3px'}>
               <TextBox tag="span" desktopSize={16} mobileSize={16} fontWeight={400} color="white">
                 Next
               </TextBox>

@@ -80,13 +80,11 @@ export const Visitors = () => {
   return (
     <Grid layout="container" widthMax="100%">
       <Grid layout="container" widthMax="100%" margin="0 0 30px 0">
-        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+        <Typography variant="display" style={{ margin: 0 }}>
           Visitors
         </Typography>
 
-        <Typography appearance="light" variant="caption">
-          najwer23.github.io
-        </Typography>
+        <Typography variant="caption">najwer23.github.io</Typography>
       </Grid>
 
       <Grid

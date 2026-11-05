@@ -29,20 +29,20 @@ export const StockQuotes = () => {
     <>
       <Grid layout="container" widthMax="100%" padding="0">
         <Grid layout="container" widthMax="900px" margin="0 0 30px 0">
-          <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+          <Typography variant="display" style={{ margin: 0 }}>
             Stock Quotes
           </Typography>
         </Grid>
 
         <Grid widthMax="700px" layout="container" padding="0" margin="0 0 30px 0">
-          <Typography appearance="light" variant="body">
+          <Typography variant="body">
             <TextBox tag="span" color="#FF0000" desktopSize="inherit" mobileSize="inherit" fontWeight="bold">
               Bid Price (3.9852)
             </TextBox>
             : If you want to sell the asset, you can sell it at this price.
           </Typography>
 
-          <Typography appearance="light" variant="body">
+          <Typography variant="body">
             <TextBox tag="span" color="green" desktopSize="inherit" mobileSize="inherit" fontWeight="bold">
               Ask Price (4.0658)
             </TextBox>

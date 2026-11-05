@@ -82,7 +82,7 @@ export const PaymentsBalanceAddDialog: React.FC<{
 
       <Dialog widthMax={'900px'} open={isOpenDialogBalanceAdd} onCancel={handleOnCancelDialogBalanceAdd}>
         <Grid layout="container" widthMin={'min(800px, calc(100vw - 25px))'} padding="0px 30px 30px 30px" margin="auto">
-          <Typography appearance="light" variant="subheading" style={{ margin: '0 0 20px 0' }}>
+          <Typography variant="subheading" style={{ margin: '0 0 20px 0' }}>
             Add Credits
           </Typography>
 

@@ -67,7 +67,7 @@ export const Weather: React.FC = () => {
   return (
     <Grid layout="container" widthMax={'100%'}>
       <Grid layout="container" widthMax={'100%'} margin={'0 0 30px 0'}>
-        <Typography appearance="light" variant="display" style={{ margin: 0 }}>
+        <Typography variant="display" style={{ margin: 0 }}>
           Weather
         </Typography>
       </Grid>
