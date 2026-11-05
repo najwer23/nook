@@ -18,6 +18,8 @@ export const PaymentsTransferTitle: React.FC<{
       <Input
         kind="textarea"
         name="templateText"
+        minHeight={'60px'}
+        maxHeight={'200px'}
         defaultValue={generatedText}
         label="Transfer title"
         onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setTransferTitle(e.target.value)}
