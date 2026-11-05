@@ -29,7 +29,6 @@ export const NavigationAside: React.FC = () => {
             return (
               <Grid key={to} layout="container" margin="0 0 5px 0">
                 <Typography
-                  tag="a"
                   variant="link"
                   href={to}
                   desktopSize={20}
