@@ -6,7 +6,7 @@ const queryClient = new QueryClient();
 
 export const App = () => (
   <QueryClientProvider client={queryClient}>
-    <Theme themeName={'default'}>
+    <Theme name={'default'}>
       <RouterHash />
     </Theme>
   </QueryClientProvider>
