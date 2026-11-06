@@ -1,5 +1,4 @@
 import { NavigationIn } from '@app/navigation/in/NavigationIn';
-import { Footer } from 'najwer23morsels/lib/Footer';
 import { Outlet } from 'react-router-dom';
 import { Navigation } from '../navigation/home/Navigation';
 
@@ -15,7 +14,6 @@ export const Layout: React.FC<Props> = ({ type }) => {
   ) : type === 'auth' ? (
     <>
       <Outlet />
-      <Footer author="Nook" initialYear={2026} />
     </>
   ) : type === 'in' ? (
     <>
