@@ -21,6 +21,7 @@ export const PaymentsInvoiceFields: React.FC<{
                 initialValue={col.initialValue}
                 placeholder={col.cellText}
                 disabled={col.disabledAdd}
+                validatorOptions={col.validatorOptions}
               />
             );
           }
@@ -33,6 +34,7 @@ export const PaymentsInvoiceFields: React.FC<{
                 options={col.options}
                 initialValue={col.initialValue}
                 disabled={col.disabledAdd}
+                validatorOptions={col.validatorOptions}
               />
             );
           }
@@ -46,6 +48,7 @@ export const PaymentsInvoiceFields: React.FC<{
               step={col.cellType === 'number' ? 0.01 : undefined}
               placeholder={col.cellText}
               disabled={col.disabledAdd}
+              validatorOptions={col.validatorOptions}
             />
           );
         })}
