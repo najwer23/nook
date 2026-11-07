@@ -5,7 +5,7 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { BALANCE_REFRESH_IDLE } from './Payments.const';
 import { queryBalanceGet, queryPaymentsTable } from './Payments.query';
 import type { BalanceRefreshFlags } from './Payments.types';
@@ -70,14 +70,10 @@ export const Payments: React.FC<{
   const templateParams = resultQueryBalanceGet?.data?.templateParams;
   const templateText = resultQueryBalanceGet?.data?.templateText ?? '';
 
-  const generatedText = useMemo(
-    () =>
-      replaceStringVariables(type, templateText, {
-        ...rows[0],
-        ...templateParams,
-      }),
-    [type, templateText, rows, templateParams],
-  );
+  const generatedText = replaceStringVariables(type, templateText, {
+    ...rows[0],
+    ...templateParams,
+  });
 
   return (
     <Grid layout="container" widthMax={'100%'} padding="0">
@@ -110,7 +106,13 @@ export const Payments: React.FC<{
             Bank account number: <b>{bankAccountNumber || 'unknown'}</b>
           </PaymentsBalanceLoader>
 
-          <PaymentsTransferTitle generatedText={generatedText} />
+          {type == 'Orange' && (
+            <PaymentsBalanceLoader isRefreshing={balanceRefresh.clientId}>
+              ClientId: <b>{templateParams?.clientId || 'unknown'}</b>
+            </PaymentsBalanceLoader>
+          )}
+
+          <PaymentsTransferTitle key={generatedText} generatedText={generatedText} />
 
           {isErrorQueryPaymentsTable && (
             <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>

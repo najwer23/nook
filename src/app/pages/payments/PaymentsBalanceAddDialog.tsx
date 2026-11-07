@@ -38,6 +38,7 @@ export const PaymentsBalanceAddDialog: React.FC<{
         hasChangedBalanceRef.current = {
           credits: hasChangedBalanceRef.current.credits || hasInput(variables.credits),
           bankAccountNumber: hasChangedBalanceRef.current.bankAccountNumber || hasInput(variables.bankAccountNumber),
+          clientId: hasChangedBalanceRef.current.clientId || hasInput(variables.clientId),
         };
       }
       setBalanceAddFormKey((prev) => prev + 1);
@@ -61,9 +62,11 @@ export const PaymentsBalanceAddDialog: React.FC<{
       resetQueryBalanceAdd();
 
       const saved = hasChangedBalanceRef.current;
-      if (!saved.credits && !saved.bankAccountNumber) return;
-      hasChangedBalanceRef.current = BALANCE_REFRESH_IDLE;
+      const clientIdChanged = type === 'Orange' && saved.clientId;
 
+      if (!saved.credits && !saved.bankAccountNumber && !clientIdChanged) return;
+
+      hasChangedBalanceRef.current = BALANCE_REFRESH_IDLE;
       onRefreshChange(saved);
 
       queryClient
@@ -111,6 +114,8 @@ export const PaymentsBalanceAddDialog: React.FC<{
                 type="text"
                 placeholder="Bank Account Number"
               />
+
+              {type === 'Orange' && <Input label="Client Id" name="clientId" type="text" placeholder="Client Id" />}
             </Grid>
 
             <Grid
