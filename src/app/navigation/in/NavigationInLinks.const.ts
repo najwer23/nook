@@ -6,7 +6,7 @@ const sections: NavigationLinkSection[] = [
     title: 'Account',
     links: [
       { to: '/in/dashboard', label: 'Dashboard' },
-      { to: '/logout', label: 'Logout' },
+      { to: '/logout', label: 'Logout', only: 'mobile' },
     ],
   },
   {

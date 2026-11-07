@@ -1,7 +1,7 @@
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { Typography } from 'najwer23morsels/lib/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getNavigationLinkProps, getNavigationLinkType } from '../Naviagtion.utils';
+import { getNavigationLinkProps, getNavigationLinkType, navigationLinkSectionsFilter } from '../Naviagtion.utils';
 import { navigationInLinkSections } from './NavigationInLinks.const';
 
 export const NavigationInMobile: React.FC = () => {
@@ -20,7 +20,7 @@ export const NavigationInMobile: React.FC = () => {
         </Grid>
       </Grid>
 
-      {navigationInLinkSections.map(({ title, links }) => (
+      {navigationLinkSectionsFilter(navigationInLinkSections, 'mobile').map(({ title, links }) => (
         <Grid key={title} layout="container" margin="0 0 24px 0">
           <Grid layout="container" margin="0 0 8px 0">
             <Typography variant="subheading" color="grey">

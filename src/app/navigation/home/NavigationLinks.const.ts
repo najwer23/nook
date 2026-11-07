@@ -4,7 +4,7 @@ import { navigationLinkSectionsSort } from '../Naviagtion.utils';
 const sections: NavigationLinkSection[] = [
   {
     title: 'Account',
-    links: [{ to: '/auth/login', label: 'Log in' }],
+    links: [{ to: '/auth/login', label: 'Log in', only: 'mobile' }],
   },
   {
     title: 'Tools',

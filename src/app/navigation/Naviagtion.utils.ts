@@ -1,4 +1,4 @@
-import type { NavigationLink, NavigationLinkSection, NavigationLinkType } from './Naviagtion.types';
+import type { NavigationLink, NavigationLinkSection, NavigationLinkType, NavigationOnly } from './Naviagtion.types';
 
 export const isExternalLink = (to: string) => /^https?:\/\//i.test(to);
 
@@ -29,3 +29,15 @@ export const navigationLinkSectionsSort = (sections: NavigationLinkSection[]): N
     ...section,
     links: [...section.links].sort(byLabel),
   }));
+
+// Naviagtion.utils.ts
+export const navigationLinkSectionsFilter = (
+  sections: NavigationLinkSection[],
+  target: NavigationOnly,
+): NavigationLinkSection[] =>
+  sections
+    .map((section) => ({
+      ...section,
+      links: section.links.filter(({ only }) => !only || only === target),
+    }))
+    .filter(({ links }) => links.length > 0);
