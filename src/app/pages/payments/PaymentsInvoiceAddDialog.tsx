@@ -6,23 +6,18 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import type { TableColumn } from 'najwer23morsels/lib/Table';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useRef, useState } from 'react';
-import { BALANCE_REFRESH_CREDITS, BALANCE_REFRESH_IDLE } from './Payments.const';
+import { useState } from 'react';
 import { queryInvoiceAdd } from './Payments.query';
-import type { BalanceRefreshFlags } from './Payments.types';
 import { PaymentsInvoiceFields } from './PaymentsInvoiceFields';
 
 export const PaymentsInvoiceAddDialog: React.FC<{
   cols: TableColumn[];
   type: string;
-  onRefreshChange: (flags: BalanceRefreshFlags) => void;
-}> = ({ cols, type, onRefreshChange }) => {
+}> = ({ cols, type }) => {
   const queryClient = useQueryClient();
 
   const [isOpenDialogInvoiceAdd, openDialogInvoiceAdd] = useState(false);
   const [invoiceAddFormKey, setInvoiceAddFormKey] = useState(0);
-
-  const hasChangedInvoiceRef = useRef(false);
 
   const {
     mutate: mutateQueryInvoiceAdd,
@@ -34,10 +29,7 @@ export const PaymentsInvoiceAddDialog: React.FC<{
   } = useMutation({
     mutationKey: ['queryInvoiceAdd', 'queryInvoiceAdd'],
     mutationFn: queryInvoiceAdd,
-    onSuccess: (data) => {
-      if (data?.code === 'OK') {
-        hasChangedInvoiceRef.current = true;
-      }
+    onSuccess: () => {
       setInvoiceAddFormKey((prev) => prev + 1);
     },
   });
@@ -58,15 +50,8 @@ export const PaymentsInvoiceAddDialog: React.FC<{
     setTimeout(() => {
       resetQueryInvoiceAdd();
 
-      if (!hasChangedInvoiceRef.current) return;
-      hasChangedInvoiceRef.current = false;
-
-      onRefreshChange(BALANCE_REFRESH_CREDITS);
-
       queryClient.invalidateQueries({ queryKey: ['queryPaymentsTable'] });
-      queryClient
-        .invalidateQueries({ queryKey: ['queryBalanceGet'] })
-        .finally(() => onRefreshChange(BALANCE_REFRESH_IDLE));
+      queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
     }, 300);
   };
 

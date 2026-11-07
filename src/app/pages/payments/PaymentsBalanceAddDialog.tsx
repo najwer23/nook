@@ -6,22 +6,16 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useRef, useState } from 'react';
-import { BALANCE_REFRESH_IDLE } from './Payments.const';
+import { useState } from 'react';
 import { queryBalanceAdd } from './Payments.query';
-import type { BalanceRefreshFlags } from './Payments.types';
-import { hasInput } from './Payments.utils';
 
 export const PaymentsBalanceAddDialog: React.FC<{
   type: string;
-  onRefreshChange: (flags: BalanceRefreshFlags) => void;
-}> = ({ type, onRefreshChange }) => {
+}> = ({ type }) => {
   const queryClient = useQueryClient();
 
   const [isOpenDialogBalanceAdd, openDialogBalanceAdd] = useState(false);
   const [balanceAddFormKey, setBalanceAddFormKey] = useState(0);
-
-  const hasChangedBalanceRef = useRef<BalanceRefreshFlags>(BALANCE_REFRESH_IDLE);
 
   const {
     mutate: mutateQueryBalanceAdd,
@@ -33,14 +27,7 @@ export const PaymentsBalanceAddDialog: React.FC<{
   } = useMutation({
     mutationKey: ['queryBalanceAdd', 'queryBalanceAdd'],
     mutationFn: queryBalanceAdd,
-    onSuccess: (data, variables) => {
-      if (data?.code === 'OK') {
-        hasChangedBalanceRef.current = {
-          credits: hasChangedBalanceRef.current.credits || hasInput(variables.credits),
-          bankAccountNumber: hasChangedBalanceRef.current.bankAccountNumber || hasInput(variables.bankAccountNumber),
-          clientId: hasChangedBalanceRef.current.clientId || hasInput(variables.clientId),
-        };
-      }
+    onSuccess: () => {
       setBalanceAddFormKey((prev) => prev + 1);
     },
   });
@@ -60,18 +47,7 @@ export const PaymentsBalanceAddDialog: React.FC<{
 
     setTimeout(() => {
       resetQueryBalanceAdd();
-
-      const saved = hasChangedBalanceRef.current;
-      const clientIdChanged = type === 'Orange' && saved.clientId;
-
-      if (!saved.credits && !saved.bankAccountNumber && !clientIdChanged) return;
-
-      hasChangedBalanceRef.current = BALANCE_REFRESH_IDLE;
-      onRefreshChange(saved);
-
-      queryClient
-        .invalidateQueries({ queryKey: ['queryBalanceGet'] })
-        .finally(() => onRefreshChange(BALANCE_REFRESH_IDLE));
+      queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
     }, 300);
   };
 

@@ -5,10 +5,7 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useState } from 'react';
-import { BALANCE_REFRESH_IDLE } from './Payments.const';
 import { queryBalanceGet, queryPaymentsTable } from './Payments.query';
-import type { BalanceRefreshFlags } from './Payments.types';
 import { replaceStringVariables } from './Payments.utils';
 import { PaymentsBalanceAddDialog } from './PaymentsBalanceAddDialog';
 import { PaymentsBalanceLoader } from './PaymentsBalanceLoader';
@@ -21,8 +18,6 @@ export const Payments: React.FC<{
   title: string;
 }> = ({ type, title }) => {
   useDocumentTitle(`${title} | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
-
-  const [balanceRefresh, setBalanceRefresh] = useState<BalanceRefreshFlags>(BALANCE_REFRESH_IDLE);
 
   const {
     result: resultQueryPaymentsTable,
@@ -94,25 +89,28 @@ export const Payments: React.FC<{
             gap={{ col: '15px', row: '15px' }}
             margin="0 0 30px"
           >
-            <PaymentsBalanceAddDialog type={type} onRefreshChange={setBalanceRefresh} />
+            <PaymentsBalanceAddDialog type={type} />
           </Grid>
 
-          <PaymentsBalanceLoader isRefreshing={balanceRefresh.credits}>
+          <PaymentsBalanceLoader isRefreshing={isLoadingQueryBalanceGet}>
             Balance:{' '}
             <b>{new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(credits ?? 0)}</b>
           </PaymentsBalanceLoader>
 
-          <PaymentsBalanceLoader isRefreshing={balanceRefresh.bankAccountNumber}>
+          <PaymentsBalanceLoader isRefreshing={isLoadingQueryBalanceGet}>
             Bank account number: <b>{bankAccountNumber || 'unknown'}</b>
           </PaymentsBalanceLoader>
 
           {type == 'Orange' && (
-            <PaymentsBalanceLoader isRefreshing={balanceRefresh.clientId}>
+            <PaymentsBalanceLoader isRefreshing={isLoadingQueryBalanceGet}>
               ClientId: <b>{templateParams?.clientId || 'unknown'}</b>
             </PaymentsBalanceLoader>
           )}
 
-          <PaymentsTransferTitle key={generatedText} generatedText={generatedText} />
+          <PaymentsTransferTitle
+            key={generatedText}
+            generatedText={isLoadingQueryBalanceGet ? 'Loading..' : generatedText}
+          />
 
           {isErrorQueryPaymentsTable && (
             <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>
@@ -124,17 +122,11 @@ export const Payments: React.FC<{
             <Grid layout="container" widthMax={'100%'}>
               <Grid layout="container" margin={'0px 0 10px'}>
                 <div>
-                  <PaymentsInvoiceAddDialog cols={cols} type={type} onRefreshChange={setBalanceRefresh} />
+                  <PaymentsInvoiceAddDialog cols={cols} type={type} />
                 </div>
               </Grid>
 
-              <PaymentsTable
-                cols={cols}
-                rows={rows}
-                isLoading={isLoadingQueryPaymentsTable}
-                type={type}
-                onRefreshChange={setBalanceRefresh}
-              />
+              <PaymentsTable cols={cols} rows={rows} isLoading={isLoadingQueryPaymentsTable} type={type} />
             </Grid>
           )}
         </>

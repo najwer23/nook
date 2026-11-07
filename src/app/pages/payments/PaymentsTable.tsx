@@ -1,17 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Table, type TableColumn, type TableRow } from 'najwer23morsels/lib/Table';
 import { useRef } from 'react';
-import { BALANCE_REFRESH_CREDITS, BALANCE_REFRESH_IDLE } from './Payments.const';
 import { queryInvoiceDel, queryInvoiceUpdate } from './Payments.query';
-import type { BalanceRefreshFlags } from './Payments.types';
 
 export const PaymentsTable: React.FC<{
   cols: TableColumn[];
   rows: TableRow[];
   isLoading: boolean;
   type: string;
-  onRefreshChange: (flags: BalanceRefreshFlags) => void;
-}> = ({ cols, rows, isLoading, type, onRefreshChange }) => {
+}> = ({ cols, rows, isLoading, type }) => {
   const queryClient = useQueryClient();
 
   const hasChangedRowRef = useRef(false);
@@ -67,12 +64,8 @@ export const PaymentsTable: React.FC<{
     if (hasChangedRowRef.current) {
       hasChangedRowRef.current = false;
 
-      onRefreshChange(BALANCE_REFRESH_CREDITS);
-
       queryClient.invalidateQueries({ queryKey: ['queryPaymentsTable'] });
-      queryClient
-        .invalidateQueries({ queryKey: ['queryBalanceGet'] })
-        .finally(() => onRefreshChange(BALANCE_REFRESH_IDLE));
+      queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
     }
   };
 
