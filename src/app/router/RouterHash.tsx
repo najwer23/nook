@@ -154,6 +154,18 @@ export const router = createHashRouter([
         element: <Payments type="Rent" key={'rent'} title="Rent" />,
       },
       {
+        path: '/in/energy',
+        element: <Payments type="Energy" key={'energy'} title="Energy" />,
+      },
+      {
+        path: '/in/orange',
+        element: <Payments type="Orange" key={'orange'} title="Orange" />,
+      },
+      {
+        path: '/in/gas',
+        element: <Payments type="Gas" key={'gas'} title="Gas" />,
+      },
+      {
         path: '*',
         element: <ErrorNotFound />,
       },
