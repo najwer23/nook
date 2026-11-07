@@ -92,19 +92,24 @@ export const Payments: React.FC<{
             <PaymentsBalanceAddDialog type={type} />
           </Grid>
 
-          <PaymentsBalanceLoader isRefreshing={isLoadingQueryBalanceGet}>
-            Balance:{' '}
-            <b>{new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(credits ?? 0)}</b>
-          </PaymentsBalanceLoader>
+          <PaymentsBalanceLoader
+            isRefreshing={isLoadingQueryBalanceGet}
+            name="Balance"
+            value={new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(credits ?? 0)}
+          />
 
-          <PaymentsBalanceLoader isRefreshing={isLoadingQueryBalanceGet}>
-            Bank account number: <b>{bankAccountNumber || 'unknown'}</b>
-          </PaymentsBalanceLoader>
+          <PaymentsBalanceLoader
+            isRefreshing={isLoadingQueryBalanceGet}
+            name="Bank account number"
+            value={bankAccountNumber || 'unknown'}
+          />
 
           {type == 'Orange' && (
-            <PaymentsBalanceLoader isRefreshing={isLoadingQueryBalanceGet}>
-              ClientId: <b>{templateParams?.clientId || 'unknown'}</b>
-            </PaymentsBalanceLoader>
+            <PaymentsBalanceLoader
+              isRefreshing={isLoadingQueryBalanceGet}
+              name="Client Id"
+              value={templateParams?.clientId || 'unknown'}
+            />
           )}
 
           <PaymentsTransferTitle
