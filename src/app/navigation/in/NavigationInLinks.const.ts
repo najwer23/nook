@@ -22,7 +22,7 @@ const sections: NavigationLinkSection[] = [
     ],
   },
   {
-    title: 'Radosna',
+    title: 'Invoices',
     links: [
       { to: '/in/rent', label: 'Rent' },
       { to: '/in/energy', label: 'Energy' },
