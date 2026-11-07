@@ -73,24 +73,20 @@ export const Weather: React.FC = () => {
       </Grid>
 
       <Grid
-        layout="columns"
-        gap={{ col: '100px', row: '20px' }}
-        col={{
-          smallDesktop: 2,
-          desktop: 2,
-          mobile: 1,
-          tablet: 2,
+        margin="0 0 30px"
+        layout="split"
+        split={{
+          mobile: '1fr',
+          tablet: ['500px', '1fr'],
         }}
       >
-        <Grid layout="container" widthMax={'100%'} margin={'0 0 30px'}>
-          <Select
-            label="Town"
-            name={'town'}
-            options={townListForSelect}
-            initialValue={{ value: coords.value, label: coords.label }}
-            onBlur={(_, data) => setCoords({ value: data.value, label: data.label })}
-          />
-        </Grid>
+        <Select
+          label="Town"
+          name={'town'}
+          options={townListForSelect}
+          initialValue={{ value: coords.value, label: coords.label }}
+          onBlur={(_, data) => setCoords({ value: data.value, label: data.label })}
+        />
       </Grid>
 
       {isLoadingQueryWeatherGetByCoords && <LoaderDots />}

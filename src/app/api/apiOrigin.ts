@@ -1,7 +1,7 @@
 export const apiOrigin = (): string => {
   const currentUrl = window.location.href.toLowerCase();
 
-  if (currentUrl.includes('localhost') || currentUrl.includes('127.0.0.1')) {
+  if (currentUrl.includes('localhost') || currentUrl.includes('127.0.0.1') || currentUrl.includes('192.168')) {
     return import.meta.env.VITE_NAJWER23API_FASTIFY_ORIGIN_DEV;
   }
 

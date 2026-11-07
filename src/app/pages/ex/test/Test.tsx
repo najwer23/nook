@@ -42,7 +42,7 @@ export const Test: React.FC<{
   };
 
   return (
-    <Grid layout="container">
+    <Grid layout="container" widthMax={'100%'}>
       <Form
         onSubmit={handleOnSubmitTest}
         isError={isErrorQueryTest}

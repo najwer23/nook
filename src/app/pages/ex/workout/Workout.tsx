@@ -122,7 +122,7 @@ export const Workout: React.FC<{
   };
 
   return (
-    <Grid layout="container">
+    <Grid layout="container" widthMax={'100%'} padding="0">
       {isLoadingQueryWorkout && <LoaderDots />}
 
       {!isLoadingQueryWorkout && isErrorQueryWorkout && (

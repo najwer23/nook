@@ -36,29 +36,25 @@ export const Stats: React.FC<{
   );
 
   return (
-    <Grid layout="container">
+    <Grid layout="container" widthMax={'100%'} padding="0">
       <Grid
-        layout="columns"
-        gap={{ col: '100px', row: '20px' }}
-        col={{
-          smallDesktop: 2,
-          desktop: 2,
-          mobile: 1,
-          tablet: 2,
+        margin="0 0 30px"
+        layout="split"
+        split={{
+          mobile: '1fr',
+          tablet: ['500px', '1fr'],
         }}
       >
-        <Grid layout="container" widthMax="100%" margin="0 0 30px">
-          <Select
-            label="Year"
-            name="year"
-            options={Array.from({ length: Math.max(0, Number(currentYear) - START_YEAR + 1) }, (_, i) => {
-              const y = START_YEAR + i;
-              return { value: y.toString(), label: y.toString() };
-            })}
-            initialValue={{ value: year, label: year }}
-            onBlur={(_, data) => setYear(data.value)}
-          />
-        </Grid>
+        <Select
+          label="Year"
+          name="year"
+          options={Array.from({ length: Math.max(0, Number(currentYear) - START_YEAR + 1) }, (_, i) => {
+            const y = START_YEAR + i;
+            return { value: y.toString(), label: y.toString() };
+          })}
+          initialValue={{ value: year, label: year }}
+          onBlur={(_, data) => setYear(data.value)}
+        />
       </Grid>
 
       {isLoadingQueryStatsWorkout && <LoaderDots />}

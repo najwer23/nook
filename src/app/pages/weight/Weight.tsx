@@ -187,28 +187,27 @@ export const Weight = () => {
         successMsg={undefined}
       >
         <Grid
-          layout="columns"
-          col={{ mobile: 1, smallDesktop: 2, desktop: 2, tablet: 2 }}
-          gap={{ col: '30px', row: '30px' }}
-          padding="0"
-          margin="0"
+          margin="0 0 30px"
+          layout="split"
+          split={{
+            mobile: '1fr',
+            tablet: ['500px', '1fr'],
+          }}
         >
-          <Grid layout="container" widthMax={'100%'} margin={'0 0 30px'}>
-            <Select
-              label={'Year'}
-              validatorOptions={[{ type: 'empty' }]}
-              name="year"
-              options={Array.from({ length: Math.max(0, Number(currentYear) - START_YEAR + 1) }, (_, i) => {
-                const y = START_YEAR + i;
-                return {
-                  value: y.toString(),
-                  label: y.toString(),
-                };
-              })}
-              initialValue={{ value: year, label: year }}
-              onBlur={(_, data) => setYear(data.value)}
-            />
-          </Grid>
+          <Select
+            label={'Year'}
+            validatorOptions={[{ type: 'empty' }]}
+            name="year"
+            options={Array.from({ length: Math.max(0, Number(currentYear) - START_YEAR + 1) }, (_, i) => {
+              const y = START_YEAR + i;
+              return {
+                value: y.toString(),
+                label: y.toString(),
+              };
+            })}
+            initialValue={{ value: year, label: year }}
+            onBlur={(_, data) => setYear(data.value)}
+          />
         </Grid>
       </Form>
 
