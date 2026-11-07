@@ -6,7 +6,7 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import { Input } from 'najwer23morsels/lib/Input';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { queryBalanceAdd } from './Payments.query';
 
 export const PaymentsBalanceAddDialog: React.FC<{
@@ -16,6 +16,7 @@ export const PaymentsBalanceAddDialog: React.FC<{
 
   const [isOpenDialogBalanceAdd, openDialogBalanceAdd] = useState(false);
   const [balanceAddFormKey, setBalanceAddFormKey] = useState(0);
+  const hasSucceededRef = useRef(false);
 
   const {
     mutate: mutateQueryBalanceAdd,
@@ -27,7 +28,8 @@ export const PaymentsBalanceAddDialog: React.FC<{
   } = useMutation({
     mutationKey: ['queryBalanceAdd', 'queryBalanceAdd'],
     mutationFn: queryBalanceAdd,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (data?.code === 'OK') hasSucceededRef.current = true;
       setBalanceAddFormKey((prev) => prev + 1);
     },
   });
@@ -45,9 +47,14 @@ export const PaymentsBalanceAddDialog: React.FC<{
   const handleOnCancelDialogBalanceAdd = () => {
     openDialogBalanceAdd(false);
 
+    const wasSuccess = hasSucceededRef.current;
+    hasSucceededRef.current = false;
+
     setTimeout(() => {
       resetQueryBalanceAdd();
-      queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
+      if (wasSuccess) {
+        queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
+      }
     }, 300);
   };
 

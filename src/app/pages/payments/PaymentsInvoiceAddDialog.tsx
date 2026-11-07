@@ -6,7 +6,7 @@ import { Grid } from 'najwer23morsels/lib/Grid';
 import type { TableColumn } from 'najwer23morsels/lib/Table';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { queryInvoiceAdd } from './Payments.query';
 import { PaymentsInvoiceFields } from './PaymentsInvoiceFields';
 
@@ -18,6 +18,7 @@ export const PaymentsInvoiceAddDialog: React.FC<{
 
   const [isOpenDialogInvoiceAdd, openDialogInvoiceAdd] = useState(false);
   const [invoiceAddFormKey, setInvoiceAddFormKey] = useState(0);
+  const hasSucceededRef = useRef(false);
 
   const {
     mutate: mutateQueryInvoiceAdd,
@@ -29,7 +30,9 @@ export const PaymentsInvoiceAddDialog: React.FC<{
   } = useMutation({
     mutationKey: ['queryInvoiceAdd', 'queryInvoiceAdd'],
     mutationFn: queryInvoiceAdd,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // only remember the success here, do NOT invalidate yet
+      if (data?.code === 'OK') hasSucceededRef.current = true;
       setInvoiceAddFormKey((prev) => prev + 1);
     },
   });
@@ -47,11 +50,17 @@ export const PaymentsInvoiceAddDialog: React.FC<{
   const handleOnCancelDialogInvoiceAdd = () => {
     openDialogInvoiceAdd(false);
 
+    // read and clear the flag now, not inside the timeout
+    const wasSuccess = hasSucceededRef.current;
+    hasSucceededRef.current = false;
+
     setTimeout(() => {
       resetQueryInvoiceAdd();
 
-      queryClient.invalidateQueries({ queryKey: ['queryPaymentsTable'] });
-      queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
+      if (wasSuccess) {
+        queryClient.invalidateQueries({ queryKey: ['queryPaymentsTable'] });
+        queryClient.invalidateQueries({ queryKey: ['queryBalanceGet'] });
+      }
     }, 300);
   };
 
