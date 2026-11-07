@@ -40,7 +40,7 @@
     "chart.js": "^4.6.1",
     "gh-pages": "^6.3.0",
     "jsdom": "^31.0.0",
-    "najwer23morsels": "^2.0.15",
+    "najwer23morsels": "^2.0.16",
     "plop": "^4.0.5",
     "react": "^19.3.1",
     "react-chartjs-2": "5.3.1",
