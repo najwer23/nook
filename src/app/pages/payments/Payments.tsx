@@ -134,14 +134,7 @@ export const Payments: React.FC<{
             errorMsg={undefined}
             successMsg={undefined}
           >
-            <Grid
-              margin="30px 0 0px"
-              layout="split"
-              split={{
-                mobile: '1fr',
-                tablet: ['500px', '1fr'],
-              }}
-            >
+            <Grid layout="container" widthMax="500px" margin="30px 0 30px 0">
               <Select
                 label={'Year'}
                 validatorOptions={[{ type: 'empty' }]}
@@ -157,12 +150,12 @@ export const Payments: React.FC<{
                 onBlur={(_, data) => setYear(data.value)}
               />
             </Grid>
-          </Form>
 
-          <PaymentsTransferTitle
-            key={generatedText}
-            generatedText={isLoadingQueryBalanceGet || isLoadingQueryPaymentsTable ? '' : generatedText}
-          />
+            <PaymentsTransferTitle
+              key={generatedText}
+              generatedText={isLoadingQueryBalanceGet || isLoadingQueryPaymentsTable ? '' : generatedText}
+            />
+          </Form>
 
           {isErrorQueryPaymentsTable && (
             <TextBox tag="p" desktopSize={16} mobileSize={16} fontWeight={500}>

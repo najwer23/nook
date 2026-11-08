@@ -10,22 +10,32 @@ export const PaymentsTransferTitle: React.FC<{
   const [transferTitle, setTransferTitle] = useState(generatedText);
 
   return (
-    <Grid layout="container" widthMax="900px" margin="30px 0 30px 0">
-      <Input
-        kind="textarea"
-        name="templateText"
-        minHeight={'60px'}
-        maxHeight={'200px'}
-        defaultValue={generatedText}
-        label="Transfer title"
-        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setTransferTitle(e.target.value)}
-      />
+    <Grid layout="container" widthMax="600px" margin="20px 0 30px 0">
+      <Grid
+        margin="30px 0 0px"
+        layout="split"
+        gap={{ col: '20px' }}
+        split={{
+          mobile: ['1fr', '80px'],
+          tablet: ['1fr', '80px'],
+        }}
+      >
+        <Input
+          kind="textarea"
+          name="templateText"
+          minHeight={'100px'}
+          maxHeight={'200px'}
+          defaultValue={generatedText}
+          label="Transfer title"
+          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setTransferTitle(e.target.value)}
+        />
 
-      <Button variant="copy" textToCopy={transferTitle}>
-        <TextBox mobileSize={16} desktopSize={16} color="inherit">
-          Copy
-        </TextBox>
-      </Button>
+        <Button variant="copy" textToCopy={transferTitle} margin={'20px 0 0 0'}>
+          <TextBox mobileSize={16} desktopSize={16} color="inherit">
+            Copy
+          </TextBox>
+        </Button>
+      </Grid>
     </Grid>
   );
 };
