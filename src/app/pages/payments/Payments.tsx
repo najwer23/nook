@@ -16,7 +16,7 @@ import { PaymentsInvoiceAddDialog } from './PaymentsInvoiceAddDialog';
 import { PaymentsTable } from './PaymentsTable';
 import { PaymentsTransferTitle } from './PaymentsTransferTitle';
 
-const START_YEAR = 2024;
+const START_YEAR = 2026;
 
 export const Payments: React.FC<{
   type: string;
