@@ -11,8 +11,11 @@ export interface QueryPaymentsTableResponse extends FetchClientBaseResponse {
   };
 }
 
-export const queryPaymentsTable = async ({ type }: FetchClientBasePayload): Promise<QueryPaymentsTableResponse> => {
-  const endpointUrl = new URL(`${apiOrigin()}/invoices/${encodeURIComponent(type)}`);
+export const queryPaymentsTable = async ({
+  type,
+  year,
+}: FetchClientBasePayload): Promise<QueryPaymentsTableResponse> => {
+  const endpointUrl = new URL(`${apiOrigin()}/invoices/${encodeURIComponent(type)}/year/${encodeURIComponent(year)}`);
   return await fetchClientExecute<QueryPaymentsTableResponse>(endpointUrl, fetchClientConfig({ method: 'GET' }));
 };
 

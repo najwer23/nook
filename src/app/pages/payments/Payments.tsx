@@ -1,10 +1,13 @@
 import { useDocumentTitle } from '@app/hooks/useDocumentTitle';
 import { useImmediateThrottledQuery } from '@app/hooks/useImmediateThrottledQuery';
 import { keepPreviousData } from '@tanstack/react-query';
+import { Form, type FormType } from 'najwer23morsels/lib/Form';
 import { Grid } from 'najwer23morsels/lib/Grid';
 import { LoaderDots } from 'najwer23morsels/lib/LoaderDots';
+import { Select } from 'najwer23morsels/lib/Select';
 import { TextBox } from 'najwer23morsels/lib/TextBox';
 import { Typography } from 'najwer23morsels/lib/Typography';
+import { useState } from 'react';
 import { queryBalanceGet, queryPaymentsTable } from './Payments.query';
 import { replaceStringVariables } from './Payments.utils';
 import { PaymentsBalanceAddDialog } from './PaymentsBalanceAddDialog';
@@ -13,11 +16,16 @@ import { PaymentsInvoiceAddDialog } from './PaymentsInvoiceAddDialog';
 import { PaymentsTable } from './PaymentsTable';
 import { PaymentsTransferTitle } from './PaymentsTransferTitle';
 
+const START_YEAR = 2024;
+
 export const Payments: React.FC<{
   type: string;
   title: string;
 }> = ({ type, title }) => {
   useDocumentTitle(`${title} | ${import.meta.env.VITE_ANALYTICS_APP_NAME}`);
+
+  const currentYear = String(new Date().getFullYear());
+  const [year, setYear] = useState(currentYear);
 
   const {
     result: resultQueryPaymentsTable,
@@ -25,8 +33,8 @@ export const Payments: React.FC<{
     isError: isErrorQueryPaymentsTable,
   } = useImmediateThrottledQuery(
     {
-      queryKey: ['queryPaymentsTable', 'queryPaymentsTable' + type],
-      queryFn: () => queryPaymentsTable({ type }),
+      queryKey: ['queryPaymentsTable', 'queryPaymentsTable' + type + year],
+      queryFn: () => queryPaymentsTable({ type, year }),
       placeholderData: keepPreviousData,
       staleTime: 0,
       gcTime: 0,
@@ -48,6 +56,12 @@ export const Payments: React.FC<{
     },
     500,
   );
+
+  const handleOnSubmitSelectYear = (form: FormType) => {
+    if (Object.values(form).some(({ error }) => error)) return;
+    const dataForm = Object.fromEntries(Object.entries(form).map(([key, { value }]) => [key, value]));
+    setYear(dataForm.year);
+  };
 
   const hasResultQueryPaymentsTable = Boolean(resultQueryPaymentsTable?.data);
   const hasResultQueryBalanceGet = Boolean(resultQueryBalanceGet?.data);
@@ -112,9 +126,42 @@ export const Payments: React.FC<{
             />
           )}
 
+          <Form
+            onSubmit={handleOnSubmitSelectYear}
+            isError={false}
+            isPending={false}
+            isSuccess={false}
+            errorMsg={undefined}
+            successMsg={undefined}
+          >
+            <Grid
+              margin="30px 0 0px"
+              layout="split"
+              split={{
+                mobile: '1fr',
+                tablet: ['500px', '1fr'],
+              }}
+            >
+              <Select
+                label={'Year'}
+                validatorOptions={[{ type: 'empty' }]}
+                name="year"
+                options={Array.from({ length: Math.max(0, Number(currentYear) - START_YEAR + 1) }, (_, i) => {
+                  const y = START_YEAR + i;
+                  return {
+                    value: y.toString(),
+                    label: y.toString(),
+                  };
+                })}
+                initialValue={{ value: year, label: year }}
+                onBlur={(_, data) => setYear(data.value)}
+              />
+            </Grid>
+          </Form>
+
           <PaymentsTransferTitle
             key={generatedText}
-            generatedText={isLoadingQueryBalanceGet ? 'Loading..' : generatedText}
+            generatedText={isLoadingQueryBalanceGet || isLoadingQueryPaymentsTable ? '' : generatedText}
           />
 
           {isErrorQueryPaymentsTable && (
