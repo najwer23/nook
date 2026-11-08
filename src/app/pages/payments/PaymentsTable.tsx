@@ -28,7 +28,7 @@ export const PaymentsTable: React.FC<{
     },
   });
 
-  const handleCellEdit = (form: Record<string, string>) => {
+  const handleRowEdit = (form: Record<string, string>) => {
     mutateQueryInvoiceUpdate({
       ...form,
       type,
@@ -50,7 +50,7 @@ export const PaymentsTable: React.FC<{
     },
   });
 
-  const handleCellDel = (id: number | string) => {
+  const handleRowDel = (id: number | string) => {
     mutateQueryInvoiceDel({
       id: String(id),
       type,
@@ -75,27 +75,27 @@ export const PaymentsTable: React.FC<{
       jsonData={{ rows }}
       isLoading={isLoading}
       tableLoadingHeight={43 + 'px'}
-      cellEdit={{
-        isCellEditError: isErrorQueryInvoiceUpdate,
-        isCellEditPending: isPendingQueryInvoiceUpdate,
-        isCellEditSuccess: dataQueryInvoiceUpdate?.code === 'OK',
-        cellEditErrorMsg: errorQueryInvoiceUpdate?.message,
-        cellEditSuccessMsg: dataQueryInvoiceUpdate?.message,
-        onCellEdit: (form) => {
-          handleCellEdit(form);
+      rowEdit={{
+        isRowEditError: isErrorQueryInvoiceUpdate,
+        isRowEditPending: isPendingQueryInvoiceUpdate,
+        isRowEditSuccess: dataQueryInvoiceUpdate?.code === 'OK',
+        rowEditErrorMsg: errorQueryInvoiceUpdate?.message,
+        rowEditSuccessMsg: dataQueryInvoiceUpdate?.message,
+        onRowEdit: (form) => {
+          handleRowEdit(form);
         },
       }}
-      cellDelete={{
-        onCellDelete: (id) => {
-          handleCellDel(id);
+      rowDelete={{
+        onRowDelete: (id) => {
+          handleRowDel(id);
         },
-        isCellDeleteError: isErrorQueryInvoiceDel,
-        isCellDeletePending: isPendingQueryInvoiceDel,
-        isCellDeleteSuccess: dataQueryInvoiceDel?.code === 'OK',
-        cellDeleteErrorMsg: errorQueryInvoiceDel?.message,
-        cellDeleteSuccessMsg: dataQueryInvoiceDel?.message,
+        isRowDeleteError: isErrorQueryInvoiceDel,
+        isRowDeletePending: isPendingQueryInvoiceDel,
+        isRowDeleteSuccess: dataQueryInvoiceDel?.code === 'OK',
+        rowDeleteErrorMsg: errorQueryInvoiceDel?.message,
+        rowDeleteSuccessMsg: dataQueryInvoiceDel?.message,
       }}
-      onCellReset={handleCellReset}
+      onRowReset={handleCellReset}
     />
   );
 };
