@@ -44,6 +44,7 @@ const sections: NavigationLinkSection[] = [
     links: [
       { to: 'https://najwer23.github.io/najwer23morsels', label: 'Design System', type: 'external' },
       { to: 'https://najwer23.github.io/react-starter/', label: 'React Starter', type: 'external' },
+      { to: 'https://www.npmjs.com/package/najwer23lang', label: 'Najwer23lang', type: 'external' },
     ],
   },
   {
