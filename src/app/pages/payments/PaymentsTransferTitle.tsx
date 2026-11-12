@@ -10,14 +10,14 @@ export const PaymentsTransferTitle: React.FC<{
   const [transferTitle, setTransferTitle] = useState(generatedText);
 
   return (
-    <Grid layout="container" widthMax="600px" margin="20px 0 30px 0">
+    <Grid layout="container" widthMax="583.8px" margin="20px 0 30px 0">
       <Grid
         margin="30px 0 0px"
         layout="split"
         gap={{ col: '20px' }}
         split={{
-          mobile: ['1fr', '80px'],
-          tablet: ['1fr', '80px'],
+          mobile: ['1fr', '63.8px'],
+          tablet: ['1fr', '63.8px'],
         }}
       >
         <Input
