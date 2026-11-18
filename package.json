@@ -26,9 +26,9 @@
     "plop": "plop && yarn format"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.6",
-    "@tanstack/react-query": "^5.107.1",
-    "@tanstack/react-query-persist-client": "^5.107.1",
+    "@biomejs/biome": "2.6.8",
+    "@tanstack/react-query": "^5.108.0",
+    "@tanstack/react-query-persist-client": "^5.108.0",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
@@ -39,7 +39,7 @@
     "@vitejs/plugin-react": "^6.3.0",
     "chart.js": "^4.6.1",
     "gh-pages": "^6.3.0",
-    "jsdom": "^31.0.0",
+    "jsdom": "^31.0.1",
     "najwer23morsels": "^2.0.29",
     "plop": "^4.0.5",
     "react": "^19.3.1",
@@ -49,9 +49,9 @@
     "rimraf": "^6.1.4",
     "shiki": "^4.6.0",
     "typescript": "^6.0.3",
-    "vite": "^8.3.7",
+    "vite": "^8.3.8",
     "vite-plugin-pwa": "^2.0.0",
-    "vitest": "^5.1.0",
+    "vitest": "^5.1.1",
     "zustand": "^5.1.0"
   }
 }

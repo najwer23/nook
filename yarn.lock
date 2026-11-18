@@ -1142,20 +1142,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/biome@npm:2.6.6"
+"@biomejs/biome@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/biome@npm:2.6.8"
   dependencies:
-    "@biomejs/cli-android-arm64": "npm:2.6.6"
-    "@biomejs/cli-android-x64": "npm:2.6.6"
-    "@biomejs/cli-darwin-arm64": "npm:2.6.6"
-    "@biomejs/cli-darwin-x64": "npm:2.6.6"
-    "@biomejs/cli-linux-arm64": "npm:2.6.6"
-    "@biomejs/cli-linux-arm64-musl": "npm:2.6.6"
-    "@biomejs/cli-linux-x64": "npm:2.6.6"
-    "@biomejs/cli-linux-x64-musl": "npm:2.6.6"
-    "@biomejs/cli-win32-arm64": "npm:2.6.6"
-    "@biomejs/cli-win32-x64": "npm:2.6.6"
+    "@biomejs/cli-android-arm64": "npm:2.6.8"
+    "@biomejs/cli-android-x64": "npm:2.6.8"
+    "@biomejs/cli-darwin-arm64": "npm:2.6.8"
+    "@biomejs/cli-darwin-x64": "npm:2.6.8"
+    "@biomejs/cli-linux-arm64": "npm:2.6.8"
+    "@biomejs/cli-linux-arm64-musl": "npm:2.6.8"
+    "@biomejs/cli-linux-x64": "npm:2.6.8"
+    "@biomejs/cli-linux-x64-musl": "npm:2.6.8"
+    "@biomejs/cli-win32-arm64": "npm:2.6.8"
+    "@biomejs/cli-win32-x64": "npm:2.6.8"
   dependenciesMeta:
     "@biomejs/cli-android-arm64":
       optional: true
@@ -1179,76 +1179,76 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 10c0/1040bceed5464784420157781daabb3408017b5ced3acd7cbe86934b9e8ef41638b6544fde21a64b7353afaa4d6be390938fb40d5c17f698df1e349b2b0b70ea
+  checksum: 10c0/0a8e2a3ec88ca75221aaeef2bd0bd9ab5e50b405e1365c41078e52af6f97f17f57934998c3cc87d3212726155c3766b10eb65c992c539a465fce6efda2fc06d0
   languageName: node
   linkType: hard
 
-"@biomejs/cli-android-arm64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-android-arm64@npm:2.6.6"
+"@biomejs/cli-android-arm64@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-android-arm64@npm:2.6.8"
   conditions: os=android & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-android-x64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-android-x64@npm:2.6.6"
+"@biomejs/cli-android-x64@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-android-x64@npm:2.6.8"
   conditions: os=android & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-darwin-arm64@npm:2.6.6"
+"@biomejs/cli-darwin-arm64@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-darwin-arm64@npm:2.6.8"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-darwin-x64@npm:2.6.6"
+"@biomejs/cli-darwin-x64@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-darwin-x64@npm:2.6.8"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.6.6"
+"@biomejs/cli-linux-arm64-musl@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.6.8"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-linux-arm64@npm:2.6.6"
+"@biomejs/cli-linux-arm64@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-linux-arm64@npm:2.6.8"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-linux-x64-musl@npm:2.6.6"
+"@biomejs/cli-linux-x64-musl@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-linux-x64-musl@npm:2.6.8"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-linux-x64@npm:2.6.6"
+"@biomejs/cli-linux-x64@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-linux-x64@npm:2.6.8"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-win32-arm64@npm:2.6.6"
+"@biomejs/cli-win32-arm64@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-win32-arm64@npm:2.6.8"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@biomejs/cli-win32-x64@npm:2.6.6"
+"@biomejs/cli-win32-x64@npm:2.6.8":
+  version: 2.6.8
+  resolution: "@biomejs/cli-win32-x64@npm:2.6.8"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -1863,50 +1863,50 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.107.1":
-  version: 5.107.1
-  resolution: "@tanstack/query-core@npm:5.107.1"
-  checksum: 10c0/991070e0d7b9a7fb7459f6399090f22e9769dd30efcea316c3e9a0b5442990378fcdd9ed37548cec0729c627189e091100dbe7d3778c666100c373db0b978963
+"@tanstack/query-core@npm:5.108.0":
+  version: 5.108.0
+  resolution: "@tanstack/query-core@npm:5.108.0"
+  checksum: 10c0/abf7119b0389b8571b7be5295d384a3b9cb23c14bbd6d66de6d51c0d445e970637f2b85d0f1daba6d90b709027df1d222b05de852f7a778713f13046e7506fcb
   languageName: node
   linkType: hard
 
-"@tanstack/query-persist-client-core@npm:5.107.1":
-  version: 5.107.1
-  resolution: "@tanstack/query-persist-client-core@npm:5.107.1"
+"@tanstack/query-persist-client-core@npm:5.108.0":
+  version: 5.108.0
+  resolution: "@tanstack/query-persist-client-core@npm:5.108.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.107.1"
-  checksum: 10c0/fc60a793c07832317bb7a214b1fa387032793cc3d91b7ad1f806eecf17956fa91b50b7c94c8cb2e81afc570ce031081ce025db44a10614678f5d456d63ea46c2
+    "@tanstack/query-core": "npm:5.108.0"
+  checksum: 10c0/bc3ce1b4ea35838654d1c74339bc37844cfd34e9e1db91c79a02c4c5c06073336658a7e7334526bc07dec07dc4d15d72c8ecee9c1503d3b68131f7f0f1199113
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-persist-client@npm:^5.107.1":
-  version: 5.107.1
-  resolution: "@tanstack/react-query-persist-client@npm:5.107.1"
+"@tanstack/react-query-persist-client@npm:^5.108.0":
+  version: 5.108.0
+  resolution: "@tanstack/react-query-persist-client@npm:5.108.0"
   dependencies:
-    "@tanstack/query-persist-client-core": "npm:5.107.1"
+    "@tanstack/query-persist-client-core": "npm:5.108.0"
   peerDependencies:
-    "@tanstack/react-query": ^5.107.1
+    "@tanstack/react-query": ^5.108.0
     "@types/react": ^18 || ^19
     react: ^18 || ^19
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/2b04184812f24bf3ca8cf5fa4d7576c59e08a2e7fc0611c0021f80c0c5394d3cbd2346e2843fb4fd4e37932eb8fee215e46f6911adacef1a294dd401b6eab4b6
+  checksum: 10c0/fec5dfba8f288610b522f5707196754c8b5a29e2a73fb1cfd540a79fb158debf3507e992a7a46ea421d4149d76d0b0d0eba5b1d858dc923e83355b672c8c581b
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.107.1":
-  version: 5.107.1
-  resolution: "@tanstack/react-query@npm:5.107.1"
+"@tanstack/react-query@npm:^5.108.0":
+  version: 5.108.0
+  resolution: "@tanstack/react-query@npm:5.108.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.107.1"
+    "@tanstack/query-core": "npm:5.108.0"
   peerDependencies:
     "@types/react": ^18 || ^19
     react: ^18 || ^19
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/c4a46bbacf5fe69fbe487495e74bad3e17857d19eeccad5e066cf4bbe148a831c082b429a6646874b7809cdf245bbdf08e93cfe3fae52b605edf0c38dcab7369
+  checksum: 10c0/bcbb0c8884d7c2c6fb5f8076a2793a0d71a8b5f27c110708df1c7f9f172baef26a7f81535385b7e339aa1acc8db92cfc348f6e034cf3d530563c46bcb4becf7d
   languageName: node
   linkType: hard
 
@@ -2164,14 +2164,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/mocker@npm:5.1.0":
-  version: 5.1.0
-  resolution: "@vitest/mocker@npm:5.1.0"
+"@vitest/mocker@npm:5.1.1":
+  version: 5.1.1
+  resolution: "@vitest/mocker@npm:5.1.1"
   dependencies:
     "@jridgewell/trace-mapping": "npm:0.3.31"
-    "@vitest/spy": "npm:5.1.0"
+    "@vitest/spy": "npm:5.1.1"
     estree-walker: "npm:^3.0.3"
-    magic-string: "npm:^1.4.3"
+    magic-string: "npm:^1.4.5"
   peerDependencies:
     msw: ^2.4.9 || ^3.0.0
     vite: ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -2180,14 +2180,14 @@ __metadata:
       optional: true
     vite:
       optional: true
-  checksum: 10c0/b180d01dfcd6fe7065c1415814890bf062f73af2f7de41b1d0c97f22437b6722b39d96567b54081037b04a1e16dc96512aeaa1cff1fe9de94d8b7d2f75001f64
+  checksum: 10c0/08c1e555cf56f6414bdbfa89c386f7e2559ffd978e6cc7535d7835a23f2449e48f6bf1e64f0e5e065bf5fc66968fba3ae5fdd0f31b3d123622dbdbc751827054
   languageName: node
   linkType: hard
 
-"@vitest/spy@npm:5.1.0":
-  version: 5.1.0
-  resolution: "@vitest/spy@npm:5.1.0"
-  checksum: 10c0/6f57b9b0cf8fcf65f89cbe7f7688ee87b2bd64d8678d888c6ea5542b66efe041a0c2be6268de89ced0ee29c685b13d4e925b2e791be435e84236cc6d0394feb6
+"@vitest/spy@npm:5.1.1":
+  version: 5.1.1
+  resolution: "@vitest/spy@npm:5.1.1"
+  checksum: 10c0/bcafafb7bcd975b776c41c07b89452baf1dd441aba8e4214e610722e2d927f697db46fc68b07db5434ea0883772d6378ad21668e9c694528b970e1f43cf88165
   languageName: node
   linkType: hard
 
@@ -4260,9 +4260,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^31.0.0":
-  version: 31.0.0
-  resolution: "jsdom@npm:31.0.0"
+"jsdom@npm:^31.0.1":
+  version: 31.0.1
+  resolution: "jsdom@npm:31.0.1"
   dependencies:
     "@exodus/bytes": "npm:^1.16.0"
     bcp-47: "npm:^2.1.2"
@@ -4287,7 +4287,7 @@ __metadata:
   peerDependenciesMeta:
     "@napi-rs/canvas":
       optional: true
-  checksum: 10c0/e7240d72bfd6aab3e06ef2bcbd9656e39011707958d57b30c25caf840503a433ba56ba384f43e07938125f49e835f679856db58a9f762496a1811ec6ab580740
+  checksum: 10c0/e0f5567543401f2897984682a4139e42b8190fe8ed3f5d53f7e391333cb98b553870018685dbea5eb98549649ac8d5980800a774729a19aabca6fa0fd2b5f83d
   languageName: node
   linkType: hard
 
@@ -4538,12 +4538,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^1.4.3":
-  version: 1.4.3
-  resolution: "magic-string@npm:1.4.3"
+"magic-string@npm:^1.4.5":
+  version: 1.4.5
+  resolution: "magic-string@npm:1.4.5"
   dependencies:
     "@jridgewell/sourcemap-codec": "npm:^1.6.0"
-  checksum: 10c0/857743a1e7039d2e867505bb272a57cc605f610b90f6bf9ef6cbf9654e9cd64330ec35e564a58ca455350529872c3ecc01f37da934da130391237f9f593cc565
+  checksum: 10c0/79295b85e19f2e18bb01b81671d27ae192546e88534dfcef2e36f2c04f45b39db497ce85a62efda0336356308cdc037a1c73fc0f1bd0945d12ae1e794163b247
   languageName: node
   linkType: hard
 
@@ -4809,9 +4809,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nook@workspace:."
   dependencies:
-    "@biomejs/biome": "npm:2.6.6"
-    "@tanstack/react-query": "npm:^5.107.1"
-    "@tanstack/react-query-persist-client": "npm:^5.107.1"
+    "@biomejs/biome": "npm:2.6.8"
+    "@tanstack/react-query": "npm:^5.108.0"
+    "@tanstack/react-query-persist-client": "npm:^5.108.0"
     "@testing-library/dom": "npm:^10.4.2"
     "@testing-library/jest-dom": "npm:^7.0.1"
     "@testing-library/react": "npm:^16.3.3"
@@ -4822,7 +4822,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^6.3.0"
     chart.js: "npm:^4.6.1"
     gh-pages: "npm:^6.3.0"
-    jsdom: "npm:^31.0.0"
+    jsdom: "npm:^31.0.1"
     najwer23morsels: "npm:^2.0.29"
     plop: "npm:^4.0.5"
     react: "npm:^19.3.1"
@@ -4832,9 +4832,9 @@ __metadata:
     rimraf: "npm:^6.1.4"
     shiki: "npm:^4.6.0"
     typescript: "npm:^6.0.3"
-    vite: "npm:^8.3.7"
+    vite: "npm:^8.3.8"
     vite-plugin-pwa: "npm:^2.0.0"
-    vitest: "npm:^5.1.0"
+    vitest: "npm:^5.1.1"
     zustand: "npm:^5.1.0"
   languageName: unknown
   linkType: soft
@@ -6151,10 +6151,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinybench@npm:^6.2.2":
-  version: 6.2.2
-  resolution: "tinybench@npm:6.2.2"
-  checksum: 10c0/f0e6391f4ca86875ce5a64510696323aa841c10495fdd1c6ca530457c7e77f2b3aa82d9d6f1553126420062b1008607257677ce2b25ff1948732a79d7a56514a
+"tinybench@npm:^6.2.3":
+  version: 6.2.3
+  resolution: "tinybench@npm:6.2.3"
+  checksum: 10c0/baf0c2e287e8a38677602243d4169ed217dc740a773479ccb232d48bd0ee72f59ac4370600e12364ce91a111d59dd4c93d5c79c586e412f4cd49c4db6eb6f2e0
   languageName: node
   linkType: hard
 
@@ -6556,9 +6556,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^8.3.7":
-  version: 8.3.7
-  resolution: "vite@npm:8.3.7"
+"vite@npm:^8.3.8":
+  version: 8.3.8
+  resolution: "vite@npm:8.3.8"
   dependencies:
     fsevents: "npm:~2.3.3"
     lightningcss: "npm:^1.33.0"
@@ -6609,24 +6609,24 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10c0/5433e9c0120edd79479e02d943bcde19ecd74be4c6e8e220bdb120693229425858620d07665baa4adafbcc3d1096a70c86ef179653fa310d777aaed8f6fe74cf
+  checksum: 10c0/21bf5b04159214fbc9f42e297afd26398a3630704959f85290e8b8eb9cac49be20a6a37a5765bfdb997b606c21ccba99f991671f81c5da5a590ae5cedad3e127
   languageName: node
   linkType: hard
 
-"vitest@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "vitest@npm:5.1.0"
+"vitest@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "vitest@npm:5.1.1"
   dependencies:
     "@types/chai": "npm:^5.2.2"
-    "@vitest/mocker": "npm:5.1.0"
+    "@vitest/mocker": "npm:5.1.1"
     chai: "npm:^6.3.0"
     es-module-lexer: "npm:^2.3.2"
     expect-type: "npm:^1.4.0"
-    magic-string: "npm:^1.4.3"
+    magic-string: "npm:^1.4.5"
     obug: "npm:^3.0.0"
     picomatch: "npm:^4.0.7"
     std-env: "npm:^4.3.0"
-    tinybench: "npm:^6.2.2"
+    tinybench: "npm:^6.2.3"
     tinyexec: "npm:^1.3.1"
     tinyglobby: "npm:^0.2.17"
     why-is-node-running: "npm:3.2.1"
@@ -6634,12 +6634,12 @@ __metadata:
     "@edge-runtime/vm": "*"
     "@opentelemetry/api": ^1.9.0
     "@types/node": ^22.0.0 || >=24.0.0
-    "@vitest/browser-playwright": 5.1.0
-    "@vitest/browser-preview": 5.1.0
+    "@vitest/browser-playwright": 5.1.1
+    "@vitest/browser-preview": 5.1.1
     "@vitest/browser-webdriverio": ^5.0.0-beta.5 || >=5.0.0
-    "@vitest/coverage-istanbul": 5.1.0
-    "@vitest/coverage-v8": 5.1.0
-    "@vitest/ui": 5.1.0
+    "@vitest/coverage-istanbul": 5.1.1
+    "@vitest/coverage-v8": 5.1.1
+    "@vitest/ui": 5.1.1
     happy-dom: "*"
     jsdom: "*"
     vite: ^6.4.0 || ^7.0.0 || ^8.0.0
@@ -6670,7 +6670,7 @@ __metadata:
       optional: false
   bin:
     vitest: ./vitest.mjs
-  checksum: 10c0/c1be6065fe9fa73ceef69b4fbd245938c4654ba429066b9283e09527ada3e1c91aa03c2b8520b444af4027e1a8a1ca388dbb6b7b3c973582d053b67ffeeac11c
+  checksum: 10c0/c3f9ac564025fba9f2d6058e22fb1a97747cd9efaa2fd6f210855d3775654d30e1da55054dddfcf1f788f00d47edd54b8cb7d22f78209510413cf9c84e168141
   languageName: node
   linkType: hard
 

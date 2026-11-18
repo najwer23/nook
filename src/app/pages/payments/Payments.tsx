@@ -152,7 +152,7 @@ export const Payments: React.FC<{
             </Grid>
 
             <PaymentsTransferTitle
-              key={generatedText}
+              key={isLoadingQueryBalanceGet || isLoadingQueryPaymentsTable ? '' : generatedText}
               generatedText={isLoadingQueryBalanceGet || isLoadingQueryPaymentsTable ? '' : generatedText}
             />
           </Form>
