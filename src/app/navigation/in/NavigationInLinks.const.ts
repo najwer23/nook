@@ -28,6 +28,7 @@ const sections: NavigationLinkSection[] = [
       { to: '/in/energy', label: 'Energy' },
       { to: '/in/gas', label: 'Gas' },
       { to: '/in/orange', label: 'Orange' },
+      { to: '/in/gocha', label: 'Gocha' },
     ],
   },
   {
