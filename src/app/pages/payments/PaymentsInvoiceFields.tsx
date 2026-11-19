@@ -31,6 +31,7 @@ export const PaymentsInvoiceFields: React.FC<{
               <Select
                 key={col.cellName}
                 name={col.cellName}
+                label={col.cellText}
                 options={col.options}
                 initialValue={col.initialValue}
                 disabled={col.disabledAdd}
